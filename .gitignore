@@ -1,0 +1,19 @@
+# OS clutter
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Python (tools/serve.py)
+__pycache__/
+*.pyc
+
+# Original, uncropped photographs — keep these out of git history.
+# Crop them into photos/<person-id>.jpg and commit that instead.
+photos/originals/
+photos/*.HEIC
+photos/*.heic
