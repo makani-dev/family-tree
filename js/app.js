@@ -263,7 +263,9 @@
     });
     FamilyRender.setFocus(model, id, document.body);
     if (id) {
-      openDetail(id);
+      /* in edit mode a card opens its form instead of its read-only details */
+      if (window.FamilyEditor && FamilyEditor.isOn()) FamilyEditor.openForm(id, $('#detail'));
+      else openDetail(id);
       if (location.hash !== '#p=' + id) history.replaceState(null, '', '#p=' + id);
     } else {
       $('#detail').hidden = true;
@@ -334,6 +336,16 @@
     side.appendChild(close);
 
     var a = model.analysis;
+
+    /* how to read a card ---------------------------------------------- */
+    var s0 = section(side, 'Reading a card');
+    var key = document.createElement('p');
+    key.className = 'note';
+    key.innerHTML = 'A card is <b>filled</b> with the colour of the family that ' +
+      'person was born into. A card left <b>unfilled</b> means they have died — ' +
+      'there is no other mark. A <b>dashed</b> edge means the person is known to ' +
+      'have existed but has not been named yet.';
+    s0.appendChild(key);
 
     /* surnames -------------------------------------------------------- */
     var s1 = section(side, 'Surnames in this chart');
@@ -504,6 +516,32 @@
     });
   }
 
+  /* ------------------------------------------------- rebuild after an edit */
+  /* Re-lays out and repaints without moving the viewport, so an edit does not
+     yank the chart out from under you. */
+  function rebuild() {
+    var keep = current;
+    try {
+      model = FamilyLayout.build(window.FAMILY);
+    } catch (err) {
+      alert('That change broke the tree: ' + err.message);
+      return;
+    }
+    window.familyModel = model;
+    FamilyRender.mount(model, svg, nodes);
+    buildSide();
+    apply();
+    if (keep && model.person(keep)) {
+      current = keep;
+      Object.keys(model.cards).forEach(function (k) {
+        model.cards[k].classList.toggle('is-selected', k === keep);
+      });
+      FamilyRender.setFocus(model, keep, document.body);
+    } else {
+      current = null;
+    }
+  }
+
   /* ---------------------------------------------------------------- boot */
   function boot() {
     stage = $('#stage'); canvas = $('#canvas'); svg = $('#edges'); nodes = $('#nodes');
@@ -511,6 +549,14 @@
     if (!window.FAMILY) {
       stage.innerHTML = '<p class="fatal">js/data.js did not load.</p>';
       return;
+    }
+
+    /* A draft saved by the in-page editor wins over the published file until
+       it is downloaded and committed, or explicitly discarded. */
+    if (window.FamilyEditor) {
+      var draft = FamilyEditor.loadDraft();
+      if (draft && draft.people && draft.people.length) window.FAMILY = draft;
+      FamilyEditor.init(window.FAMILY);
     }
 
     try {
@@ -557,6 +603,29 @@
       me.hidden = false;
       me.textContent = 'Find me';
       me.addEventListener('click', function () { select(model.config.ego); centerOn(model.config.ego, 0.9); });
+    }
+
+    /* editing ---------------------------------------------------------- */
+    if (window.FamilyEditor) {
+      var btnEdit = $('#btnEdit');
+      btnEdit.addEventListener('click', function () {
+        var next = !FamilyEditor.isOn();
+        FamilyEditor.setOn(next);
+        btnEdit.setAttribute('aria-pressed', String(next));
+        btnEdit.textContent = next ? 'Done editing' : 'Edit';
+        select(null);
+      });
+      if (FamilyEditor.hasDraft()) {          /* come back where you left off */
+        FamilyEditor.setOn(true);
+        btnEdit.setAttribute('aria-pressed', 'true');
+        btnEdit.textContent = 'Done editing';
+      }
+      document.addEventListener('family:changed', rebuild);
+      document.addEventListener('family:newperson', function () {
+        select(null);
+        FamilyEditor.openForm(null, $('#detail'));
+      });
+      document.addEventListener('family:closeform', function () { select(null); });
     }
 
     wirePanZoom(); wireSearch(); wireTheme(); wireKeys();

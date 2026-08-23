@@ -8,9 +8,8 @@ desktop.ini
 .idea/
 *.swp
 
-# Python (tools/serve.py)
-__pycache__/
-*.pyc
+# Local editor / tooling config — never part of the published site
+.claude/
 
 # Original, uncropped photographs — keep these out of git history.
 # Crop them into photos/<person-id>.jpg and commit that instead.

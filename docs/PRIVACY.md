@@ -56,8 +56,8 @@ is free.
 
 ### 4. Not on the internet at all
 
-Run `python tools/serve.py` on a laptop and show it at a family gathering, or
-use the **Print** button to make an A3 poster. Nothing here needs a network.
+Open `index.html` on a laptop and show it at a family gathering, or use the
+**Print** button to make an A3 poster. Nothing here needs a network.
 
 ---
 
@@ -96,8 +96,8 @@ use the **Print** button to make an A3 poster. Nothing here needs a network.
 
 Different families feel differently about naming and photographing people who
 have died. This chart records two people who have — Ramakrishna Makani, who died
-at sixteen, and Ramesh Macha. Their cards are shown in a muted style with a
-greyscale photograph.
+at sixteen, and Ramesh Macha. Their boxes are simply left unfilled: no cross,
+no greying, no word for it.
 
 That is a design default, not a decision about your family. If anyone would
 prefer a name recorded differently, or not at all, that is a one-line edit and

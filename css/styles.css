@@ -181,17 +181,26 @@ body.hide-alliance .layer-alliance { display: none; }
 .marriage.lit .mbar { stroke: var(--ink-2); stroke-width: 3; }
 
 /* ----------------------------------------------------------------- cards */
+/* Every card is FILLED with the colour of the family the person was born
+   into. A card left UNFILLED means that person has died — there is no label,
+   no mark and no greying, only the empty box. */
 .card {
   position: absolute; width: 176px; height: 206px;
   display: flex; flex-direction: column; align-items: center;
   padding: 14px 10px 10px;
-  background: var(--surface);
-  border: 1px solid var(--line);
+  --fill: color-mix(in srgb, var(--fam, var(--accent)) 17%, var(--surface));
+  background: var(--fill);
+  border: 1px solid color-mix(in srgb, var(--fam, var(--accent)) 34%, var(--line));
   border-top: 3px solid var(--fam, var(--accent));
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   cursor: pointer;
   transition: transform .16s ease, box-shadow .16s ease, opacity .22s ease;
+}
+.card.is-unfilled {
+  --fill: transparent;
+  box-shadow: none;
+  border-color: color-mix(in srgb, var(--fam, var(--accent)) 42%, transparent);
 }
 .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); z-index: 5; }
 .card.is-selected {
@@ -204,8 +213,8 @@ body.hide-alliance .layer-alliance { display: none; }
 .ph {
   position: relative; width: 72px; height: 72px; margin-bottom: 9px;
   border-radius: 50%; overflow: hidden; flex: none;
-  background: color-mix(in srgb, var(--fam) 15%, var(--surface-2));
-  box-shadow: 0 0 0 2px var(--surface), 0 0 0 3.5px color-mix(in srgb, var(--fam) 45%, transparent);
+  background: color-mix(in srgb, var(--fam) 30%, var(--surface));
+  box-shadow: 0 0 0 2.5px color-mix(in srgb, var(--fam) 52%, transparent);
 }
 .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .avatar {
@@ -236,14 +245,14 @@ body.hide-alliance .layer-alliance { display: none; }
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--warn) 22%, transparent);
 }
 
-.card.is-placeholder { border-style: dashed; background: var(--surface-2); box-shadow: none; }
+/* Not yet named: dashed edge. Still filled — the dashes say "unknown", the
+   fill says "living or not recorded", and the two never get confused. */
+.card.is-placeholder { border-style: dashed; box-shadow: none; }
 .card.is-placeholder .nm { color: var(--ink-3); font-style: italic; font-weight: 500; }
-.card.is-placeholder .avatar { opacity: .5; }
+.card.is-placeholder .avatar { opacity: .55; }
 body.hide-placeholders .card.is-placeholder { display: none; }
 
-.card.is-deceased .ph { filter: grayscale(1); opacity: .82; }
-.card.is-deceased .nm { color: var(--ink-2); }
-.card.is-ego { border-width: 1px; box-shadow: 0 0 0 2px var(--accent), var(--shadow); }
+.card.is-ego { box-shadow: 0 0 0 2px var(--accent), var(--shadow); }
 
 /* ---------------------------------------------------------------- panels */
 .panel {
@@ -325,6 +334,67 @@ body.hide-placeholders .card.is-placeholder { display: none; }
   border-radius: 0 7px 7px 0; color: var(--ink-2);
 }
 .callout.warn { background: var(--warn-bg); border-left-color: var(--warn); color: var(--warn); }
+
+/* ---------------------------------------------------------------- editor */
+#editbar {
+  position: fixed; top: 62px; left: 0; right: 0; z-index: 38;
+  display: flex; align-items: center; gap: 9px; flex-wrap: wrap;
+  padding: 10px 16px;
+  background: var(--warn-bg); border-bottom: 1px solid var(--line);
+}
+.ebar-msg { flex: 1 1 240px; min-width: 0; font-size: 12px; color: var(--warn); }
+body.editing #stage { top: 106px; }
+body.editing .panel { top: 106px; }
+body.editing #stage { cursor: default; }
+
+.ebtn {
+  font: 500 12.5px/1 var(--font); color: var(--ink-2); cursor: pointer;
+  padding: 8px 13px; background: var(--surface);
+  border: 1px solid var(--line); border-radius: 8px; white-space: nowrap;
+}
+.ebtn:hover { border-color: var(--ink-3); color: var(--ink); }
+.ebtn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.ebtn.primary:hover { filter: brightness(1.08); color: #fff; }
+.ebtn.danger { background: transparent; border-color: var(--danger); color: var(--danger); }
+.ebtn.danger:hover { background: var(--danger); color: #fff; }
+
+.etitle { font-size: 18px; margin: 0 34px 4px 0; letter-spacing: -.015em; }
+.esec {
+  font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-3); margin: 26px 0 10px;
+}
+.eform { display: grid; gap: 13px; margin-top: 16px; }
+.efield, .egroup { display: grid; gap: 5px; }
+.egroup { margin-top: 14px; }
+.elabel {
+  font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-3); font-weight: 600;
+}
+.ehint { font-size: 11.5px; color: var(--ink-3); line-height: 1.45; }
+.efield input, .efield select, .efield textarea,
+.egroup select {
+  width: 100%; font: inherit; font-size: 13px; color: var(--ink);
+  background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: 8px; padding: 8px 10px;
+}
+.efield textarea { resize: vertical; line-height: 1.5; }
+.efield input:focus, .efield select:focus, .efield textarea:focus,
+.egroup select:focus { border-color: var(--accent); outline: none; }
+
+.echips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
+.echip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 6px 4px 11px; font-size: 12.5px;
+  background: var(--surface-2); border: 1px solid var(--line); border-radius: 20px;
+}
+.echip .ex {
+  width: 18px; height: 18px; line-height: 1; font-size: 15px; cursor: pointer;
+  color: var(--ink-3); background: transparent; border: 0; border-radius: 50%;
+}
+.echip .ex:hover { background: var(--danger); color: #fff; }
+
+.eactions { display: flex; gap: 9px; margin-top: 24px; }
+.eactions .ebtn { flex: 1; padding: 10px 13px; text-align: center; }
 
 /* ------------------------------------------------------------ responsive */
 @media (max-width: 860px) {

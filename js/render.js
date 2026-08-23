@@ -38,15 +38,19 @@
     return (words[0].charAt(0) + words[words.length - 1].charAt(0)).toUpperCase();
   }
 
+  /* Dates only. Someone who is no longer living is shown by an unfilled card,
+     never by a word or a mark on the card. */
   function lifespan(p) {
     var b = p.birth ? String(p.birth) : '';
     var d = p.death ? String(p.death) : '';
     if (b && d) return b + ' – ' + d;
     if (b) return 'b. ' + b;
     if (d) return 'd. ' + d;
-    if (p.deceased) return 'deceased';
     return '';
   }
+
+  /* An empty box means this person has died. */
+  function isUnfilled(p) { return !!(p.death || p.deceased); }
 
   /* orthogonal parent -> child connector with rounded corners */
   function orthPath(ox, oy, busY, cx, top, r) {
@@ -81,7 +85,7 @@
     card.style.top = p.y + 'px';
     card.style.setProperty('--fam', fam.color || '#64748b');
     if (p.placeholder) card.classList.add('is-placeholder');
-    if (p.death || p.deceased) card.classList.add('is-deceased');
+    if (isUnfilled(p)) card.classList.add('is-unfilled');
     if (p.sex === 'u') card.classList.add('is-unknown-sex');
     if (p.id === cfg.ego) card.classList.add('is-ego');
 
@@ -323,7 +327,8 @@
     setFocus: setFocus,
     relatedSet: relatedSet,
     initials: initials,
-    lifespan: lifespan
+    lifespan: lifespan,
+    isUnfilled: isUnfilled
   };
 
 })(window);

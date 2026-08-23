@@ -241,8 +241,13 @@ someone drawn inside their spouse's family whose own parents are elsewhere,
 which is precisely what a cross-family marriage looks like. The Macha sisters
 are the example.
 
-**Edits do not show up.** Browser cache. Run `python tools/serve.py` instead of
-opening the file directly, or hard-refresh with **Ctrl+Shift+R**.
+**Edits do not show up.** Browser cache. Hard-refresh with **Ctrl+Shift+R**, or
+serve the folder with `python -m http.server 8000` instead of opening the file
+directly.
+
+**Edits do not show up, and you have used the in-page editor.** The editor keeps
+a draft in your browser that wins over `js/data.js` until you discard it. Press
+**Edit**, then **Discard draft**.
 
 **A photo does not appear.** The filename must match the `id` exactly,
 lower-case, `.jpg`. `photos/macha-suneetha.jpg`, not `Suneetha.JPG`.

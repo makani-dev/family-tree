@@ -179,11 +179,10 @@ window.FAMILY = {
              "Thathagaru; given name to be filled in.",
       todo: "given name" },
 
-    { id: "tbd-ammamma", name: "Ammamma Macha", family: "tbd",
+    { id: "tbd-jayalakshmi", name: "Jayalakshmi Macha", family: "tbd",
       marriedInto: "macha", gen: 2, sex: "f", title: "Ammamma",
-      placeholder: true,
-      notes: "Ramakrishna maternal grandmother.",
-      todo: "given name and birth family" },
+      notes: "Ramakrishna's maternal grandmother.",
+      todo: "birth family (intiperu) and years" },
 
     /* ---- GENERATION 3 - the six Makani brothers, eldest first ----------- */
     { id: "makani-venkateshwara-rao", name: "Venkateshwara Rao Makani",
@@ -307,7 +306,7 @@ window.FAMILY = {
 
     /* generation 2 -> 3 : the Macha children */
     { id: "u-macha-g2",
-      partners: ["macha-thatha", "tbd-ammamma"],
+      partners: ["macha-thatha", "tbd-jayalakshmi"],
       children: ["macha-padmaja", "macha-suneetha", "macha-ramesh"] },
 
     /* generation 3 marriages */

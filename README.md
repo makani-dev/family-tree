@@ -5,8 +5,8 @@ families it married into, built to be edited by hand and published on GitHub
 Pages.
 
 It is deliberately plain: **no build step, no frameworks, no npm install.**
-Four JavaScript files and a stylesheet. You edit one data file, refresh the
-browser, and the chart redraws itself.
+Five JavaScript files and a stylesheet. You edit one data file — or edit right
+in the page — refresh the browser, and the chart redraws itself.
 
 ```
 Open index.html  ->  it reads js/data.js  ->  it draws the tree
@@ -18,6 +18,7 @@ Open index.html  ->  it reads js/data.js  ->  it draws the tree
 
 - [What it does](#what-it-does)
 - [Run it on your computer](#run-it-on-your-computer)
+- [Edit it in the browser](#edit-it-in-the-browser)
 - [Adding people — the part you actually need](#adding-people--the-part-you-actually-need)
 - [Adding face pictures](#adding-face-pictures)
 - [Surnames, alliances and cousin marriages](#surnames-alliances-and-cousin-marriages)
@@ -40,27 +41,57 @@ Open index.html  ->  it reads js/data.js  ->  it draws the tree
 | **Alliance detection** | The chart works out for itself which two surnames have intermarried more than once, and draws an arc when two brothers married two sisters. |
 | **Double cousins** | Detected automatically when two people share *both* sets of grandparents. |
 | **Gaps are visible** | Anything you have not filled in yet shows an amber dot, and the **Family info** panel lists every open question as a to-do list. |
+| **Filled or empty** | A card is filled with the colour of the family the person was born into. A card left unfilled means that person has died — no cross, no greying, no label. |
+| **Edit in the page** | Add, change and remove people from the site itself, then export a fresh `js/data.js` to commit. |
 | **Print / PDF** | The Print button lays the whole tree out on A3 landscape for a wall poster. |
 
 ---
 
 ## Run it on your computer
 
-**The simple way** — double-click `index.html`. That is genuinely all it takes.
+Double-click `index.html`. That is genuinely all it takes — there is nothing to
+install and nothing to build.
 
-**The better way while you are editing** — run the little server that ships with
-this repo:
+If you are making many edits to `js/data.js` by hand, browsers can cache the old
+copy and show you a stale tree after a refresh. Two ways round it: press
+**Ctrl+Shift+R** for a hard refresh, or serve the folder over HTTP with a
+one-liner:
 
 ```bash
-python tools/serve.py
+python -m http.server 8000
 ```
 
-Then open <http://localhost:8777>.
+---
 
-Use the server if you are making a lot of edits. Browsers aggressively cache
-`js/data.js`, so with a plain `file://` page you can edit the data, refresh,
-and still see the *old* tree — extremely confusing. `tools/serve.py` sends
-no-cache headers so a refresh always shows what is on disk.
+## Edit it in the browser
+
+You do not have to open a code editor to add a relative. Press **Edit** in the
+toolbar and you can:
+
+- **Add a person** — the ＋ Add person button
+- **Change anyone** — click their card to open their details as a form
+- **Delete anyone** — the Delete button on that form, which also tidies them out
+  of every marriage and every list of children
+- **Link people up** — set parents, add a spouse, add children, all from the
+  same form
+
+### How your edits become permanent
+
+The published site is just static files with no server behind it, so the page
+cannot write to `js/data.js` on its own. Instead:
+
+1. Your changes are kept as a **draft in your own browser**.
+2. When you are happy, press **Download data.js**.
+3. Replace `js/data.js` in this folder with the file you downloaded, and commit
+   it.
+
+That last step is the one that makes the change real and public. Until then
+nobody else sees it — which also means anyone visiting the site can safely click
+around in Edit mode without being able to change what others see.
+
+**Discard draft** throws your local changes away and goes back to the published
+chart. The downloaded file is formatted exactly like the hand-written one, so
+you can keep editing it by hand afterwards.
 
 ---
 
@@ -254,7 +285,7 @@ grey placeholder cards for when those names are found.
 ```
 gen 1   ? Makani + wife            ? Macha + wife           ← placeholders
 gen 2   Ramachandra Rao + Padmavathi Makani
-        Thathagaru + Ammamma Macha
+        Thathagaru + Jayalakshmi Macha
 gen 3   Venkateshwara Rao ── Latha
         Chandrashekhar ───── Sarada
         Satyanarayana ────── Padmaja Macha      ⎫ the double
@@ -268,8 +299,8 @@ gen 5   (nobody yet)
 ```
 
 **The open questions are already listed for you.** Open **Family info → Still to
-find out** for all 24, including: the Macha grandparents' given names, the birth
-surnames of Latha, Sarada, Padmavathi and Ammamma, whether Kittu and Pony are
+find out** for all 24, including: the Macha grandfather's given name, the birth
+surnames of Latha, Sarada, Padmavathi and Jayalakshmi, whether Kittu and Pony are
 pet names, Satyanarayana and Padmaja's children, and Harikrishna's family.
 
 A few things were inferred rather than told, and are worth checking:
@@ -284,17 +315,20 @@ You said you would be creating the account, so this starts from zero. Free
 GitHub Pages requires the repository to be **public** — please read
 [Before you publish](#before-you-publish-privacy) first.
 
-**1. Create the account** at <https://github.com/signup>.
+**1. Create the account** at <https://github.com/signup>. To land on
+`makani-family-tree.github.io`, the **account** has to be named
+`makani-family-tree` — GitHub builds that address out of the account name, so it
+is not something you can set afterwards.
 
 **2. Create an empty repository** at <https://github.com/new>:
-   - Name: `family-tree`
+   - Name: `makani-family-tree.github.io` — the account name, then `.github.io`
    - Public
    - Do **not** tick "Add a README" — this folder already has one.
 
 **3. Push this folder.** In a terminal here in `E:\family-tree`:
 
 ```bash
-git remote add origin https://github.com/YOUR-USERNAME/family-tree.git
+git remote add origin https://github.com/makani-family-tree/makani-family-tree.github.io.git
 git branch -M main
 git push -u origin main
 ```
@@ -305,11 +339,11 @@ git push -u origin main
 **5. Wait about a minute.** Your chart is then live at:
 
 ```
-https://YOUR-USERNAME.github.io/family-tree/
+https://makani-family-tree.github.io/
 ```
 
-To get it at `https://YOUR-USERNAME.github.io/` instead, name the repository
-`YOUR-USERNAME.github.io` and everything else is the same.
+If you would rather use an account in your own name, that works too — the site
+just lives at `https://YOUR-USERNAME.github.io/family-tree/` instead.
 
 **Updating it later** — edit `js/data.js`, then:
 
@@ -338,7 +372,7 @@ Please decide deliberately:
   a standard identity-verification question.
 - **A private repository is a supported option.** GitHub Pages on a private
   repo needs a paid plan, but you can always share the folder itself, or run
-  `python tools/serve.py` at a family gathering.
+  open `index.html` on a laptop at a family gathering.
 - **Deleting later is not complete.** Once a page has been public it may live on
   in caches and archives.
 
@@ -361,11 +395,11 @@ family-tree/
 │   ├── kinship.js          Telugu relationship terms
 │   ├── layout.js           works out where every card goes
 │   ├── render.js           draws the cards and the connecting lines
+│   ├── editor.js           the in-page add / change / delete tools
 │   └── app.js              pan, zoom, search, panels, printing
 │
 ├── css/styles.css          the entire look, light and dark
 ├── photos/                 face pictures, named <person-id>.jpg
-├── tools/serve.py          local preview server (no-cache)
 └── docs/
     ├── EDITING.md          longer editing guide with worked examples
     ├── TELUGU-KINSHIP.md   the kinship terms and what menarikam means

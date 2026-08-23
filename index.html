@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Makani Family Tree</title>
-<meta name="description" content="Five generations of the Makani family and its allied families, with photographs, Telugu kinship terms and marriage-alliance mapping.">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B3%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="css/styles.css">
@@ -34,6 +33,7 @@
     </label>
 
     <button class="tbtn" id="btnMe" hidden></button>
+    <button class="tbtn" id="btnEdit" aria-pressed="false" title="Add, change or remove people">Edit</button>
     <button class="tbtn" id="btnOut" title="Zoom out (−)" aria-label="Zoom out">−</button>
     <span id="zoomPct">100%</span>
     <button class="tbtn" id="btnIn" title="Zoom in (+)" aria-label="Zoom in">+</button>
@@ -43,6 +43,8 @@
     <button class="tbtn" id="btnTheme" title="Light / dark" aria-label="Toggle light or dark theme">◐</button>
   </div>
 </header>
+
+<div id="editbar" hidden></div>
 
 <main id="stage">
   <div id="canvas">
@@ -60,12 +62,14 @@
        kinship.js Telugu relationship terms
        layout.js  positions everything
        render.js  draws it
+       editor.js  the in-page add / change / delete tools
        app.js     wires up the interface
      ====================================================================== -->
 <script src="js/data.js"></script>
 <script src="js/kinship.js"></script>
 <script src="js/layout.js"></script>
 <script src="js/render.js"></script>
+<script src="js/editor.js"></script>
 <script src="js/app.js"></script>
 
 </body>

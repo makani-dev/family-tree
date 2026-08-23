@@ -26,9 +26,15 @@ is what keeps double-clicking the file working.
 
 ### 1. Create the GitHub account
 
-<https://github.com/signup>. The username becomes part of your site address, so
-pick one you are happy to give relatives:
-`https://USERNAME.github.io/family-tree/`.
+<https://github.com/signup>.
+
+The plan is to publish at **`makani-family-tree.github.io`**. GitHub builds that
+address out of the **account name**, so the account itself has to be called
+`makani-family-tree` — it is not something you choose later in a setting.
+
+If that name is taken, or you would rather the account carried your own name,
+any account works; the address just becomes
+`https://YOUR-USERNAME.github.io/family-tree/` instead.
 
 ### 2. Create an empty repository
 
@@ -36,10 +42,14 @@ pick one you are happy to give relatives:
 
 | field | value |
 |---|---|
-| Repository name | `family-tree` |
+| Repository name | `makani-family-tree.github.io` |
 | Visibility | **Public** (required for free Pages) |
 | Add a README | **leave unticked** |
 | .gitignore / licence | leave as *None* |
+
+The repository name must match the account name exactly, followed by
+`.github.io`. That is what makes GitHub serve it at the bare address with no
+folder on the end.
 
 Leave it empty — this folder already has everything, and adding a README there
 creates a conflict on the first push.
@@ -58,7 +68,7 @@ git config --global user.email "you@example.com"
 The repository here is already initialised and committed, so:
 
 ```bash
-git remote add origin https://github.com/YOUR-USERNAME/family-tree.git
+git remote add origin https://github.com/makani-family-tree/makani-family-tree.github.io.git
 git branch -M main
 git push -u origin main
 ```
@@ -79,7 +89,7 @@ A green tick appears under the **Actions** tab when it has deployed. The site is
 then at:
 
 ```
-https://YOUR-USERNAME.github.io/family-tree/
+https://makani-family-tree.github.io/
 ```
 
 ---
@@ -97,16 +107,17 @@ old version — that is your browser cache, not GitHub.
 
 ---
 
-## Getting it at the shorter address
+## If you used an ordinary repository name instead
 
-To publish at `https://YOUR-USERNAME.github.io/` with no `/family-tree` on the
-end, name the repository exactly:
+Naming the repository anything other than `<account>.github.io` still works —
+the site just lives in a subfolder:
 
 ```
-YOUR-USERNAME.github.io
+https://YOUR-USERNAME.github.io/family-tree/
 ```
 
-Everything else is identical. You only get one of these per account.
+Everything else is identical. You only get one bare-address site per account,
+but any number of subfolder ones.
 
 ---
 
@@ -179,7 +190,7 @@ Control Panel → Credential Manager → Windows Credentials → remove any
 | **Private repo + Pages** | no | needs a paid GitHub plan |
 | **Netlify / Cloudflare Pages** | yes, password-protection available on paid tiers | drag the folder onto their dashboard, no git needed |
 | **Just the folder** | no | zip it and share it; `index.html` works offline |
-| **`python tools/serve.py`** | no | for showing it on a laptop at a family gathering |
+| **Just open index.html** | no | works offline, for showing it on a laptop at a family gathering |
 
 The offline options are worth remembering — the whole chart works with no
 internet connection at all.
