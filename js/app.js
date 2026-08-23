@@ -342,7 +342,7 @@
     var key = document.createElement('p');
     key.className = 'note';
     key.innerHTML = 'A card is <b>filled</b> with the colour of the family that ' +
-      'person was born into. A card left <b>unfilled</b> means they have died — ' +
+      'person was born into. A card left <b>unfilled</b> means they have died - ' +
       'there is no other mark. A <b>dashed</b> edge means the person is known to ' +
       'have existed but has not been named yet.';
     s0.appendChild(key);
@@ -371,7 +371,7 @@
     var intro = document.createElement('p');
     intro.className = 'note';
     intro.textContent = 'Every pair of surnames that has ever intermarried. ' +
-      'A count above one means the two families are tied together repeatedly — ' +
+      'A count above one means the two families are tied together repeatedly - ' +
       'the pattern that matters most in Telugu family history.';
     s2.appendChild(intro);
     a.alliances.forEach(function (al) {
@@ -431,7 +431,7 @@
       a.consanguineous.forEach(function (x) {
         var p = document.createElement('p');
         p.className = 'callout warn';
-        p.textContent = x.label + '  —  ' + x.kind;
+        p.textContent = x.label + '  -  ' + x.kind;
         s5.appendChild(p);
       });
     } else {
@@ -459,9 +459,9 @@
       s6.appendChild(ok);
     }
     var todos = [];
-    model.people.forEach(function (p) { if (p.todo) todos.push(p.name + ' — ' + p.todo); });
+    model.people.forEach(function (p) { if (p.todo) todos.push(p.name + ' - ' + p.todo); });
     model.unions.forEach(function (u) {
-      if (u.todo) todos.push(u.partners.map(function (x) { return model.person(x).name; }).join(' & ') + ' — ' + u.todo);
+      if (u.todo) todos.push(u.partners.map(function (x) { return model.person(x).name; }).join(' & ') + ' - ' + u.todo);
     });
     if (todos.length) {
       var h = document.createElement('h4');
@@ -642,7 +642,7 @@
 
     if (model.warnings.length) {
       console.warn('[family-tree] ' + model.warnings.length +
-        ' data warning(s) — open the Family info panel to see them.');
+        ' data warning(s) - open the Family info panel to see them.');
       model.warnings.forEach(function (w) { console.warn('  · ' + w); });
     }
   }

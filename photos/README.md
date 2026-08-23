@@ -9,7 +9,7 @@ photos/makani-nagarjuna-sagar.jpg
 photos/makani-ramakrishna.jpg
 ```
 
-Refresh the browser. That is the whole procedure — no code change.
+Refresh the browser. That is the whole procedure - no code change.
 
 ---
 
@@ -38,7 +38,7 @@ mutyala-thrinadh
 ```
 
 **All lower-case, `.jpg`.** Windows does not care about capitalisation but
-GitHub Pages does — `Suneetha.JPG` will work on your laptop and silently fail on
+GitHub Pages does - `Suneetha.JPG` will work on your laptop and silently fail on
 the live site.
 
 ---
@@ -53,7 +53,7 @@ the live site.
 | **File size** | Aim under 300 KB. |
 | **Format** | `.jpg`. |
 
-Cropping a scanned group photograph down to one face works very well — old
+Cropping a scanned group photograph down to one face works very well - old
 family photographs are often the only picture of a grandparent, and a tight crop
 looks completely at home on the card.
 
@@ -83,7 +83,7 @@ The file still lives in this folder. This is also how you use `.png` or
 ## No photo yet?
 
 Nothing breaks. The card shows a circle in the family's colour with the person's
-initials. Many charts stay like that for years — a missing photograph is not a
+initials. Many charts stay like that for years - a missing photograph is not a
 missing person.
 
 You may see `404` messages for `photos/…jpg` in the browser console. Those are
@@ -95,5 +95,5 @@ only people with an explicit `photo:` field get a picture.
 
 ## Before adding pictures of living relatives
 
-Photographs of other people — particularly children — going onto a public
+Photographs of other people - particularly children - going onto a public
 website deserve a conversation first. See [`../docs/PRIVACY.md`](../docs/PRIVACY.md).

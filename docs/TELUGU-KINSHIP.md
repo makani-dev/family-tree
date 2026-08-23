@@ -1,4 +1,4 @@
-# Telugu kinship terms — బంధుత్వాలు
+# Telugu kinship terms - బంధుత్వాలు
 
 Click any card in the chart and the detail panel tells you what the person at
 `config.ego` would call them. This page explains where those words come from,
@@ -6,7 +6,7 @@ and how to change them if your family says it differently.
 
 > **Regional variation is real.** These terms shift between Telangana, coastal
 > Andhra and Rayalaseema, and between communities. The set below is the widely
-> understood one. **If your family uses different words, they are not wrong —
+> understood one. **If your family uses different words, they are not wrong -
 > edit them.** Every word the chart can produce lives in one object, `TERMS`, at
 > the top of [`js/kinship.js`](../js/kinship.js).
 
@@ -22,7 +22,7 @@ can marry, who performs which ritual, and how you address someone in a room.
 |---|---|
 | uncle | **Peddananna** (father's elder brother) · **Babai** (father's younger brother) · **Mamayya** (mother's brother) |
 | aunt | **Peddamma** (mother's elder sister) · **Pinni** (mother's younger sister) · **Attha** (father's sister) |
-| cousin | **Anna / Akka** (parallel cousin — a sibling) · **Bava / Vadina** (cross cousin — marriageable) |
+| cousin | **Anna / Akka** (parallel cousin - a sibling) · **Bava / Vadina** (cross cousin - marriageable) |
 | grandmother | **Nanamma** (father's mother) · **Ammamma** (mother's mother) |
 
 The last two rows are the ones that matter for this chart.
@@ -45,7 +45,7 @@ The last two rows are the ones that matter for this chart.
 | మనవడు | Manavadu | grandson |
 | మనవరాలు | Manavaralu | granddaughter |
 
-Adding **-గారు (-garu)** is the respectful form — *Thathagaru*, as Ramakrishna's
+Adding **-గారు (-garu)** is the respectful form - *Thathagaru*, as Ramakrishna's
 maternal grandfather is known in the family. It is an honorific, not a separate
 relationship.
 
@@ -58,7 +58,7 @@ relationship.
 | అక్క | Akka | elder sister |
 | చెల్లి | Chelli | younger sister |
 
-There is no word for plain "brother" — you must know who is older. This is why
+There is no word for plain "brother" - you must know who is older. This is why
 the `order` field matters in `js/data.js`: without it the chart cannot choose
 between *Annayya* and *Thammudu*, and it will say so.
 
@@ -75,18 +75,18 @@ between *Annayya* and *Thammudu*, and it will say so.
 
 Notice the symmetry in the last column: *Peddamma* is both your mother's elder
 sister **and** the wife of your father's elder brother. In a family with
-repeated alliances one person can be both at once — and in this family, one is.
+repeated alliances one person can be both at once - and in this family, one is.
 
 > **Padmaja Makani is exactly this case.** She is Ramakrishna's *Peddamma* by
 > blood, because she is his mother Suneetha's elder sister. She is *also*
 > the wife of his *Peddananna*, Satyanarayana. The chart says so on her card.
 
-## Cousins — the important distinction
+## Cousins - the important distinction
 
 | | your parent's sibling is… | you call them | can you marry? |
 |---|---|---|---|
-| **Parallel cousin** | father's **brother**'s child, or mother's **sister**'s child | Annayya / Akka / Thammudu / Chelli — exactly like a sibling | No |
-| **Cross cousin** | father's **sister**'s child, or mother's **brother**'s child | Bava / Bavamaridi / Vadina / Maradalu | Traditionally yes — this is *menarikam* |
+| **Parallel cousin** | father's **brother**'s child, or mother's **sister**'s child | Annayya / Akka / Thammudu / Chelli - exactly like a sibling | No |
+| **Cross cousin** | father's **sister**'s child, or mother's **brother**'s child | Bava / Bavamaridi / Vadina / Maradalu | Traditionally yes - this is *menarikam* |
 
 | Telugu | Transliteration | Relationship |
 |---|---|---|
@@ -113,13 +113,13 @@ The chart follows this convention.
 | మేనల్లుడు | Menalludu | sister's son |
 | మేనకోడలు | Menakodalu | sister's daughter |
 
-*Mamayya* and *Attha* do double duty as father-in-law and mother-in-law —
+*Mamayya* and *Attha* do double duty as father-in-law and mother-in-law -
 again because of menarikam: if you married your *Mamayya*'s daughter, your
 *Mamayya* **is** your father-in-law.
 
 ---
 
-## మేనరికం — menarikam
+## మేనరికం - menarikam
 
 *Menarikam* is marriage between cross cousins: most typically a man marrying
 his **maternal uncle's daughter** (*menamama's* daughter), or the mirror case
@@ -128,7 +128,7 @@ of a woman marrying her **paternal aunt's son**.
 It was long preferred across much of Telugu society because it kept property
 inside a known circle, meant the bride entered a household she already knew,
 and renewed a tie between two families instead of creating an untested one.
-Parallel cousins — your father's brother's children — were never marriageable,
+Parallel cousins - your father's brother's children - were never marriageable,
 because they are of the same lineage and counted as siblings.
 
 The related custom of **menamama marriage**, where a man marries his sister's
@@ -149,7 +149,7 @@ info → Marriages between relatives**.
 A note on the medical side, since a family tree is often the first place it
 comes up: repeated cousin marriage over generations does raise the chance of
 recessive conditions appearing. If that is a live question for your family, it
-is a conversation for a genetic counsellor, not for a chart — but recording the
+is a conversation for a genetic counsellor, not for a chart - but recording the
 marriages accurately is exactly what makes that conversation possible.
 
 ---
@@ -168,13 +168,13 @@ Satyanarayana   Nagarjuna       Padmaja          Suneetha
                      └──────────── married ──────────┘
 ```
 
-This is a **double alliance** — sometimes described as a brother-sister
+This is a **double alliance** - sometimes described as a brother-sister
 exchange. Its consequence lands in the next generation: any children of
 Satyanarayana and Padmaja are **double first cousins** of Ramakrishna and Sai
 Priyanka. They share *both* sets of grandparents, and are genetically as close
 as half-siblings.
 
-The chart detects this on its own — it is not written into the data anywhere.
+The chart detects this on its own - it is not written into the data anywhere.
 Add Satyanarayana and Padmaja's children to `js/data.js` and the **Double first
 cousins** section will populate itself.
 

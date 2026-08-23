@@ -1,13 +1,13 @@
 # Before you make this public
 
 A GitHub Pages site is readable by anyone with the address, and search engines
-will index it. So will the repository itself — `js/data.js` is a plain text file
+will index it. So will the repository itself - `js/data.js` is a plain text file
 anyone can read, and every photograph in `photos/` is downloadable.
 
 This chart is about to contain **names, photographs, birth years, marriages and
 family structure for living relatives, including children.** That is worth ten
 minutes of thought before the first `git push`. It is not a reason to avoid
-publishing — it is a reason to choose deliberately.
+publishing - it is a reason to choose deliberately.
 
 ---
 
@@ -15,13 +15,13 @@ publishing — it is a reason to choose deliberately.
 
 | in the repository | visible to |
 |---|---|
-| `js/data.js` — every name, date, note and `todo` | anyone |
-| `photos/*.jpg` — every face picture | anyone |
+| `js/data.js` - every name, date, note and `todo` | anyone |
+| `photos/*.jpg` - every face picture | anyone |
 | git history | anyone, **including things you later deleted** |
 | commit messages and your git email | anyone |
 
 The third row is the one people miss. Deleting a photo in a later commit does
-not remove it from the repository — it stays in the history and remains
+not remove it from the repository - it stays in the history and remains
 downloadable. Removing it properly means rewriting history, which is awkward.
 **Decide before you commit, not after.**
 
@@ -44,13 +44,13 @@ dates for the living.
 - Leave photographs of minors out entirely.
 - Keep `notes` free of addresses, workplaces, health details and phone numbers.
 
-The chart works completely normally with sparse data — that is what the
+The chart works completely normally with sparse data - that is what the
 placeholder and `todo` machinery is for.
 
 ### 3. Private repository
 
 Keep the repo private and share the folder itself with relatives (a zip file
-works — `index.html` runs offline with no internet at all). GitHub Pages from a
+works - `index.html` runs offline with no internet at all). GitHub Pages from a
 private repository requires a paid plan, but the repository itself being private
 is free.
 
@@ -67,7 +67,7 @@ Open `index.html` on a laptop and show it at a family gathering, or use the
 - [ ] Am I publishing photographs of **other people's children**? Ask their
       parents specifically. This is the single most common regret.
 - [ ] Are there full dates of birth for living people? Date of birth plus
-      mother's maiden name — both of which a family tree states plainly — are
+      mother's maiden name - both of which a family tree states plainly - are
       classic identity-verification answers. This chart records maiden family
       by design, so be deliberate about dates.
 - [ ] Any addresses, phone numbers, workplaces or health details in `notes`?
@@ -82,7 +82,7 @@ Open `index.html` on a laptop and show it at a family gathering, or use the
 1. Remove it from `js/data.js` / `photos/`, commit, push. It disappears from the
    live site immediately.
 2. It is still in the git history. To remove it properly you must rewrite
-   history — [`git filter-repo`](https://github.com/newren/git-filter-repo) —
+   history - [`git filter-repo`](https://github.com/newren/git-filter-repo) -
    and force-push. If the repository is young, deleting it on GitHub and pushing
    a fresh one is far simpler.
 3. Ask Google to remove the cached page:
@@ -95,7 +95,7 @@ Open `index.html` on a laptop and show it at a family gathering, or use the
 ## A note on relatives who have died
 
 Different families feel differently about naming and photographing people who
-have died. This chart records two people who have — Ramakrishna Makani, who died
+have died. This chart records two people who have - Ramakrishna Makani, who died
 at sixteen, and Ramesh Macha. Their boxes are simply left unfilled: no cross,
 no greying, no word for it.
 

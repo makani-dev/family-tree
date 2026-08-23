@@ -43,7 +43,7 @@
   function lifespan(p) {
     var b = p.birth ? String(p.birth) : '';
     var d = p.death ? String(p.death) : '';
-    if (b && d) return b + ' – ' + d;
+    if (b && d) return b + '-' + d;
     if (b) return 'b. ' + b;
     if (d) return 'd. ' + d;
     return '';

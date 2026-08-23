@@ -1,5 +1,5 @@
 /* =============================================================================
- *  family-tree/js/data.js   —   * THIS IS THE ONLY FILE YOU NORMALLY EDIT *
+ *  family-tree/js/data.js   -   * THIS IS THE ONLY FILE YOU NORMALLY EDIT *
  * =============================================================================
  *
  *  Everything on the chart is generated from the four lists below:
@@ -150,7 +150,7 @@ window.FAMILY = {
      * name, drop `placeholder`, and give them a proper id.                  */
     { id: "makani-g1-f", name: "Makani (great-grandfather)", family: "makani",
       gen: 1, sex: "m", placeholder: true, todo: "name unknown" },
-    /* NOTE: she is `tbd`, not `makani` — a wife is born into ANOTHER family and
+    /* NOTE: she is `tbd`, not `makani` - a wife is born into ANOTHER family and
        marries in. Typing her as makani would invent a Makani-married-Makani
        alliance in the Family info panel. Same for every wife below.          */
     { id: "makani-g1-m", name: "(his wife)", family: "tbd",

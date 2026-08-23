@@ -1,4 +1,4 @@
-# Editing the tree — worked examples
+# Editing the tree - worked examples
 
 The README covers the basics. This page is the longer version: complete
 copy-paste recipes for the situations that actually come up, plus what to do
@@ -14,20 +14,20 @@ Three lists, and one rule.
 
 ```
 families   the surnames (ఇంటిపేర్లు) and their colours
-people     one object per person — a floating card
-unions     one object per marriage — this is what JOINS people together
+people     one object per person - a floating card
+unions     one object per marriage - this is what JOINS people together
 ```
 
 **The rule:** a person is only connected to their parents if their `id` appears
 in the `children` array of their parents' union. Adding someone to `people`
 alone gives you a card sitting on its own.
 
-Positions are never stored. You do not place anybody — you state who is
+Positions are never stored. You do not place anybody - you state who is
 married to whom and who was born to whom, and the layout follows.
 
 ---
 
-## Recipe 1 — a new baby (generation 5)
+## Recipe 1 - a new baby (generation 5)
 
 Two edits. First the person:
 
@@ -48,7 +48,7 @@ Generation 5 appears as a new row on its own.
 
 ---
 
-## Recipe 2 — Harikrishna's wife and children
+## Recipe 2 - Harikrishna's wife and children
 
 He is currently on the chart alone. Add his wife to `people`:
 
@@ -71,12 +71,12 @@ Then a new union tying them together:
   children: ["makani-child1"] },
 ```
 
-Note his wife gets `family: "tbd"`, not `"makani"` — see
+Note his wife gets `family: "tbd"`, not `"makani"` - see
 [the surname rule](#the-surname-rule-the-one-that-matters) below.
 
 ---
 
-## Recipe 3 — filling in a placeholder ancestor
+## Recipe 3 - filling in a placeholder ancestor
 
 The grey dashed cards are people you know existed but cannot name yet. When you
 learn the Macha grandfather's given name:
@@ -100,7 +100,7 @@ the id means finding every reference. The id is a handle, not a name.
 
 ---
 
-## Recipe 4 — going back a sixth generation
+## Recipe 4 - going back a sixth generation
 
 Do **not** renumber everyone. Use `gen: 0`, then `-1`:
 
@@ -120,7 +120,7 @@ The chart normalises whatever numbers you use, so the oldest row becomes
 
 ---
 
-## Recipe 5 — a cousin marriage
+## Recipe 5 - a cousin marriage
 
 ```js
 { id: "u-example",
@@ -138,7 +138,7 @@ The marriage bar turns red and dashed and the couple is listed under
 
 ---
 
-## Recipe 6 — someone married twice
+## Recipe 6 - someone married twice
 
 Just add a second union. The person keeps one card; the second marriage is
 drawn as a curved dashed bar to the other spouse.
@@ -150,7 +150,7 @@ drawn as a curved dashed bar to the other spouse.
 
 ---
 
-## Recipe 7 — a daughter who married out
+## Recipe 7 - a daughter who married out
 
 Exactly like Sai Priyanka. She stays coloured by her **birth** family and gains
 `marriedInto`:
@@ -161,7 +161,7 @@ Exactly like Sai Priyanka. She stays coloured by her **birth** family and gains
 ```
 
 Her card reads `Makani → Mutyala`. She remains a Makani descendant on the chart,
-which is correct — and her husband's family becomes a new colour.
+which is correct - and her husband's family becomes a new colour.
 
 ---
 
@@ -170,7 +170,7 @@ which is correct — and her husband's family becomes a new colour.
 > `family` is the family a person was **born into**. Never the surname they took
 > at marriage.
 
-This is not a style preference — the entire alliance analysis depends on it.
+This is not a style preference - the entire alliance analysis depends on it.
 
 If Padmaja were typed `family: "makani"` because that is the name she uses now,
 then:
@@ -220,7 +220,7 @@ Every "Relationship to …" line recalculates.
 
 ## When something looks wrong
 
-**The chart is blank.** A syntax error in `js/data.js` — nearly always a missing
+**The chart is blank.** A syntax error in `js/data.js` - nearly always a missing
 comma between two objects, or one bracket too few. Press **F12**, read the
 console; it names the line.
 
@@ -236,7 +236,7 @@ arrays. Only the first is used.
 
 **Two cards overlap.** Increase `CLUSTER_GAP`.
 
-**Long dashed lines cross the chart.** That is correct and intentional — it is
+**Long dashed lines cross the chart.** That is correct and intentional - it is
 someone drawn inside their spouse's family whose own parents are elsewhere,
 which is precisely what a cross-family marriage looks like. The Macha sisters
 are the example.
@@ -258,9 +258,9 @@ lower-case, `.jpg`. `photos/macha-suneetha.jpg`, not `Suneetha.JPG`.
 
 Open **Family info** (top right). It gives you:
 
-- **Data check** — broken references, generation mistakes, duplicate ids.
-- **Still to find out** — every `todo` you have written, as one list.
-- **Marriage alliances** — if a surname pair looks wrong here, a `family` field
+- **Data check** - broken references, generation mistakes, duplicate ids.
+- **Still to find out** - every `todo` you have written, as one list.
+- **Marriage alliances** - if a surname pair looks wrong here, a `family` field
   is wrong somewhere.
 
 The browser console prints the same warnings on load.

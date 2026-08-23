@@ -173,7 +173,7 @@
              c.ap[0] !== best.ap[0];
     });
     if (others.length && best.a === 2 && best.b === 2) {
-      out.extra.push('Double first cousins — related through the father’s ' +
+      out.extra.push('Double first cousins - related through the father’s ' +
                      'side and the mother’s side at the same time.');
     }
     return out;

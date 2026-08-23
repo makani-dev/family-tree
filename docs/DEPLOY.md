@@ -3,14 +3,14 @@
 The short version is in the [README](../README.md). This page has the detail,
 the alternatives, and what to do when it does not work.
 
-Please read [PRIVACY.md](PRIVACY.md) first — free GitHub Pages requires a
+Please read [PRIVACY.md](PRIVACY.md) first - free GitHub Pages requires a
 **public** repository.
 
 ---
 
 ## Why this site is easy to host
 
-There is no build step. No Node, no bundler, no framework, no server code —
+There is no build step. No Node, no bundler, no framework, no server code -
 just HTML, CSS and JavaScript files that a browser reads directly. Any static
 host will serve it: GitHub Pages, Netlify, Cloudflare Pages, or a folder on a
 USB stick.
@@ -30,7 +30,7 @@ is what keeps double-clicking the file working.
 
 The plan is to publish at **`makani-family-tree.github.io`**. GitHub builds that
 address out of the **account name**, so the account itself has to be called
-`makani-family-tree` — it is not something you choose later in a setting.
+`makani-family-tree` - it is not something you choose later in a setting.
 
 If that name is taken, or you would rather the account carried your own name,
 any account works; the address just becomes
@@ -51,7 +51,7 @@ The repository name must match the account name exactly, followed by
 `.github.io`. That is what makes GitHub serve it at the bare address with no
 folder on the end.
 
-Leave it empty — this folder already has everything, and adding a README there
+Leave it empty - this folder already has everything, and adding a README there
 creates a conflict on the first push.
 
 ### 3. Tell git who you are
@@ -77,11 +77,24 @@ GitHub will ask you to sign in. In the browser popup, approve it.
 
 ### 5. Turn on Pages
 
-Repository → **Settings** → **Pages** (left sidebar) →
+Repository → **Settings** → **Pages** (left sidebar) → **Source**.
 
-- Source: **Deploy from a branch**
-- Branch: **main**, folder: **/ (root)**
-- **Save**
+Pick **GitHub Actions**.
+
+This repository ships `.github/workflows/deploy.yml`, which takes the files
+exactly as they are and publishes them. Choosing this mode is what makes that
+workflow run.
+
+> **This is the setting that usually goes wrong.** "GitHub Actions" is the
+> default Source for new repositories, but nothing is published in that mode
+> until a workflow exists to publish it. With no workflow the Actions tab stays
+> empty, no error appears anywhere, and `index.html` never goes live. The
+> workflow in this repository fixes exactly that.
+
+The other mode, **Deploy from a branch** (branch `main`, folder `/ (root)`),
+also works and needs no workflow. The `.nojekyll` file here is what stops that
+mode running the site through Jekyll. Either is fine. What does not work is
+leaving Source on "GitHub Actions" with no workflow present.
 
 ### 6. Wait about a minute
 
@@ -103,13 +116,13 @@ git push
 ```
 
 Live within a minute or so. Hard-refresh (**Ctrl+Shift+R**) if you still see the
-old version — that is your browser cache, not GitHub.
+old version - that is your browser cache, not GitHub.
 
 ---
 
 ## If you used an ordinary repository name instead
 
-Naming the repository anything other than `<account>.github.io` still works —
+Naming the repository anything other than `<account>.github.io` still works -
 the site just lives in a subfolder:
 
 ```
@@ -124,7 +137,7 @@ but any number of subfolder ones.
 ## Adding photographs
 
 Photographs make the repository bigger. A few hundred cropped JPEGs is
-completely fine — git handles that easily.
+completely fine - git handles that easily.
 
 ```bash
 git add photos/
@@ -144,13 +157,32 @@ will not come close with cropped face pictures.
 
 ## Troubleshooting
 
-**404 at the Pages URL.** Give it two minutes. Then check Settings → Pages shows
-branch `main` and folder `/ (root)`, and that `index.html` is at the top level
-of the repository, not inside a subfolder.
+**The Actions tab is empty and nothing ever deploys.** Settings → Pages →
+Source is on **GitHub Actions**, but no workflow is present to do the work.
+Check that the workflow was committed:
+
+```bash
+git ls-files .github
+```
+
+If that prints nothing, it never got committed. Push it, then start it by hand
+from the **Actions** tab → **Deploy to GitHub Pages** → **Run workflow**.
+
+**404 at the Pages URL.** Give it two minutes. Then check that `index.html` is
+at the top level of the repository and not inside a subfolder, and that
+Settings → Pages shows either Source **GitHub Actions** with a green run, or
+Source **Deploy from a branch** on `main` / `/ (root)`.
+
+**The address repeats the name, `ACCOUNT.github.io/makani-family-tree.github.io/`.**
+A repository only produces a bare address when its name matches the **account**
+name. If the account is called something else, `makani-family-tree.github.io`
+is treated as an ordinary project site. Either rename the account to
+`makani-family-tree`, or rename the repository to something short like
+`family-tree` and use `https://ACCOUNT.github.io/family-tree/`.
 
 **The page loads but the tree is blank.** Open the browser console (**F12**). A
 syntax error in `js/data.js` is the usual cause. Note that it works locally and
-fails when published only if you forgot to commit `js/data.js` — check with
+fails when published only if you forgot to commit `js/data.js` - check with
 `git status`.
 
 **Styling is missing / the page looks like plain text.** Usually a missing
@@ -168,7 +200,7 @@ care about capitalisation, GitHub does. `photos/Macha-Suneetha.JPG` will not
 match the id `macha-suneetha`. Rename to all lower-case with a `.jpg`
 extension.
 
-**`git push` rejected — "updates were rejected".** Something exists on GitHub
+**`git push` rejected - "updates were rejected".** Something exists on GitHub
 that you do not have locally, usually because a README was created there. Fix:
 
 ```bash
@@ -192,5 +224,5 @@ Control Panel → Credential Manager → Windows Credentials → remove any
 | **Just the folder** | no | zip it and share it; `index.html` works offline |
 | **Just open index.html** | no | works offline, for showing it on a laptop at a family gathering |
 
-The offline options are worth remembering — the whole chart works with no
+The offline options are worth remembering - the whole chart works with no
 internet connection at all.

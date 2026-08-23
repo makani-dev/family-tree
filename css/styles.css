@@ -182,7 +182,7 @@ body.hide-alliance .layer-alliance { display: none; }
 
 /* ----------------------------------------------------------------- cards */
 /* Every card is FILLED with the colour of the family the person was born
-   into. A card left UNFILLED means that person has died — there is no label,
+   into. A card left UNFILLED means that person has died - there is no label,
    no mark and no greying, only the empty box. */
 .card {
   position: absolute; width: 176px; height: 206px;
@@ -245,7 +245,7 @@ body.hide-alliance .layer-alliance { display: none; }
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--warn) 22%, transparent);
 }
 
-/* Not yet named: dashed edge. Still filled — the dashes say "unknown", the
+/* Not yet named: dashed edge. Still filled - the dashes say "unknown", the
    fill says "living or not recorded", and the two never get confused. */
 .card.is-placeholder { border-style: dashed; box-shadow: none; }
 .card.is-placeholder .nm { color: var(--ink-3); font-style: italic; font-weight: 500; }

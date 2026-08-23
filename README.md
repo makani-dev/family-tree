@@ -1,12 +1,12 @@
-# Makani Family Tree — మాకని వంశ వృక్షం
+# Makani Family Tree - మాకని వంశ వృక్షం
 
 An interactive, five-generation family chart for the **Makani** family and the
 families it married into, built to be edited by hand and published on GitHub
 Pages.
 
 It is deliberately plain: **no build step, no frameworks, no npm install.**
-Five JavaScript files and a stylesheet. You edit one data file — or edit right
-in the page — refresh the browser, and the chart redraws itself.
+Five JavaScript files and a stylesheet. You edit one data file - or edit right
+in the page - refresh the browser, and the chart redraws itself.
 
 ```
 Open index.html  ->  it reads js/data.js  ->  it draws the tree
@@ -19,7 +19,7 @@ Open index.html  ->  it reads js/data.js  ->  it draws the tree
 - [What it does](#what-it-does)
 - [Run it on your computer](#run-it-on-your-computer)
 - [Edit it in the browser](#edit-it-in-the-browser)
-- [Adding people — the part you actually need](#adding-people--the-part-you-actually-need)
+- [Adding people](#adding-people)
 - [Adding face pictures](#adding-face-pictures)
 - [Surnames, alliances and cousin marriages](#surnames-alliances-and-cousin-marriages)
 - [What is in the chart today](#what-is-in-the-chart-today)
@@ -37,11 +37,11 @@ Open index.html  ->  it reads js/data.js  ->  it draws the tree
 | **Generation rows** | Everyone sits on the rung of the ladder they belong to, so cousins line up with cousins. |
 | **Face pictures** | Drop a `.jpg` into `photos/` named after the person. No photo yet? A coloured initials avatar is drawn instead. |
 | **Colour = birth family** | A card is coloured by the family a person was *born* into, not the surname they use now. This is what makes the marriage alliances visible at a glance. |
-| **Telugu kinship terms** | Click anyone and see what you would actually call them — *Peddananna*, *Mamayya*, *Vadina* — not just "first cousin once removed". |
+| **Telugu kinship terms** | Click anyone and see what you would actually call them - *Peddananna*, *Mamayya*, *Vadina* - not just "first cousin once removed". |
 | **Alliance detection** | The chart works out for itself which two surnames have intermarried more than once, and draws an arc when two brothers married two sisters. |
 | **Double cousins** | Detected automatically when two people share *both* sets of grandparents. |
 | **Gaps are visible** | Anything you have not filled in yet shows an amber dot, and the **Family info** panel lists every open question as a to-do list. |
-| **Filled or empty** | A card is filled with the colour of the family the person was born into. A card left unfilled means that person has died — no cross, no greying, no label. |
+| **Filled or empty** | A card is filled with the colour of the family the person was born into. A card left unfilled means that person has died - no cross, no greying, no label. |
 | **Edit in the page** | Add, change and remove people from the site itself, then export a fresh `js/data.js` to commit. |
 | **Print / PDF** | The Print button lays the whole tree out on A3 landscape for a wall poster. |
 
@@ -49,7 +49,7 @@ Open index.html  ->  it reads js/data.js  ->  it draws the tree
 
 ## Run it on your computer
 
-Double-click `index.html`. That is genuinely all it takes — there is nothing to
+Double-click `index.html`. That is genuinely all it takes - there is nothing to
 install and nothing to build.
 
 If you are making many edits to `js/data.js` by hand, browsers can cache the old
@@ -68,11 +68,11 @@ python -m http.server 8000
 You do not have to open a code editor to add a relative. Press **Edit** in the
 toolbar and you can:
 
-- **Add a person** — the ＋ Add person button
-- **Change anyone** — click their card to open their details as a form
-- **Delete anyone** — the Delete button on that form, which also tidies them out
+- **Add a person** - the ＋ Add person button
+- **Change anyone** - click their card to open their details as a form
+- **Delete anyone** - the Delete button on that form, which also tidies them out
   of every marriage and every list of children
-- **Link people up** — set parents, add a spouse, add children, all from the
+- **Link people up** - set parents, add a spouse, add children, all from the
   same form
 
 ### How your edits become permanent
@@ -86,7 +86,7 @@ cannot write to `js/data.js` on its own. Instead:
    it.
 
 That last step is the one that makes the change real and public. Until then
-nobody else sees it — which also means anyone visiting the site can safely click
+nobody else sees it - which also means anyone visiting the site can safely click
 around in Edit mode without being able to change what others see.
 
 **Discard draft** throws your local changes away and goes back to the published
@@ -95,7 +95,7 @@ you can keep editing it by hand afterwards.
 
 ---
 
-## Adding people — the part you actually need
+## Adding people
 
 Everything lives in **[`js/data.js`](js/data.js)**. You will not need to open any
 other file. It is heavily commented; this section is the short version.
@@ -105,7 +105,7 @@ other file. It is heavily commented; this section is the short version.
 ```
 families  ->  one entry per surname (ఇంటిపేరు), with its colour
 people    ->  one entry per person
-unions    ->  one entry per marriage — this is what creates children
+unions    ->  one entry per marriage - this is what creates children
 ```
 
 A person on their own is just a floating card. **Children only appear connected
@@ -125,13 +125,13 @@ Only `id`, `name`, `family` and `gen` are required. `gen` is the generation row:
 
 | gen | who |
 |-----|-----|
-| 1 | great-great-grandparents (unknown so far — grey placeholder cards) |
+| 1 | great-great-grandparents (unknown so far - grey placeholder cards) |
 | 2 | Ramachandra Rao & Padmavathi Makani, and the Macha grandparents |
 | 3 | the six Makani brothers and their wives |
 | 4 | Ramakrishna, Sai Priyanka and the cousins |
 | 5 | the next generation (nobody yet) |
 
-To go **further back than gen 1**, do not renumber everyone — just use `0`, then
+To go **further back than gen 1**, do not renumber everyone - just use `0`, then
 `-1`, then `-2`. The chart normalises the numbers itself.
 
 ### 2. Marry two people
@@ -155,7 +155,7 @@ Add the child to `people`, then put their `id` in the parents' `children` array:
 //                                   ^^^^^^^^^^^^^^^^^^^ add here
 ```
 
-Put children in **birth order, eldest first** — and give each one an `order`
+Put children in **birth order, eldest first** - and give each one an `order`
 number too, because the Telugu kinship terms depend on seniority (*Annayya*
 vs *Thammudu*).
 
@@ -164,15 +164,15 @@ vs *Thammudu*).
 When Thrinadh's parents are known, for example:
 
 ```js
-// 1. in `families` — a colour for the surname
+// 1. in `families` - a colour for the surname
 mutyala: { name: "Mutyala", telugu: "ముత్యాల", color: "#d97706", notes: "" },
 
-// 2. in `people` — his parents, one generation up from him
+// 2. in `people` - his parents, one generation up from him
 { id: "mutyala-father", name: "… Mutyala", family: "mutyala", gen: 3, sex: "m" },
 { id: "tbd-mutyala-mother", name: "…", family: "tbd",
   marriedInto: "mutyala", gen: 3, sex: "f" },
 
-// 3. in `unions` — marry them and list Thrinadh as their son
+// 3. in `unions` - marry them and list Thrinadh as their son
 { id: "u-mutyala-g3",
   partners: ["mutyala-father", "tbd-mutyala-mother"],
   children: ["mutyala-thrinadh"] },
@@ -180,7 +180,7 @@ mutyala: { name: "Mutyala", telugu: "ముత్యాల", color: "#d97706", n
 
 That is the whole procedure. The new branch positions itself.
 
-### The id convention — the one thing worth getting right
+### The id convention, and why it matters
 
 ```
 <birth-family>-<given-name>        makani-satyanarayana
@@ -189,7 +189,7 @@ tbd-<given-name>                   tbd-latha        (birth surname unknown)
 
 Use the family a person was **born into**, never the surname they took at
 marriage. Padmaja is `macha-padmaja` with `family: "macha"` and
-`marriedInto: "makani"` — that is precisely what lets the chart show that the
+`marriedInto: "makani"` - that is precisely what lets the chart show that the
 Makani and Macha families are tied together twice. If you typed her as
 `makani`, that whole finding would disappear.
 
@@ -208,7 +208,7 @@ The same applies to wives whose birth family you do not know yet: give them
 | `gen` | `3` | generation row |
 | `sex` | `"m"` / `"f"` / `"u"` | `"u"` when not confirmed |
 | `order` | `4` | birth order among siblings, 1 = eldest |
-| `birth` / `death` | `"1959"` | free text — `"c.1930"` and `"12 Mar 1959"` both fine |
+| `birth` / `death` | `"1959"` | free text - `"c.1930"` and `"12 Mar 1959"` both fine |
 | `deceased` | `true` | when you have no date |
 | `nickname` | `"Kittu"` | ముద్దు పేరు |
 | `title` | `"Thathagaru"` | honorific, shown as a small badge |
@@ -220,7 +220,7 @@ The same applies to wives whose birth family you do not know yet: give them
 ### If the chart goes blank
 
 You have almost certainly left out a comma or a bracket. Open the browser
-console (**F12**) — the error names the line in `js/data.js`. The **Family info**
+console (**F12**) - the error names the line in `js/data.js`. The **Family info**
 panel also lists any id that is referenced but does not exist.
 
 ---
@@ -228,11 +228,11 @@ panel also lists any id that is referenced but does not exist.
 ## Adding face pictures
 
 1. Crop the photo square, roughly face-centred. 400×400 px is plenty.
-2. Save it as `photos/<person-id>.jpg` — so Suneetha's photo is
+2. Save it as `photos/<person-id>.jpg` - so Suneetha's photo is
    `photos/macha-suneetha.jpg`.
 3. Refresh.
 
-That is it — no code change. If you want a different filename, set `photo:`
+That is it - no code change. If you want a different filename, set `photo:`
 on that person instead.
 
 Until a photo exists, the card shows a coloured circle with the person's
@@ -247,23 +247,23 @@ families often marry across several generations.
 
 Open the **Family info** panel (top right).
 
-- **Marriage alliances** — every pair of surnames that has ever intermarried,
+- **Marriage alliances** - every pair of surnames that has ever intermarried,
   with a count. A count above one is the interesting case, and Makani + Macha
   is already at **2**.
-- **Brothers who married sisters** — detected structurally, not hard-coded.
+- **Brothers who married sisters** - detected structurally, not hard-coded.
   Satyanarayana and Nagarjuna Sagar Makani married Padmaja and Suneetha Macha,
   so an amber arc joins those two marriages on the chart.
-- **Double first cousins** — anyone who shares *both* sets of grandparents,
+- **Double first cousins** - anyone who shares *both* sets of grandparents,
   which is what a brother/sister double marriage produces in the next
   generation.
-- **Marriages between relatives** — cousin marriages you have recorded.
+- **Marriages between relatives** - cousin marriages you have recorded.
 
 To record a cousin marriage, set `consanguinity` on that union:
 
 ```js
 { id: "u-example",
   partners: ["makani-someone", "macha-someone"],
-  consanguinity: "menarikam",   // మేనరికం — marriage to the maternal uncle's child
+  consanguinity: "menarikam",   // మేనరికం - marriage to the maternal uncle's child
   children: [] },
 ```
 
@@ -272,7 +272,7 @@ Accepted values: `"menarikam"`, `"first-cousin"`, `"second-cousin"`,
 to the panel.
 
 The kinship engine already knows which relatives are *marriageable* under the
-menarikam custom — click a cross cousin and the panel says so. Background and
+menarikam custom - click a cross cousin and the panel says so. Background and
 the full term list are in [`docs/TELUGU-KINSHIP.md`](docs/TELUGU-KINSHIP.md).
 
 ---
@@ -312,18 +312,18 @@ sex `"u"` rather than guessed. Every one of these is a one-word edit.
 ## Publish it to GitHub Pages
 
 You said you would be creating the account, so this starts from zero. Free
-GitHub Pages requires the repository to be **public** — please read
+GitHub Pages requires the repository to be **public** - please read
 [Before you publish](#before-you-publish-privacy) first.
 
 **1. Create the account** at <https://github.com/signup>. To land on
 `makani-family-tree.github.io`, the **account** has to be named
-`makani-family-tree` — GitHub builds that address out of the account name, so it
+`makani-family-tree` - GitHub builds that address out of the account name, so it
 is not something you can set afterwards.
 
 **2. Create an empty repository** at <https://github.com/new>:
-   - Name: `makani-family-tree.github.io` — the account name, then `.github.io`
+   - Name: `makani-family-tree.github.io` - the account name, then `.github.io`
    - Public
-   - Do **not** tick "Add a README" — this folder already has one.
+   - Do **not** tick "Add a README" - this folder already has one.
 
 **3. Push this folder.** In a terminal here in `E:\family-tree`:
 
@@ -333,8 +333,13 @@ git branch -M main
 git push -u origin main
 ```
 
-**4. Turn on Pages.** Repository → **Settings** → **Pages** →
-   Source: **Deploy from a branch** → Branch: **main**, folder: **/ (root)** → **Save**.
+**4. Turn on Pages.** Repository → **Settings** → **Pages** → **Source** →
+   **GitHub Actions**.
+
+   This repository ships `.github/workflows/deploy.yml`, which publishes the
+   files as they are. If the Actions tab stays empty and nothing deploys, this
+   setting is almost always why: "GitHub Actions" is the default Source, but it
+   publishes nothing until a workflow exists to do it.
 
 **5. Wait about a minute.** Your chart is then live at:
 
@@ -342,10 +347,10 @@ git push -u origin main
 https://makani-family-tree.github.io/
 ```
 
-If you would rather use an account in your own name, that works too — the site
+If you would rather use an account in your own name, that works too - the site
 just lives at `https://YOUR-USERNAME.github.io/family-tree/` instead.
 
-**Updating it later** — edit `js/data.js`, then:
+**Updating it later** - edit `js/data.js`, then:
 
 ```bash
 git add -A && git commit -m "Add Harikrishna's family" && git push
@@ -362,7 +367,7 @@ The live site updates itself within a minute.
 
 A public GitHub Pages site is **readable by anyone and indexed by search
 engines**, and this repository will contain the names, photographs, birth years
-and family relationships of living relatives — including children.
+and family relationships of living relatives - including children.
 
 Please decide deliberately:
 
@@ -376,7 +381,7 @@ Please decide deliberately:
 - **Deleting later is not complete.** Once a page has been public it may live on
   in caches and archives.
 
-None of this is a reason not to publish — it is a reason to choose. See
+None of this is a reason not to publish - it is a reason to choose. See
 [`docs/PRIVACY.md`](docs/PRIVACY.md) for the options, including how to publish a
 public chart with living people reduced to first names only.
 
@@ -388,10 +393,13 @@ public chart with living people reduced to first names only.
 family-tree/
 ├── index.html              the page itself
 ├── README.md               this file
-├── .nojekyll               tells GitHub Pages not to run Jekyll — keep it
+├── .nojekyll               tells GitHub Pages not to run Jekyll - keep it
+│
+├── .github/workflows/
+│   └── deploy.yml          publishes the site on every push to main
 │
 ├── js/
-│   ├── data.js             ★ THE FILE YOU EDIT — the whole family
+│   ├── data.js             ★ THE FILE YOU EDIT - the whole family
 │   ├── kinship.js          Telugu relationship terms
 │   ├── layout.js           works out where every card goes
 │   ├── render.js           draws the cards and the connecting lines
@@ -423,7 +431,7 @@ Roughly: **`js/data.js` is yours, everything else is machinery.**
 | click a card | focus that person's line of descent and open their details |
 | click again | clear |
 
-Every person also has a direct link — `…/#p=macha-suneetha` opens the chart
+Every person also has a direct link - `…/#p=macha-suneetha` opens the chart
 focused on that person, which is handy for sending to relatives.
 
 ---

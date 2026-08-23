@@ -212,7 +212,7 @@
   function serialize() {
     var L = [];
     L.push('/* =============================================================================');
-    L.push(' *  js/data.js  —  the whole family.');
+    L.push(' *  js/data.js  -  the whole family.');
     L.push(' *');
     L.push(' *  Written out by the in-page editor on ' + new Date().toISOString().slice(0, 10) + '.');
     L.push(' *  Safe to keep editing by hand: the format is exactly the same either way.');
@@ -313,7 +313,7 @@
   }
 
   function peopleOptions(excludeId, blankText) {
-    var opts = [{ value: '', text: blankText || '— choose —' }];
+    var opts = [{ value: '', text: blankText || '(choose someone)' }];
     F.people.slice().sort(function (a, b) {
       return (a.gen || 0) - (b.gen || 0) || a.name.localeCompare(b.name);
     }).forEach(function (p) {
@@ -373,7 +373,7 @@
     var fName    = input(p.name, 'Full name');
     var fTelugu  = input(p.telugu, 'తెలుగు');
     var fFamily  = select(familyOptions(), p.family);
-    var fMarried = select([{ value: '', text: '— none —' }].concat(familyOptions()), p.marriedInto || '');
+    var fMarried = select([{ value: '', text: '(none)' }].concat(familyOptions()), p.marriedInto || '');
     var fGen     = input(p.gen, '4');
     fGen.type = 'number';
     var fSex     = select([{ value: 'm', text: 'Male' }, { value: 'f', text: 'Female' },
@@ -392,12 +392,12 @@
     form.appendChild(field('Name', fName));
     form.appendChild(field('Telugu name', fTelugu));
     form.appendChild(field('Born into which family', fFamily,
-      'The family they were BORN into — never the surname taken at marriage.'));
+      'The family they were BORN into - never the surname taken at marriage.'));
     form.appendChild(field('Married into', fMarried));
     form.appendChild(field('Generation', fGen, '1 is the oldest row on the chart.'));
     form.appendChild(field('Sex', fSex));
     form.appendChild(field('Birth order', fOrder,
-      'Needed for the Telugu terms — Annayya vs Thammudu.'));
+      'Needed for the Telugu terms - Annayya vs Thammudu.'));
     form.appendChild(field('Born', fBirth));
     form.appendChild(field('Died', fDeath, 'Filling this in leaves their box unfilled on the chart.'));
     form.appendChild(field('Called', fNick));
@@ -430,7 +430,7 @@
       panel.appendChild(el('h3', 'esec', 'Family links'));
 
       var parentU = parentUnionOf(id);
-      var parentOpts = [{ value: '', text: '— not recorded —' }].concat(
+      var parentOpts = [{ value: '', text: '(not recorded)' }].concat(
         F.unions.filter(function (u) { return u.partners.indexOf(id) < 0; })
                 .map(function (u) { return { value: u.id, text: unionLabel(u) }; }));
       var fParents = select(parentOpts, parentU ? parentU.id : '');
@@ -488,7 +488,7 @@
         kidWrap.appendChild(addKid);
       } else {
         kidWrap.appendChild(el('small', 'ehint',
-          'Add a spouse first — children hang from a marriage, not from one person.'));
+          'Add a spouse first - children hang from a marriage, not from one person.'));
       }
       panel.appendChild(kidWrap);
     }
@@ -549,7 +549,7 @@
     var msg = el('span', 'ebar-msg');
     msg.textContent = hasDraft()
       ? 'Editing a draft saved in this browser only. Download data.js and commit it to publish these changes.'
-      : 'Editing. Nothing is saved to the site — download data.js and commit it to publish.';
+      : 'Editing. Nothing is saved to the site - download data.js and commit it to publish.';
     bar.appendChild(msg);
 
     var add = el('button', 'ebtn', '＋ Add person');

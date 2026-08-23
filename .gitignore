@@ -8,10 +8,10 @@ desktop.ini
 .idea/
 *.swp
 
-# Local editor / tooling config — never part of the published site
+# Local editor / tooling config - never part of the published site
 .claude/
 
-# Original, uncropped photographs — keep these out of git history.
+# Original, uncropped photographs - keep these out of git history.
 # Crop them into photos/<person-id>.jpg and commit that instead.
 photos/originals/
 photos/*.HEIC
