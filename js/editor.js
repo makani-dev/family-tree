@@ -162,6 +162,105 @@
     if (uid) addChild(uid, childId);
   }
 
+  /* ------------------------------------------- creating people in one step */
+  /* Everywhere you can link an existing person you can also type a new name.
+     These build a sensible person around that name so you are never forced to
+     go and create them somewhere else first.                                */
+
+  function nextOrder(u) {
+    var max = 0;
+    u.children.forEach(function (c) {
+      var q = person(c);
+      if (q && typeof q.order === 'number' && q.order > max) max = q.order;
+    });
+    return max + 1;
+  }
+
+  /* a marriage to hang children from, invented if there is not one yet */
+  function ensureUnion(id) {
+    var us = unionsWith(id);
+    if (us.length) return us[0].id;
+    var u = { id: makeUnionId(id, 'x'), partners: [id], children: [] };
+    F.unions.push(u);
+    return u.id;
+  }
+
+  function createChild(uid, name) {
+    var u = F.unions.filter(function (x) { return x.id === uid; })[0];
+    if (!u) return null;
+    var partners = u.partners.map(person).filter(Boolean);
+    /* the child takes the father's family where there is one, which is what
+       the rest of the chart assumes */
+    var pick = partners.filter(function (q) { return q.sex === 'm'; })[0] ||
+               partners.filter(function (q) { return q.family && q.family !== 'tbd'; })[0] ||
+               partners[0];
+    var kid = {
+      name: name,
+      family: (pick && pick.family) || 'tbd',
+      gen: (pick ? (pick.gen || 0) : 0) + 1,
+      sex: 'u',
+      order: nextOrder(u)
+    };
+    var newId = addPerson(kid);
+    u.children.push(newId);
+    return newId;
+  }
+
+  function createSpouse(id, name) {
+    var me = person(id) || {};
+    var sex = me.sex === 'm' ? 'f' : (me.sex === 'f' ? 'm' : 'u');
+    var sp = { name: name, family: 'tbd', gen: me.gen, sex: sex,
+               todo: 'birth family (intiperu)' };
+    /* a wife takes her husband's surname, so record it as married-into rather
+       than as her birth family - that distinction is what the whole alliance
+       map is built on */
+    if (sex === 'f' && me.family && me.family !== 'tbd') sp.marriedInto = me.family;
+    var newId = addPerson(sp);
+    addSpouse(id, newId);
+    return newId;
+  }
+
+  function createParent(id, name, sex) {
+    var me = person(id) || {};
+    var p = { name: name, gen: (typeof me.gen === 'number' ? me.gen : 1) - 1, sex: sex };
+    if (sex === 'm') {
+      p.family = (me.family && me.family !== 'tbd') ? me.family : 'tbd';
+    } else {
+      p.family = 'tbd';
+      p.todo = 'birth family (intiperu)';
+      if (me.family && me.family !== 'tbd') p.marriedInto = me.family;
+    }
+    var pid = addPerson(p);
+    var pu = parentUnionOf(id);
+    if (pu) {
+      if (pu.partners.indexOf(pid) < 0) { pu.partners.push(pid); orderPartners(pu); }
+    } else {
+      F.unions.push({ id: makeUnionId(pid, 'x'), partners: [pid], children: [id] });
+    }
+    return pid;
+  }
+
+  /* colours handed out to surnames invented from the page */
+  var PALETTE = ['#4f46e5', '#0d9488', '#d97706', '#be123c', '#7c3aed', '#0369a1',
+                 '#65a30d', '#c026d3', '#ea580c', '#0f766e', '#9333ea', '#047857'];
+
+  function addFamily(name) {
+    var key = slug(name) || ('family' + (Object.keys(F.families).length + 1));
+    if (F.families[key]) return key;
+    var used = Object.keys(F.families).map(function (k) {
+      return String(F.families[k].color || '').toLowerCase();
+    });
+    var free = PALETTE.filter(function (c) { return used.indexOf(c) < 0; });
+    F.families[key] = {
+      name: String(name).trim(),
+      telugu: '',
+      color: free[0] || PALETTE[Object.keys(F.families).length % PALETTE.length],
+      origin: '',
+      notes: ''
+    };
+    return key;
+  }
+
   /* =========================================================== serialise */
   /* Writes a js/data.js that looks hand-written, so the file stays pleasant
      to edit by hand afterwards. */
@@ -333,9 +432,16 @@
     var row = el('div', 'echips');
     items.forEach(function (it) {
       var c = el('span', 'echip');
-      c.appendChild(document.createTextNode(it.text));
+      var open = el('button', 'echip-name', it.text);
+      if (it.onOpen) {
+        open.title = 'Open ' + it.text;
+        open.addEventListener('click', it.onOpen);
+      } else {
+        open.disabled = true;
+      }
+      c.appendChild(open);
       var x = el('button', 'ex', '×');
-      x.title = 'Remove';
+      x.title = it.removeTitle || 'Remove';
       x.addEventListener('click', it.onRemove);
       c.appendChild(x);
       row.appendChild(c);
@@ -343,8 +449,52 @@
     return row;
   }
 
+  /* "type a name, press Add" - the way to create somebody without leaving the
+     form you are already on */
+  function addRow(placeholder, onAdd, cls) {
+    var row = el('div', 'eadd ' + (cls || ''));
+    var i = input('', placeholder);
+    var b = el('button', 'ebtn small', 'Add');
+    function go() {
+      var v = i.value.trim();
+      if (!v) { i.focus(); return; }
+      onAdd(v);
+    }
+    b.addEventListener('click', go);
+    i.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); go(); }
+    });
+    row.appendChild(i);
+    row.appendChild(b);
+    return row;
+  }
+
+  /* a surname picker that can also invent a surname on the spot */
+  var NEW_FAMILY = '__new_family__';
+  function familySelect(value, includeNone) {
+    var opts = includeNone ? [{ value: '', text: '(none)' }] : [];
+    opts = opts.concat(familyOptions());
+    opts.push({ value: NEW_FAMILY, text: '＋ new surname...' });
+    var s = select(opts, value);
+    s.addEventListener('change', function () {
+      if (s.value !== NEW_FAMILY) return;
+      var name = window.prompt('New surname (intiperu):', '');
+      if (!name || !name.trim()) { s.value = value || ''; return; }
+      var key = addFamily(name.trim());
+      var opt = document.createElement('option');
+      opt.value = key;
+      opt.textContent = F.families[key].name;
+      s.insertBefore(opt, s.options[s.options.length - 1]);
+      s.value = key;
+      /* save but do not repaint: repainting would throw away whatever else is
+         half-typed in this form */
+      saveDraft();
+    });
+    return s;
+  }
+
   /* ============================================================== the form */
-  function openForm(id, panel) {
+  function openForm(id, panel, focusSel) {
     editing = id;
     var isNew = !id;
     var p = isNew
@@ -372,8 +522,8 @@
 
     var fName    = input(p.name, 'Full name');
     var fTelugu  = input(p.telugu, 'తెలుగు');
-    var fFamily  = select(familyOptions(), p.family);
-    var fMarried = select([{ value: '', text: '(none)' }].concat(familyOptions()), p.marriedInto || '');
+    var fFamily  = familySelect(p.family, false);
+    var fMarried = familySelect(p.marriedInto || '', true);
     var fGen     = input(p.gen, '4');
     fGen.type = 'number';
     var fSex     = select([{ value: 'm', text: 'Male' }, { value: 'f', text: 'Female' },
@@ -428,8 +578,25 @@
     /* ---- relationships, only once the person actually exists ---------- */
     if (!isNew) {
       panel.appendChild(el('h3', 'esec', 'Family links'));
+      panel.appendChild(el('p', 'ehint',
+        'Anywhere below you can either pick somebody already on the chart, or ' +
+        'just type a new name and press Add. Names you add here appear straight ' +
+        'away; click a name to fill in their dates and details.'));
 
+      /* ---- parents --------------------------------------------------- */
       var parentU = parentUnionOf(id);
+      var parentWrap = el('div', 'egroup');
+      parentWrap.appendChild(el('span', 'elabel', 'Parents'));
+      if (parentU) {
+        parentWrap.appendChild(chipRow(parentU.partners.map(function (q) {
+          return {
+            text: label(q),
+            onOpen: function () { openForm(q, panel); },
+            removeTitle: 'Detach ' + p.name + ' from these parents',
+            onRemove: function () { removeChild(parentU.id, id); changed(); openForm(id, panel); }
+          };
+        })));
+      }
       var parentOpts = [{ value: '', text: '(not recorded)' }].concat(
         F.unions.filter(function (u) { return u.partners.indexOf(id) < 0; })
                 .map(function (u) { return { value: u.id, text: unionLabel(u) }; }));
@@ -438,15 +605,26 @@
         setParents(id, fParents.value);
         changed(); openForm(id, panel);
       });
-      panel.appendChild(field('Parents', fParents));
+      parentWrap.appendChild(fParents);
+      parentWrap.appendChild(addRow("New father's name", function (name) {
+        createParent(id, name, 'm');
+        changed(); openForm(id, panel, '.eadd-father input');
+      }, 'eadd-father'));
+      parentWrap.appendChild(addRow("New mother's name", function (name) {
+        createParent(id, name, 'f');
+        changed(); openForm(id, panel, '.eadd-mother input');
+      }, 'eadd-mother'));
+      panel.appendChild(parentWrap);
 
-      var spouseUnions = unionsWith(id);
+      /* ---- spouses ---------------------------------------------------- */
       var spouseChips = [];
-      spouseUnions.forEach(function (u) {
+      unionsWith(id).forEach(function (u) {
         u.partners.forEach(function (q) {
           if (q === id) return;
           spouseChips.push({
             text: label(q),
+            onOpen: function () { openForm(q, panel); },
+            removeTitle: 'Remove this marriage',
             onRemove: function () {
               if (!confirm('Remove the marriage of ' + label(id) + ' and ' + label(q) + '?\n\n' +
                            'Any children listed under it will lose their link to both parents.')) return;
@@ -458,20 +636,27 @@
       var spouseWrap = el('div', 'egroup');
       spouseWrap.appendChild(el('span', 'elabel', 'Married to'));
       if (spouseChips.length) spouseWrap.appendChild(chipRow(spouseChips));
-      var addSp = select(peopleOptions(id, '＋ add a spouse'));
+      var addSp = select(peopleOptions(id, 'link someone already on the chart'));
       addSp.addEventListener('change', function () {
         if (!addSp.value) return;
         addSpouse(id, addSp.value); changed(); openForm(id, panel);
       });
       spouseWrap.appendChild(addSp);
+      spouseWrap.appendChild(addRow("New spouse's name", function (name) {
+        createSpouse(id, name);
+        changed(); openForm(id, panel, '.eadd-spouse input');
+      }, 'eadd-spouse'));
       panel.appendChild(spouseWrap);
 
+      /* ---- children --------------------------------------------------- */
       var myUnions = unionsWith(id);
       var kids = [];
       myUnions.forEach(function (u) {
         u.children.forEach(function (c) {
           kids.push({
             text: label(c),
+            onOpen: function () { openForm(c, panel); },
+            removeTitle: 'Remove from this family',
             onRemove: function () { removeChild(u.id, c); changed(); openForm(id, panel); }
           });
         });
@@ -479,16 +664,21 @@
       var kidWrap = el('div', 'egroup');
       kidWrap.appendChild(el('span', 'elabel', 'Children'));
       if (kids.length) kidWrap.appendChild(chipRow(kids));
-      if (myUnions.length) {
-        var addKid = select(peopleOptions(id, '＋ add an existing person'));
-        addKid.addEventListener('change', function () {
-          if (!addKid.value) return;
-          addChild(myUnions[0].id, addKid.value); changed(); openForm(id, panel);
-        });
-        kidWrap.appendChild(addKid);
-      } else {
+      var addKid = select(peopleOptions(id, 'link someone already on the chart'));
+      addKid.addEventListener('change', function () {
+        if (!addKid.value) return;
+        addChild(ensureUnion(id), addKid.value); changed(); openForm(id, panel);
+      });
+      kidWrap.appendChild(addKid);
+      kidWrap.appendChild(addRow("New child's name", function (name) {
+        createChild(ensureUnion(id), name);
+        changed(); openForm(id, panel, '.eadd-child input');
+      }, 'eadd-child'));
+      if (!myUnions.length) {
         kidWrap.appendChild(el('small', 'ehint',
-          'Add a spouse first - children hang from a marriage, not from one person.'));
+          'No marriage is recorded for ' + p.name + ' yet. Adding a child here ' +
+          'will start one with them as the only parent; add the other parent ' +
+          'above whenever you know who it was.'));
       }
       panel.appendChild(kidWrap);
     }
@@ -534,7 +724,8 @@
       panel.appendChild(idNote);
     }
 
-    fName.focus();
+    var focusTarget = focusSel ? panel.querySelector(focusSel) : null;
+    (focusTarget || fName).focus();
   }
 
   /* ============================================================== banner */

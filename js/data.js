@@ -231,6 +231,11 @@ window.FAMILY = {
       notes: "Younger brother of Padmaja and Suneetha. Died recently.",
       todo: "birth and death years" },
 
+    { id: "tbd-nalini", name: "Nalini Macha", family: "tbd",
+      marriedInto: "macha", gen: 3, sex: "f",
+      notes: "Married Ramesh Macha.",
+      todo: "birth family (intiperu) and years" },
+
     /* ---- GENERATION 4 - the cousins ------------------------------------ */
     { id: "makani-kittu", name: "Kittu Makani", family: "makani", gen: 4,
       sex: "u", order: 1, nickname: "Kittu",
@@ -254,7 +259,17 @@ window.FAMILY = {
 
     { id: "mutyala-thrinadh", name: "Thrinadh Mutyala", family: "mutyala",
       gen: 4, sex: "m",
-      todo: "his parents and siblings - a new branch to grow" }
+      todo: "his parents and siblings - a new branch to grow" },
+
+    /* Ramesh and Nalini's children. They are the first people on the Macha
+       side of generation 4, which makes them Ramakrishna's CROSS cousins:
+       his mother's brother's children, the menarikam relation. The chart
+       works that out on its own - click either of them to see it.          */
+    { id: "macha-hasini", name: "Hasini Macha", family: "macha",
+      gen: 4, sex: "f", order: 1, todo: "birth year" },
+    { id: "macha-jessi", name: "Jessi Macha", family: "macha",
+      gen: 4, sex: "u", order: 2,
+      todo: "sex and birth year - not recorded either way yet" }
 
     /* ---- GENERATION 5 - nobody yet -------------------------------------- *
      * When the first child of generation 5 arrives, delete the comment marks
@@ -332,6 +347,10 @@ window.FAMILY = {
       notes: "Second Makani-Macha marriage. Nagarjuna Sagar is Satyanarayana's " +
              "younger brother and Suneetha is Padmaja's younger sister, so the " +
              "children of these two couples are double first cousins." },
+
+    { id: "u-ramesh-nalini",
+      partners: ["macha-ramesh", "tbd-nalini"],
+      children: ["macha-hasini", "macha-jessi"] },
 
     /* generation 4 marriages */
     { id: "u-thrinadh-priyanka",

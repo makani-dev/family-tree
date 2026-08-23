@@ -31,6 +31,18 @@
     apply();
   }
 
+  /* Back to the default view: nothing selected, no panels, no search, the
+     whole tree on screen. One button to undo any amount of poking about. */
+  function home() {
+    select(null);
+    toggleSide(false);
+    var q = $('#search');
+    if (q) { q.value = ''; }
+    var res = $('#results');
+    if (res) { res.hidden = true; res.innerHTML = ''; }
+    fit();
+  }
+
   function centerOn(id, k) {
     var p = model.person(id);
     if (!p || typeof p.x !== 'number') return;
@@ -505,7 +517,7 @@
       if (e.key === '/' && !typing) { e.preventDefault(); $('#search').focus(); return; }
       if (typing) return;
       if (e.key === 'Escape') { select(null); toggleSide(false); }
-      if (e.key === '0') fit();
+      if (e.key === '0') home();
       if (e.key === '+' || e.key === '=') { var r = stage.getBoundingClientRect(); zoomAt(r.left + r.width / 2, r.top + r.height / 2, 1.2); }
       if (e.key === '-') { var r2 = stage.getBoundingClientRect(); zoomAt(r2.left + r2.width / 2, r2.top + r2.height / 2, 1 / 1.2); }
       var step = 90;
@@ -587,7 +599,7 @@
     });
 
     /* toolbar ---------------------------------------------------------- */
-    $('#btnFit').addEventListener('click', function () { select(null); fit(); });
+    $('#btnHome').addEventListener('click', home);
     $('#btnIn').addEventListener('click', function () { var r = stage.getBoundingClientRect(); zoomAt(r.left + r.width / 2, r.top + r.height / 2, 1.2); });
     $('#btnOut').addEventListener('click', function () { var r = stage.getBoundingClientRect(); zoomAt(r.left + r.width / 2, r.top + r.height / 2, 1 / 1.2); });
     $('#btnInfo').addEventListener('click', function () { toggleSide(); });
