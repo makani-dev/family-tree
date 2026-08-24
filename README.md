@@ -5,8 +5,9 @@ families it married into, built to be edited by hand and published on GitHub
 Pages.
 
 It is deliberately plain: **no build step, no frameworks, no npm install.**
-Five JavaScript files and a stylesheet. You edit one data file - or edit right
-in the page - refresh the browser, and the chart redraws itself.
+Five small JavaScript files and a stylesheet. The chart is nested `<div>`s and
+the connecting lines are drawn by CSS, so there is no drawing code and no
+layout engine anywhere. You edit one data file, or edit right in the page.
 
 ```
 Open index.html  ->  it reads js/data.js  ->  it draws the tree
@@ -315,20 +316,13 @@ You said you would be creating the account, so this starts from zero. Free
 GitHub Pages requires the repository to be **public** - please read
 [Before you publish](#before-you-publish-privacy) first.
 
-**1. Create the account** at <https://github.com/signup>. To land on
-`makani-family-tree.github.io`, the **account** has to be named
-`makani-family-tree` - GitHub builds that address out of the account name, so it
-is not something you can set afterwards.
+The site is already live at <https://makani-dev.github.io/family-tree/>. What
+follows is for reference, or if you ever move it.
 
-**2. Create an empty repository** at <https://github.com/new>:
-   - Name: `makani-family-tree.github.io` - the account name, then `.github.io`
-   - Public
-   - Do **not** tick "Add a README" - this folder already has one.
-
-**3. Push this folder.** In a terminal here in `E:\family-tree`:
+The account is `makani-dev` and the repository is `family-tree`.
 
 ```bash
-git remote add origin https://github.com/makani-family-tree/makani-family-tree.github.io.git
+git remote add origin https://github.com/makani-dev/family-tree.git
 git branch -M main
 git push -u origin main
 ```
@@ -341,14 +335,11 @@ git push -u origin main
    setting is almost always why: "GitHub Actions" is the default Source, but it
    publishes nothing until a workflow exists to do it.
 
-**5. Wait about a minute.** Your chart is then live at:
+**5. Wait about a minute.** Your chart is live at:
 
 ```
-https://makani-family-tree.github.io/
+https://makani-dev.github.io/family-tree/
 ```
-
-If you would rather use an account in your own name, that works too - the site
-just lives at `https://YOUR-USERNAME.github.io/family-tree/` instead.
 
 **Updating it later** - edit `js/data.js`, then:
 
@@ -401,10 +392,10 @@ family-tree/
 ├── js/
 │   ├── data.js             ★ THE FILE YOU EDIT - the whole family
 │   ├── kinship.js          Telugu relationship terms
-│   ├── layout.js           works out where every card goes
-│   ├── render.js           draws the cards and the connecting lines
+│   ├── model.js            indexes the data and finds the alliances
+│   ├── tree.js             builds the nested boxes
 │   ├── editor.js           the in-page add / change / delete tools
-│   └── app.js              pan, zoom, search, panels, printing
+│   └── app.js              search, panels, zoom, printing
 │
 ├── css/styles.css          the entire look, light and dark
 ├── photos/                 face pictures, named <person-id>.jpg

@@ -188,22 +188,17 @@ For a wife whose birth surname you do not know yet, use `family: "tbd"` and
 
 ## Tuning the look
 
-Spacing lives at the top of [`js/layout.js`](../js/layout.js):
+The chart is nested boxes arranged by CSS, so spacing is all in
+[`css/styles.css`](../css/styles.css):
 
-```js
-var M = {
-  CARD_W: 176,      // card width
-  CARD_H: 206,      // card height
-  SPOUSE_GAP: 22,   // between husband and wife
-  CLUSTER_GAP: 54,  // between neighbouring couples
-  ROW_H: 322,       // between generations
-  PAD: 90,          // outer margin
-  BUS_LIFT: 58      // how high the sibling bar sits above the children
-};
+```css
+.leaf  { width: 152px; }   /* one person */
+.bond  { width: 20px; }    /* the bar between a married pair */
+.kid   { padding: 22px 9px 0; }   /* gap between siblings, and the drop */
+#tree  { gap: 70px; }      /* between one root family and the next */
 ```
 
-If you change `CARD_W` or `CARD_H`, change the matching `.card` rule in
-`css/styles.css` to the same numbers.
+Nothing needs to be recalculated when you change these; the browser re-flows.
 
 Colours are CSS variables at the top of `css/styles.css`; family colours are in
 the `families` block of `js/data.js`.
@@ -234,7 +229,7 @@ parents.
 **"listed as a child of two unions".** The same id appears in two `children`
 arrays. Only the first is used.
 
-**Two cards overlap.** Increase `CLUSTER_GAP`.
+**Two cards look cramped.** Increase the side padding on `.kid` in `css/styles.css`.
 
 **Long dashed lines cross the chart.** That is correct and intentional - it is
 someone drawn inside their spouse's family whose own parents are elsewhere,

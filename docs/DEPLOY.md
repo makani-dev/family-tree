@@ -28,9 +28,8 @@ is what keeps double-clicking the file working.
 
 <https://github.com/signup>.
 
-The plan is to publish at **`makani-family-tree.github.io`**. GitHub builds that
-address out of the **account name**, so the account itself has to be called
-`makani-family-tree` - it is not something you choose later in a setting.
+The plan is to publish at **`makani-dev.github.io/family-tree`**. GitHub builds that
+address out of the **account name**, so the account itself is called `makani-dev` - it is not something you choose later in a setting.
 
 If that name is taken, or you would rather the account carried your own name,
 any account works; the address just becomes
@@ -42,7 +41,7 @@ any account works; the address just becomes
 
 | field | value |
 |---|---|
-| Repository name | `makani-family-tree.github.io` |
+| Repository name | `family-tree` |
 | Visibility | **Public** (required for free Pages) |
 | Add a README | **leave unticked** |
 | .gitignore / licence | leave as *None* |
@@ -68,7 +67,7 @@ git config --global user.email "you@example.com"
 The repository here is already initialised and committed, so:
 
 ```bash
-git remote add origin https://github.com/makani-family-tree/makani-family-tree.github.io.git
+git remote add origin https://github.com/makani-dev/family-tree.git
 git branch -M main
 git push -u origin main
 ```
@@ -102,7 +101,7 @@ A green tick appears under the **Actions** tab when it has deployed. The site is
 then at:
 
 ```
-https://makani-family-tree.github.io/
+https://makani-dev.github.io/family-tree/
 ```
 
 ---
@@ -173,12 +172,12 @@ at the top level of the repository and not inside a subfolder, and that
 Settings → Pages shows either Source **GitHub Actions** with a green run, or
 Source **Deploy from a branch** on `main` / `/ (root)`.
 
-**The address repeats the name, `ACCOUNT.github.io/makani-family-tree.github.io/`.**
+**The address repeats the name, `ACCOUNT.github.io/makani-dev.github.io/family-tree/`.**
 A repository only produces a bare address when its name matches the **account**
-name. If the account is called something else, `makani-family-tree.github.io`
+name. If the account is called something else, `makani-dev.github.io/family-tree`
 is treated as an ordinary project site. Either rename the account to
-`makani-family-tree`, or rename the repository to something short like
-`family-tree` and use `https://ACCOUNT.github.io/family-tree/`.
+the account name, or keep an ordinary repository name and use
+`https://ACCOUNT.github.io/REPO/`, which is what this site does.
 
 **The page loads but the tree is blank.** Open the browser console (**F12**). A
 syntax error in `js/data.js` is the usual cause. Note that it works locally and

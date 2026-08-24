@@ -734,6 +734,7 @@
     if (!bar) return;
     bar.hidden = !on;
     document.body.classList.toggle('editing', on);
+    if (window.familyMeasure) window.familyMeasure();
     if (!on) return;
 
     bar.innerHTML = '';
@@ -763,6 +764,7 @@
       });
       bar.appendChild(rev);
     }
+    if (window.familyMeasure) window.familyMeasure();
   }
 
   /* ================================================================ init */

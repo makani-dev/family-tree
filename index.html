@@ -10,65 +10,37 @@
 </head>
 <body>
 
-<header class="topbar">
-  <div class="brand">
-    <h1 id="title">Family Tree</h1>
-    <p id="subtitle"></p>
-  </div>
-
-  <div class="searchbox">
-    <input id="search" type="search" placeholder="Search a name…  (press /)"
-           autocomplete="off" spellcheck="false" aria-label="Search for a person">
-    <div id="results" hidden></div>
-  </div>
-
-  <div class="toolbar">
-    <label class="toggle hide-sm">
-      <input type="checkbox" id="btnAlly" checked>
-      Alliances
-    </label>
-    <label class="toggle hide-sm">
-      <input type="checkbox" id="btnGhost" checked>
-      Unknown ancestors
-    </label>
-
-    <button class="tbtn" id="btnMe" hidden></button>
-    <button class="tbtn" id="btnEdit" aria-pressed="false" title="Add, change or remove people">Edit</button>
-    <button class="tbtn" id="btnOut" title="Zoom out (−)" aria-label="Zoom out">−</button>
-    <span id="zoomPct">100%</span>
-    <button class="tbtn" id="btnIn" title="Zoom in (+)" aria-label="Zoom in">+</button>
-    <button class="tbtn" id="btnHome" title="Back to the default view (0)">Home</button>
-    <button class="tbtn" id="btnInfo" aria-pressed="false" title="Surnames, alliances and data checks">Family info</button>
-    <button class="tbtn hide-sm" id="btnPrint" title="Print or save as PDF">Print</button>
-    <button class="tbtn" id="btnTheme" title="Light / dark" aria-label="Toggle light or dark theme">◐</button>
-  </div>
+<header class="head">
+  <h1 id="title">Makani Family Tree</h1>
+  <p id="subtitle"></p>
 </header>
+
+<div class="bar">
+  <span class="find">
+    <input id="q" type="search" placeholder="Search a name" autocomplete="off" spellcheck="false" aria-label="Search">
+    <div id="hits" hidden></div>
+  </span>
+  <button class="btn" id="btnMe" hidden>Find me</button>
+  <button class="btn" id="btnEdit" aria-pressed="false">Edit</button>
+  <button class="btn" id="btnOut" aria-label="Zoom out">&minus;</button>
+  <span id="zoomPct" class="sub">100%</span>
+  <button class="btn" id="btnIn" aria-label="Zoom in">+</button>
+  <button class="btn" id="btnHome">Home</button>
+  <button class="btn" id="btnInfo">Family info</button>
+  <button class="btn" id="btnPrint">Print</button>
+  <button class="btn" id="btnTheme" aria-label="Light or dark">&#9686;</button>
+</div>
 
 <div id="editbar" hidden></div>
 
-<main id="stage">
-  <div id="canvas">
-    <svg id="edges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
-    <div id="nodes"></div>
-  </div>
-</main>
+<main id="stage"><div id="tree"></div></main>
 
-<aside id="detail" class="panel" hidden aria-label="Person details"></aside>
-<aside id="side" class="panel" hidden aria-label="Family information"></aside>
+<aside id="panel" class="panel" hidden></aside>
 
-<!-- ==========================================================================
-     Load order matters:
-       data.js    the family itself   <- the file you edit
-       kinship.js Telugu relationship terms
-       layout.js  positions everything
-       render.js  draws it
-       editor.js  the in-page add / change / delete tools
-       app.js     wires up the interface
-     ====================================================================== -->
 <script src="js/data.js"></script>
 <script src="js/kinship.js"></script>
-<script src="js/layout.js"></script>
-<script src="js/render.js"></script>
+<script src="js/model.js"></script>
+<script src="js/tree.js"></script>
 <script src="js/editor.js"></script>
 <script src="js/app.js"></script>
 
