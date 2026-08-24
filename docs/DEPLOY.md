@@ -179,6 +179,22 @@ is treated as an ordinary project site. Either rename the account to
 the account name, or keep an ordinary repository name and use
 `https://ACCOUNT.github.io/REPO/`, which is what this site does.
 
+**The page shows "your browser is showing a mix of old and new files", or an
+error naming something that is "not defined".** A returning visitor got the new
+`index.html` together with a script still in their browser cache. GitHub Pages
+sends `Cache-Control: max-age=600` on assets, so this can happen for ten minutes
+after any deploy, and longer if the browser holds on.
+
+`index.html` guards against it by putting `?v=<date>` on every script and
+stylesheet. **Bump that date whenever you change anything under `js/` or
+`css/`** and the problem cannot occur, because the URL itself changes:
+
+```html
+<script src="js/app.js?v=2026-08-24"></script>
+```
+
+If you forget, a hard refresh (**Ctrl+Shift+R**) fixes it for whoever hit it.
+
 **The page loads but the tree is blank.** Open the browser console (**F12**). A
 syntax error in `js/data.js` is the usual cause. Note that it works locally and
 fails when published only if you forgot to commit `js/data.js` - check with

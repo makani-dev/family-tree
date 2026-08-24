@@ -269,6 +269,15 @@
 
     if (!window.FAMILY) { stage.innerHTML = '<p class="fatal">js/data.js did not load.</p>'; return; }
 
+    /* A browser holding an old cached script alongside a new page is the one
+       failure a visitor cannot diagnose, so name it plainly rather than
+       letting it surface as "something is not defined". */
+    if (!window.FamilyModel || !window.FamilyTree) {
+      stage.innerHTML = '<p class="fatal">Your browser is showing a mix of old and new files.' +
+        '<br><br>Press <b>Ctrl+Shift+R</b> (or <b>Cmd+Shift+R</b>) to reload properly.</p>';
+      return;
+    }
+
     if (window.FamilyEditor) {
       var draft = FamilyEditor.loadDraft();
       if (draft && draft.people && draft.people.length) window.FAMILY = draft;
