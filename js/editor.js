@@ -7,10 +7,14 @@
  *  so nothing typed here can write to js/data.js by itself, and nothing you do
  *  here changes what other people see.
  *
- *  Edits are kept in this browser (localStorage) as a DRAFT. When you are
- *  happy with them, press "Download data.js", replace js/data.js in the
- *  repository with the file you get, and commit it. That is the moment the
- *  change becomes real and public.
+ *  Edits are kept in this browser (localStorage) as a DRAFT. There are two
+ *  ways to turn a draft into the published chart:
+ *
+ *    "Save to GitHub"    commits js/data.js to the repository directly, using
+ *                        a token the owner has set on this browser. One click.
+ *                        See js/github.js.
+ *    "Download data.js"  gives you the file to replace and commit by hand.
+ *                        Always available, needs no token.
  *
  *  This means anyone visiting the site can play with the chart safely - they
  *  are only ever editing their own copy.
@@ -728,6 +732,107 @@
     (focusTarget || fName).focus();
   }
 
+  /* ====================================================== saving to GitHub */
+  function publish(btn) {
+    if (!global.FamilyGitHub) return;
+    if (!FamilyGitHub.isConfigured()) { githubSetup(); return; }
+    var label = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+    var when = new Date().toISOString().slice(0, 10);
+    FamilyGitHub.save(serialize(), 'Update the family tree (' + when + ')')
+      .then(function (url) {
+        btn.textContent = 'Saved';
+        /* the draft is now the published file, so stop shadowing it */
+        clearDraft();
+        paintBanner();
+        alert('Saved to GitHub.\n\nThe live site rebuilds in about a minute. ' +
+              'This browser is already showing the saved version.' +
+              (url ? '\n\n' + url : ''));
+        setTimeout(function () { btn.disabled = false; btn.textContent = label; }, 1500);
+      })
+      .catch(function (e) {
+        btn.disabled = false;
+        btn.textContent = label;
+        alert('Could not save.\n\n' + e.message);
+      });
+  }
+
+  function githubSetup() {
+    if (!global.FamilyGitHub) return;
+    var s = FamilyGitHub.settings();
+    var panel = document.getElementById('panel') || document.getElementById('detail');
+    if (!panel) return;
+    panel.hidden = false;
+    document.body.classList.add('has-panel');
+    panel.innerHTML = '';
+
+    var close = el('button', 'panel-close');
+    close.innerHTML = '&times;';
+    close.setAttribute('aria-label', 'Close');
+    close.addEventListener('click', function () {
+      document.dispatchEvent(new CustomEvent('family:closeform'));
+    });
+    panel.appendChild(close);
+    panel.appendChild(el('h2', 'etitle', 'Save straight to GitHub'));
+
+    var intro = el('p', 'ehint');
+    intro.textContent = 'This lets the page commit js/data.js to the repository, ' +
+      'so saving publishes without downloading anything. It needs a token with ' +
+      'write access, kept only in this browser.';
+    panel.appendChild(intro);
+
+    var form = el('div', 'eform');
+    var fOwner  = input(s.owner, 'makani-dev');
+    var fRepo   = input(s.repo, 'family-tree');
+    var fBranch = input(s.branch || 'main', 'main');
+    var fPath   = input(s.path || 'js/data.js', 'js/data.js');
+    var fTok    = input(FamilyGitHub.token(), 'github_pat_...');
+    fTok.type = 'password';
+    fTok.autocomplete = 'off';
+
+    form.appendChild(field('GitHub account', fOwner));
+    form.appendChild(field('Repository', fRepo));
+    form.appendChild(field('Branch', fBranch));
+    form.appendChild(field('File to write', fPath));
+    form.appendChild(field('Token', fTok,
+      'Make a fine-grained token at github.com/settings/tokens, limited to this ' +
+      'one repository, with Contents: Read and write, and give it an expiry. ' +
+      'It is stored in this browser only and never goes into the repository, ' +
+      'but anyone who can open this browser profile can read it.'));
+    panel.appendChild(form);
+
+    var status = el('p', 'ehint');
+    panel.appendChild(status);
+
+    var actions = el('div', 'eactions');
+    var saveBtn = el('button', 'ebtn primary', 'Save settings');
+    saveBtn.addEventListener('click', function () {
+      FamilyGitHub.saveSettings({
+        owner: fOwner.value.trim(), repo: fRepo.value.trim(),
+        branch: fBranch.value.trim() || 'main',
+        path: fPath.value.trim() || 'js/data.js'
+      });
+      FamilyGitHub.setToken(fTok.value.trim());
+      status.textContent = 'Checking...';
+      FamilyGitHub.test()
+        .then(function (m) { status.textContent = m; })
+        .catch(function (e) { status.textContent = e.message; });
+      paintBanner();
+    });
+    actions.appendChild(saveBtn);
+
+    var forget = el('button', 'ebtn danger', 'Forget token');
+    forget.addEventListener('click', function () {
+      FamilyGitHub.setToken('');
+      fTok.value = '';
+      status.textContent = 'Token removed from this browser.';
+      paintBanner();
+    });
+    actions.appendChild(forget);
+    panel.appendChild(actions);
+  }
+
   /* ============================================================== banner */
   function paintBanner() {
     var bar = document.getElementById('editbar');
@@ -739,9 +844,12 @@
 
     bar.innerHTML = '';
     var msg = el('span', 'ebar-msg');
+    var canPush = global.FamilyGitHub && FamilyGitHub.isConfigured();
     msg.textContent = hasDraft()
-      ? 'Editing a draft saved in this browser only. Download data.js and commit it to publish these changes.'
-      : 'Editing. Nothing is saved to the site - download data.js and commit it to publish.';
+      ? (canPush ? 'Unsaved changes in this browser. Save to GitHub to publish them.'
+                 : 'Unsaved changes in this browser only. Nobody else can see them yet.')
+      : (canPush ? 'Editing. Save to GitHub when you are happy with it.'
+                 : 'Editing. Changes stay in this browser until you publish them.');
     bar.appendChild(msg);
 
     var add = el('button', 'ebtn', '＋ Add person');
@@ -750,7 +858,20 @@
     });
     bar.appendChild(add);
 
-    var dl = el('button', 'ebtn primary', 'Download data.js');
+    /* one-click save, once a token has been set on this browser */
+    if (global.FamilyGitHub) {
+      var pub = el('button', 'ebtn primary', 'Save to GitHub');
+      pub.addEventListener('click', function () { publish(pub); });
+      bar.appendChild(pub);
+
+      var cog = el('button', 'ebtn',
+                   FamilyGitHub.isConfigured() ? 'Saving is set up' : 'Set up saving');
+      cog.addEventListener('click', githubSetup);
+      bar.appendChild(cog);
+    }
+
+    var dl = el('button', 'ebtn', 'Download data.js');
+    dl.title = 'Get the file and commit it by hand instead';
     dl.addEventListener('click', download);
     bar.appendChild(dl);
 

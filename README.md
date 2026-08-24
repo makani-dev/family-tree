@@ -43,7 +43,7 @@ Open index.html  ->  it reads js/data.js  ->  it draws the tree
 | **Double cousins** | Detected automatically when two people share *both* sets of grandparents. |
 | **Gaps are visible** | Anything you have not filled in yet shows an amber dot, and the **Family info** panel lists every open question as a to-do list. |
 | **Filled or empty** | A card is filled with the colour of the family the person was born into. A card left unfilled means that person has died - no cross, no greying, no label. |
-| **Edit in the page** | Add, change and remove people from the site itself, then export a fresh `js/data.js` to commit. |
+| **Edit in the page** | Add, change and remove people from the site itself, then save straight back to the repository or export a fresh `js/data.js`. |
 | **Print / PDF** | The Print button lays the whole tree out on A3 landscape for a wall poster. |
 
 ---
@@ -78,17 +78,23 @@ toolbar and you can:
 
 ### How your edits become permanent
 
-The published site is just static files with no server behind it, so the page
-cannot write to `js/data.js` on its own. Instead:
+Your changes are kept as a **draft in your own browser** until you publish them.
+Two ways to do that:
 
-1. Your changes are kept as a **draft in your own browser**.
-2. When you are happy, press **Download data.js**.
-3. Replace `js/data.js` in this folder with the file you downloaded, and commit
-   it.
+**Save to GitHub** (one press). The page commits `js/data.js` to the repository
+itself through the GitHub API. Set it up once with a token: Edit, then **Set up
+saving**. Full instructions, and what the token can and cannot do, are in
+[`docs/SAVING.md`](docs/SAVING.md).
 
-That last step is the one that makes the change real and public. Until then
-nobody else sees it - which also means anyone visiting the site can safely click
-around in Edit mode without being able to change what others see.
+**Download data.js** (no token). Press it, replace `js/data.js` in this folder
+with the file you get, commit it.
+
+Either way the result is a commit, so every change is versioned and reversible,
+and the live site rebuilds about a minute later.
+
+Visitors cannot publish. Without a token the Save button just opens the setup
+panel, so anyone can click around in Edit mode without being able to change what
+others see.
 
 **Discard draft** throws your local changes away and goes back to the published
 chart. The downloaded file is formatted exactly like the hand-written one, so
@@ -395,6 +401,7 @@ family-tree/
 │   ├── model.js            indexes the data and finds the alliances
 │   ├── tree.js             builds the nested boxes
 │   ├── editor.js           the in-page add / change / delete tools
+│   ├── github.js           commits data.js back to the repository
 │   └── app.js              search, panels, zoom, printing
 │
 ├── css/styles.css          the entire look, light and dark
@@ -402,6 +409,7 @@ family-tree/
 └── docs/
     ├── EDITING.md          longer editing guide with worked examples
     ├── TELUGU-KINSHIP.md   the kinship terms and what menarikam means
+    ├── SAVING.md           saving from the page, and the token
     ├── DEPLOY.md           publishing, in more detail
     └── PRIVACY.md          what goes public, and the alternatives
 ```
