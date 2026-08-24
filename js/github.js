@@ -31,7 +31,8 @@
 
   /* ------------------------------------------------------------- settings */
   /* Guess owner and repo from the address, so there is usually nothing to
-     type: makani-dev.github.io/family-tree/ -> makani-dev / family-tree */
+     type. makani-family-tree.github.io/ -> makani-family-tree and the
+     repository makani-family-tree.github.io */
   function guess() {
     var owner = '', repo = '';
     var host = location.hostname || '';
@@ -159,6 +160,7 @@
   }
 
   global.FamilyGitHub = {
+    guess: guess,
     settings: settings,
     saveSettings: saveSettings,
     token: token,

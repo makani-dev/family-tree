@@ -322,13 +322,13 @@ You said you would be creating the account, so this starts from zero. Free
 GitHub Pages requires the repository to be **public** - please read
 [Before you publish](#before-you-publish-privacy) first.
 
-The site is already live at <https://makani-dev.github.io/family-tree/>. What
+The site is already live at <https://makani-family-tree.github.io/>. What
 follows is for reference, or if you ever move it.
 
-The account is `makani-dev` and the repository is `family-tree`.
+The account is `makani-family-tree` and the repository is `makani-family-tree.github.io`. A repository named exactly `<account>.github.io` is what GitHub serves at the bare address.
 
 ```bash
-git remote add origin https://github.com/makani-dev/family-tree.git
+git remote add origin https://github.com/makani-family-tree/makani-family-tree.github.io.git
 git branch -M main
 git push -u origin main
 ```
@@ -344,7 +344,7 @@ git push -u origin main
 **5. Wait about a minute.** Your chart is live at:
 
 ```
-https://makani-dev.github.io/family-tree/
+https://makani-family-tree.github.io/
 ```
 
 **Updating it later** - edit `js/data.js`, then:

@@ -48,6 +48,11 @@ see the file.
 **3. From then on**, editing shows a **Save to GitHub** button. One press
 commits your changes.
 
+> **If you ever rename the repository or the account**, the settings stored in
+> your browser still point at the old name and saving will fail with "GitHub
+> cannot find that repository or file". Open **Set up saving** and press
+> **Use this page's address** to pick up the new one.
+
 ---
 
 ## What happens when you press Save
@@ -109,8 +114,8 @@ lacks **Contents: Read and write**, or the repository was not included in its
 *Only select repositories* list. Edit the token on GitHub.
 
 **"GitHub cannot find that repository or file."** Check the account, repository
-and path in the setup panel. For this chart they should be `makani-dev`,
-`family-tree`, `main`, `js/data.js`.
+and path in the setup panel. For this chart they should be `makani-family-tree`,
+`makani-family-tree.github.io`, `main`, `js/data.js`.
 
 **"Somebody else changed the file since this page loaded."** Two people edited
 at once, or you edited from a second browser. Reload the page, make the change

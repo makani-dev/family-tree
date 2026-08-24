@@ -28,8 +28,8 @@ is what keeps double-clicking the file working.
 
 <https://github.com/signup>.
 
-The plan is to publish at **`makani-dev.github.io/family-tree`**. GitHub builds that
-address out of the **account name**, so the account itself is called `makani-dev` - it is not something you choose later in a setting.
+The plan is to publish at **`makani-family-tree.github.io`**. GitHub builds that
+address out of the **account name**, so the account itself is called `makani-family-tree` - it is not something you choose later in a setting.
 
 If that name is taken, or you would rather the account carried your own name,
 any account works; the address just becomes
@@ -67,7 +67,7 @@ git config --global user.email "you@example.com"
 The repository here is already initialised and committed, so:
 
 ```bash
-git remote add origin https://github.com/makani-dev/family-tree.git
+git remote add origin https://github.com/makani-family-tree/makani-family-tree.github.io.git
 git branch -M main
 git push -u origin main
 ```
@@ -101,7 +101,7 @@ A green tick appears under the **Actions** tab when it has deployed. The site is
 then at:
 
 ```
-https://makani-dev.github.io/family-tree/
+https://makani-family-tree.github.io/
 ```
 
 ---
@@ -172,9 +172,9 @@ at the top level of the repository and not inside a subfolder, and that
 Settings → Pages shows either Source **GitHub Actions** with a green run, or
 Source **Deploy from a branch** on `main` / `/ (root)`.
 
-**The address repeats the name, `ACCOUNT.github.io/makani-dev.github.io/family-tree/`.**
+**The address repeats the name, `ACCOUNT.github.io/makani-family-tree.github.io/`.**
 A repository only produces a bare address when its name matches the **account**
-name. If the account is called something else, `makani-dev.github.io/family-tree`
+name. If the account is called something else, `makani-family-tree.github.io`
 is treated as an ordinary project site. Either rename the account to
 the account name, or keep an ordinary repository name and use
 `https://ACCOUNT.github.io/REPO/`, which is what this site does.

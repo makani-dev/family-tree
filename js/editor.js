@@ -783,8 +783,8 @@
     panel.appendChild(intro);
 
     var form = el('div', 'eform');
-    var fOwner  = input(s.owner, 'makani-dev');
-    var fRepo   = input(s.repo, 'family-tree');
+    var fOwner  = input(s.owner, 'makani-family-tree');
+    var fRepo   = input(s.repo, 'makani-family-tree.github.io');
     var fBranch = input(s.branch || 'main', 'main');
     var fPath   = input(s.path || 'js/data.js', 'js/data.js');
     var fTok    = input(FamilyGitHub.token(), 'github_pat_...');
@@ -804,6 +804,24 @@
 
     var status = el('p', 'ehint');
     panel.appendChild(status);
+
+    /* After a rename the stored owner and repo are stale, and the failure is
+       baffling. One press re-reads them from the address bar. */
+    var detect = el('button', 'ebtn', "Use this page's address");
+    detect.style.marginTop = '8px';
+    detect.addEventListener('click', function () {
+      var g = FamilyGitHub.guess();
+      if (!g.owner) {
+        status.textContent = 'This page is not on a github.io address, so there ' +
+                             'is nothing to read. Type the account and repository above.';
+        return;
+      }
+      fOwner.value = g.owner;
+      fRepo.value = g.repo;
+      status.textContent = 'Read ' + g.owner + ' / ' + g.repo +
+                           ' from the address. Press Save settings to keep it.';
+    });
+    panel.appendChild(detect);
 
     var actions = el('div', 'eactions');
     var saveBtn = el('button', 'ebtn primary', 'Save settings');
