@@ -156,6 +156,21 @@ will not come close with cropped face pictures.
 
 ## Troubleshooting
 
+**"Get Pages site failed" or "Create Pages site failed: Resource not
+accessible by integration".** Pages has never been switched on for the
+repository. Settings -> Pages -> Source -> **GitHub Actions**, then re-run the
+failed job from the Actions tab.
+
+The workflow cannot switch it on for you. Creating a Pages site needs admin
+rights on the repository, and the automatic `GITHUB_TOKEN` cannot hold those no
+matter what the workflow's `permissions:` block asks for. This is a one-time
+click per repository.
+
+While you are in Settings, check **Actions -> General -> Workflow permissions**
+is set to **Read and write permissions**. The deploy needs to write, and a
+repository left on the read-only default will fail later with the same
+"not accessible by integration" wording.
+
 **The Actions tab is empty and nothing ever deploys.** Settings → Pages →
 Source is on **GitHub Actions**, but no workflow is present to do the work.
 Check that the workflow was committed:

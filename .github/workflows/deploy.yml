@@ -56,12 +56,6 @@ jobs:
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
-        with:
-          # Switch Pages on if nobody has done it by hand yet. Without this the
-          # first run dies with "Get Pages site failed ... Not Found", because
-          # the action asks GitHub for a Pages configuration that does not exist
-          # yet. The pages: write permission above is what allows it.
-          enablement: true
 
       - name: Upload the whole site
         uses: actions/upload-pages-artifact@v3
