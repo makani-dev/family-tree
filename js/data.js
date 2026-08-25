@@ -36,7 +36,8 @@ window.FAMILY = {
     janthati: { name: "Janthati", color: "#ea580c" },
     rao: { name: "Rao", color: "#0f766e" },
     rayappareddy: { name: "Rayappareddy", color: "#9333ea" },
-    apparao: { name: "Apparao", color: "#047857" }
+    apparao: { name: "Apparao", color: "#047857" },
+    modugu: { name: "Modugu", color: "#0d9488" }
   },
 
   people: [
@@ -166,8 +167,8 @@ window.FAMILY = {
       marriedInto: "macha", gen: 3, sex: "f", notes: "Married Ramesh Macha." },
     { id: "tbd-subramanium", name: "Subramanium Emani", family: "emani",
       gen: 3, sex: "m" },
-    { id: "tbd-swathi", name: "Swathi Makani", family: "tbd", gen: 3,
-      sex: "f", todo: "birth family (intiperu)" },
+    { id: "tbd-swathi", name: "Swathi Makani", family: "tbd",
+      marriedInto: "makani", gen: 3, sex: "f", todo: "birth family (intiperu)" },
     { id: "tbd-sujatha", name: "Sujatha Makani", family: "tbd",
       marriedInto: "makani", gen: 3, sex: "f", todo: "birth family (intiperu)" },
     { id: "tbd-vijayabharathi", name: "Vijayabharathi Emani", family: "tbd",
@@ -288,10 +289,10 @@ window.FAMILY = {
     { id: "mutyala-thrinadh", name: "Thrinadh Mutyala", family: "mutyala",
       gen: 4, sex: "m",
       todo: "his parents and siblings - a new branch to grow" },
-    { id: "tbd-soumya", name: "Soumya Makani", family: "tbd", gen: 4,
-      sex: "f", todo: "birth family (intiperu)" },
-    { id: "tbd-navya", name: "Navya Makani", family: "tbd", gen: 4, sex: "f",
-      todo: "birth family (intiperu)" },
+    { id: "tbd-soumya", name: "Soumya Makani", family: "modugu",
+      marriedInto: "makani", gen: 4, sex: "f", todo: "birth family (intiperu)" },
+    { id: "tbd-navya", name: "Navya Makani", family: "tbd",
+      marriedInto: "makani", gen: 4, sex: "f", todo: "birth family (intiperu)" },
     { id: "tbd-vinodh", name: "Vinodh", family: "tbd", gen: 4, sex: "m",
       todo: "birth family (intiperu)" },
     { id: "tbd-sugumar", name: "Sugumar", family: "tbd", gen: 4, sex: "m",
