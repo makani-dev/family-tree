@@ -34,7 +34,9 @@ window.FAMILY = {
     kandha: { name: "Kandha", color: "#65a30d" },
     maddala: { name: "Maddala", color: "#c026d3" },
     janthati: { name: "Janthati", color: "#ea580c" },
-    rao: { name: "Rao", color: "#0f766e" }
+    rao: { name: "Rao", color: "#0f766e" },
+    rayappareddy: { name: "Rayappareddy", color: "#9333ea" },
+    apparao: { name: "Apparao", color: "#047857" }
   },
 
   people: [
@@ -130,7 +132,7 @@ window.FAMILY = {
       gen: 3, sex: "m", order: 6 },
     { id: "janthati-jagan", name: "Jagan Mohan Janthati", family: "janthati",
       gen: 3, sex: "m", order: 6 },
-    { id: "janthati-nageswar", name: "Nageswar Rao Janthati",
+    { id: "janthati-nageswar", name: "Nageshwar Rao Janthati",
       family: "janthati", gen: 3, sex: "m", order: 7 },
     { id: "tbd-latha", name: "Latha Makani", family: "tbd",
       marriedInto: "makani", gen: 3, sex: "f", todo: "birth family (intiperu)" },
@@ -159,6 +161,10 @@ window.FAMILY = {
     { id: "rao-mruthyunjaya", name: "Mruthyunjaya Rao", family: "tbd", gen: 3,
       sex: "m" },
     { id: "rao-appa-2", name: "Appa Rao", family: "tbd", gen: 3, sex: "m" },
+    { id: "rayappareddy-appala", name: "Appala Narayana Rayappareddy",
+      family: "tbd", gen: 3, sex: "m" },
+    { id: "apparao-venkata", name: "Venkata Apparao", family: "tbd", gen: 3,
+      sex: "m" },
 
     /* ---- generation 4 ---- */
     { id: "makani-kittu", name: "Krishna Chaitanya Makani", family: "makani",
@@ -190,6 +196,14 @@ window.FAMILY = {
       order: 1 },
     { id: "tbd-jayanthi", name: "Jayanthi", family: "tbd", gen: 4, sex: "u",
       order: 1 },
+    { id: "tbd-seethalu", name: "Seethalu", family: "tbd", gen: 4, sex: "f",
+      order: 1 },
+    { id: "tbd-ashok", name: "Ashok", family: "tbd", gen: 4, sex: "u",
+      order: 1 },
+    { id: "janthati-lavanya", name: "Lavanya", family: "janthati", gen: 4,
+      sex: "u", order: 1 },
+    { id: "janthati-praveen", name: "Praveen Janthati", family: "janthati",
+      gen: 4, sex: "u", order: 1 },
     { id: "makani-ramakrishna", name: "Ramakrishna Makani", family: "makani",
       gen: 4, sex: "m", order: 2,
       notes: "Named after his father's youngest brother." },
@@ -219,6 +233,14 @@ window.FAMILY = {
       order: 2 },
     { id: "tbd-sujatha-2", name: "Sujatha", family: "tbd", gen: 4, sex: "u",
       order: 2 },
+    { id: "tbd-ranga", name: "Ranga", family: "tbd", gen: 4, sex: "m",
+      order: 2 },
+    { id: "tbd-pradeep", name: "Pradeep", family: "tbd", gen: 4, sex: "u",
+      order: 2 },
+    { id: "janthati-anil", name: "Anil Janthati", family: "janthati", gen: 4,
+      sex: "u", order: 2 },
+    { id: "janthati-priya", name: "Priya", family: "janthati", gen: 4,
+      sex: "u", order: 2 },
     { id: "makani-sneha", name: "Sneha Priya Makani", family: "makani",
       gen: 4, sex: "f", order: 3 },
     { id: "maddala-hari", name: "Hari Maddala", family: "maddala", gen: 4,
@@ -228,6 +250,8 @@ window.FAMILY = {
     { id: "rao-bharathi", name: "Bharathi", family: "tbd", gen: 4, sex: "u",
       order: 3 },
     { id: "tbd-santhosh-2", name: "Santhosh", family: "tbd", gen: 4, sex: "u",
+      order: 3 },
+    { id: "tbd-aruna", name: "Aruna", family: "tbd", gen: 4, sex: "f",
       order: 3 },
     { id: "tbd-daughter", name: "Daughter?", family: "tbd", gen: 4, sex: "f",
       order: 4 },
@@ -344,6 +368,16 @@ window.FAMILY = {
       partners: ["rao-mruthyunjaya", "janthati-indira"],
       children: ["rao-madhukar", "rao-jyothi", "rao-bharathi", "rao-sudhakar"] },
     { id: "u-usha-appa-2", partners: ["rao-appa-2", "janthati-usha"],
-      children: ["tbd-jayanthi", "tbd-kumari", "tbd-sujatha-2", "tbd-santhosh-2"] }
+      children: ["tbd-jayanthi", "tbd-kumari", "tbd-sujatha-2", "tbd-santhosh-2"] },
+    { id: "u-chanti-amma-appala",
+      partners: ["rayappareddy-appala", "janthati-chanti-amma"],
+      children: ["tbd-seethalu", "tbd-ranga", "tbd-aruna"] },
+    { id: "u-bujjiamma-venkata",
+      partners: ["apparao-venkata", "janthati-bujjiamma"],
+      children: ["tbd-ashok", "tbd-pradeep"] },
+    { id: "u-jagan-x", partners: ["janthati-jagan"],
+      children: ["janthati-lavanya", "janthati-anil"] },
+    { id: "u-nageswar-x", partners: ["janthati-nageswar"],
+      children: ["janthati-praveen", "janthati-priya"] }
   ]
 };
