@@ -153,18 +153,28 @@ window.FAMILY = {
       todo: "his parents and siblings - a new branch to grow" },
     { id: "tbd-soumya", name: "Soumya Makani", family: "tbd", gen: 4,
       sex: "u", todo: "birth family (intiperu)" },
-    { id: "tbd-navya", name: "Navya Makani", family: "tbd", gen: 4, sex: "u",
+    { id: "tbd-navya", name: "Navya Makani", family: "tbd", gen: 4, sex: "f",
       todo: "birth family (intiperu)" },
     { id: "tbd-vinodh", name: "Vinodh", family: "tbd", gen: 4, sex: "m",
       todo: "birth family (intiperu)" },
+    { id: "tbd-sugumar", name: "Sugumar", family: "tbd", gen: 4, sex: "m",
+      todo: "birth family (intiperu)" },
+    { id: "tbd-nidhi", name: "Nidhi Makani", family: "tbd",
+      marriedInto: "makani", gen: 4, sex: "f", todo: "birth family (intiperu)" },
+    { id: "tbd-santhosh", name: "Santhosh", family: "tbd", gen: 4, sex: "m",
+      todo: "birth family (intiperu)" },
+    { id: "tbd-swetha", name: "Swetha Makani", family: "tbd",
+      marriedInto: "makani", gen: 4, sex: "f", todo: "birth family (intiperu)" },
 
     /* ---- generation 5 ---- */
     { id: "makani-hanvika", name: "Hanvika Makani", family: "makani", gen: 5,
-      sex: "u", order: 1 },
+      sex: "f", order: 1 },
     { id: "makani-mokshith", name: "Mokshith Makani", family: "makani",
       gen: 5, sex: "u", order: 1 },
+    { id: "makani-kriti", name: "Kriti Sahasra Makani", family: "makani",
+      gen: 5, sex: "f", order: 1 },
     { id: "makani-ruhika", name: "Ruhika Makani", family: "makani", gen: 5,
-      sex: "u", order: 2 }
+      sex: "f", order: 2 }
   ],
 
   unions: [
@@ -201,7 +211,8 @@ window.FAMILY = {
     { id: "u-krishna-soumya", partners: ["makani-krishna", "tbd-soumya"],
       children: ["makani-hanvika", "makani-ruhika"] },
     { id: "u-krishna-2-lakshmi",
-      partners: ["makani-krishna-2", "tbd-lakshmi"], children: [] },
+      partners: ["makani-krishna-2", "tbd-lakshmi"],
+      children: ["makani-kriti"] },
     { id: "u-subramanium-x", partners: ["tbd-subramanium"],
       children: ["tbd-lakshmi", "emani-gowtham"] },
     { id: "u-kittu-navya", partners: ["makani-kittu", "tbd-navya"],
@@ -216,6 +227,14 @@ window.FAMILY = {
       partners: ["makani-madhumohan", "tbd-sujatha"],
       children: ["makani-triveni", "makani-rakesh"] },
     { id: "u-vijayanand-x", partners: ["makani-vijayanand"],
-      children: ["makani-leena", "makani-neelima", "makani-sneha"] }
+      children: ["makani-leena", "makani-neelima", "makani-sneha"] },
+    { id: "u-shanthi-sugumar", partners: ["tbd-sugumar", "makani-shanthi"],
+      children: [] },
+    { id: "u-vamsi-nidhi", partners: ["makani-vamsi", "tbd-nidhi"],
+      children: [] },
+    { id: "u-triveni-santhosh", partners: ["tbd-santhosh", "makani-triveni"],
+      children: [] },
+    { id: "u-rakesh-swetha", partners: ["makani-rakesh", "tbd-swetha"],
+      children: [] }
   ]
 };
