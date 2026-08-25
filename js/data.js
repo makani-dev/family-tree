@@ -28,15 +28,18 @@ window.FAMILY = {
       notes: "Joined by the marriage of Sai Priyanka Makani to Thrinadh Mutyala." },
     tbd: { name: "Not yet recorded", color: "#64748b",
       notes: "Placeholder for people whose birth surname is still unknown. When you learn it, add a real family here and repoint them." },
-    emani: { name: "Emani", color: "#be123c" }
+    emani: { name: "Emani", color: "#be123c" },
+    sunkara: { name: "Sunkara", color: "#7c3aed" },
+    pulagam: { name: "Pulagam", color: "#0369a1" },
+    kandha: { name: "Kandha", color: "#65a30d" }
   },
 
   people: [
     /* ---- generation 1 ---- */
-    { id: "makani-g1-f", name: "Makani (great-grandfather)", family: "makani",
-      gen: 1, sex: "m", todo: "name unknown" },
-    { id: "makani-g1-m", name: "(his wife)", family: "tbd",
-      marriedInto: "makani", gen: 1, sex: "f", placeholder: true,
+    { id: "makani-g1-f", name: "Venkata Swamy Makani", family: "makani",
+      gen: 1, sex: "m" },
+    { id: "makani-g1-m", name: "Anasuyamma", family: "sunkara",
+      marriedInto: "makani", gen: 1, sex: "f",
       todo: "name and birth family unknown" },
     { id: "macha-g1-f", name: "Macha (great-grandfather)", family: "macha",
       gen: 1, sex: "m", placeholder: true, todo: "name unknown" },
@@ -47,12 +50,14 @@ window.FAMILY = {
     /* ---- generation 2 ---- */
     { id: "makani-nageshwara", name: "Nageshwara Rao Makani",
       family: "makani", gen: 2, sex: "m", order: 1, death: "~2017" },
+    { id: "macha-maddala", name: "Maddala", family: "macha", gen: 2, sex: "u",
+      order: 1 },
     { id: "makani-ramachandra-rao", name: "Ramachandra Rao Makani",
       family: "makani", gen: 2, sex: "m", order: 2, death: "2019",
       title: "Thathayya", notes: "Father of the six Makani brothers." },
     { id: "makani-sanjeeva", name: "Sanjeeva Rao Makani", family: "makani",
       gen: 2, sex: "m", order: 3 },
-    { id: "tbd-padmavathi", name: "Padmavathi Makani", family: "tbd",
+    { id: "tbd-padmavathi", name: "Padmavathi Makani", family: "kandha",
       marriedInto: "makani", gen: 2, sex: "f", death: "2021",
       title: "Nanamma",
       todo: "birth family (intiperu before marriage) and years" },
@@ -64,6 +69,10 @@ window.FAMILY = {
       marriedInto: "macha", gen: 2, sex: "f", death: "2019", title: "Ammamma",
       notes: "Known in the family as Ammamma.",
       todo: "birth family (intiperu) and years" },
+    { id: "tbd-vijayamma", name: "Vijayamma Makani", family: "pulagam",
+      marriedInto: "makani", gen: 2, sex: "f", todo: "birth family (intiperu)" },
+    { id: "tbd-sathyavathi", name: "Sathyavathi Makani", family: "sunkara",
+      marriedInto: "makani", gen: 2, sex: "f", todo: "birth family (intiperu)" },
 
     /* ---- generation 3 ---- */
     { id: "makani-venkateshwara-rao", name: "Venkateshwara Rao Makani",
@@ -105,6 +114,8 @@ window.FAMILY = {
       sex: "f", todo: "birth family (intiperu)" },
     { id: "tbd-sujatha", name: "Sujatha Makani", family: "tbd",
       marriedInto: "makani", gen: 3, sex: "f", todo: "birth family (intiperu)" },
+    { id: "tbd-vijayabharathi", name: "Vijayabharathi Emani", family: "tbd",
+      marriedInto: "emani", gen: 3, sex: "f", todo: "birth family (intiperu)" },
 
     /* ---- generation 4 ---- */
     { id: "makani-kittu", name: "Krishna Chaitanya Makani", family: "makani",
@@ -181,7 +192,7 @@ window.FAMILY = {
     { id: "u-makani-g1", partners: ["makani-g1-f", "makani-g1-m"],
       children: ["makani-ramachandra-rao", "makani-nageshwara", "makani-sanjeeva"] },
     { id: "u-macha-g1", partners: ["macha-g1-f", "macha-g1-m"],
-      children: ["macha-thatha"] },
+      children: ["macha-thatha", "macha-maddala"] },
     { id: "u-makani-g2",
       partners: ["makani-ramachandra-rao", "tbd-padmavathi"],
       children: ["makani-venkateshwara-rao", "makani-chandrashekhar", "makani-satyanarayana", "makani-nagarjuna-sagar", "makani-harikrishna", "makani-ramakrishna-sr"],
@@ -213,13 +224,14 @@ window.FAMILY = {
     { id: "u-krishna-2-lakshmi",
       partners: ["makani-krishna-2", "tbd-lakshmi"],
       children: ["makani-kriti"] },
-    { id: "u-subramanium-x", partners: ["tbd-subramanium"],
+    { id: "u-subramanium-x",
+      partners: ["tbd-subramanium", "tbd-vijayabharathi"],
       children: ["tbd-lakshmi", "emani-gowtham"] },
     { id: "u-kittu-navya", partners: ["makani-kittu", "tbd-navya"],
       children: ["makani-mokshith"] },
     { id: "u-sindhura-vinodh", partners: ["tbd-vinodh", "makani-sindhura"],
       children: [] },
-    { id: "u-nageshwara-x", partners: ["makani-nageshwara"],
+    { id: "u-nageshwara-x", partners: ["makani-nageshwara", "tbd-vijayamma"],
       children: ["makani-ramamohan", "makani-madhumohan", "makani-vijayanand"] },
     { id: "u-ramamohan-swathi", partners: ["makani-ramamohan", "tbd-swathi"],
       children: ["makani-shanthi", "makani-vamsi"] },
@@ -235,6 +247,8 @@ window.FAMILY = {
     { id: "u-triveni-santhosh", partners: ["tbd-santhosh", "makani-triveni"],
       children: [] },
     { id: "u-rakesh-swetha", partners: ["makani-rakesh", "tbd-swetha"],
-      children: [] }
+      children: [] },
+    { id: "u-sanjeeva-sathyavathi",
+      partners: ["makani-sanjeeva", "tbd-sathyavathi"], children: [] }
   ]
 };
