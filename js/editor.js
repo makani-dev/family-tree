@@ -109,8 +109,11 @@
   function updatePerson(id, fields) {
     var p = person(id);
     if (!p) return;
-    /* wipe the optional fields first so clearing a box really clears it */
-    ['telugu', 'marriedInto', 'order', 'birth', 'death', 'nickname', 'title',
+    /* Wipe the optional fields first, so emptying a box really empties it.
+       nickname and title are deliberately absent from this list: they are no
+       longer on the form, so wiping them would silently delete what is
+       already recorded against people like Kittu and Thathagaru. */
+    ['telugu', 'marriedInto', 'order', 'birth', 'death',
      'photo', 'notes', 'todo', 'placeholder', 'deceased'].forEach(function (k) {
       delete p[k];
     });
@@ -666,8 +669,6 @@
     fOrder.type = 'number';
     var fBirth   = input(p.birth, '1959');
     var fDeath   = input(p.death, 'leave empty if living');
-    var fNick    = input(p.nickname, 'ముద్దు పేరు');
-    var fTitle   = input(p.title, 'Thathagaru');
     var fPhoto   = input(p.photo, 'defaults to <id>.jpg');
     var fNotes   = document.createElement('textarea');
     fNotes.rows = 3; fNotes.value = p.notes || '';
@@ -675,10 +676,7 @@
 
     form.appendChild(field('Name', fName));
     form.appendChild(field('Telugu name', fTelugu));
-    form.appendChild(field('Born into which family (inti peru)', fFamily,
-      'The family they were BORN into, never the surname taken at marriage. ' +
-      'Type any surname: one that is already here will autocomplete, anything ' +
-      'new is created for you with its own colour.'));
+    form.appendChild(field('Born into which family (inti peru)', fFamily));
     form.appendChild(field('Surname taken at marriage', fMarried));
     form.appendChild(field('Generation', fGen, '1 is the oldest row on the chart.'));
     form.appendChild(field('Sex', fSex));
@@ -686,8 +684,6 @@
       'Needed for the Telugu terms - Annayya vs Thammudu.'));
     form.appendChild(field('Born', fBirth));
     form.appendChild(field('Died', fDeath, 'Filling this in leaves their box unfilled on the chart.'));
-    form.appendChild(field('Called', fNick));
-    form.appendChild(field('Honorific', fTitle));
     form.appendChild(field('Photo file', fPhoto));
     form.appendChild(field('Notes', fNotes));
     form.appendChild(field('Still to find out', fTodo));
@@ -703,8 +699,6 @@
         order: fOrder.value === '' ? '' : parseInt(fOrder.value, 10),
         birth: fBirth.value.trim(),
         death: fDeath.value.trim(),
-        nickname: fNick.value.trim(),
-        title: fTitle.value.trim(),
         photo: fPhoto.value.trim(),
         notes: fNotes.value.trim(),
         todo: fTodo.value.trim()
@@ -713,12 +707,6 @@
 
     /* ---- relationships, only once the person actually exists ---------- */
     if (!isNew) {
-      panel.appendChild(el('h3', 'esec', 'Family links'));
-      panel.appendChild(el('p', 'ehint',
-        'Anywhere below you can either pick somebody already on the chart, or ' +
-        'just type a new name and press Add. Names you add here appear straight ' +
-        'away; click a name to fill in their dates and details.'));
-
       /* ---- parents --------------------------------------------------- */
       var parentU = parentUnionOf(id);
       var parentWrap = el('div', 'egroup');
@@ -780,13 +768,6 @@
         createSibling(id, name);
         changed(); openForm(id, panel, '.eadd-sib input');
       }, 'eadd-sib'));
-      if (!parentUnionOf(id)) {
-        sibWrap.appendChild(el('small', 'ehint',
-          'No parents are recorded for ' + p.name + ' yet. Adding a brother or ' +
-          'sister will put an unnamed parent above them both, because that is ' +
-          'what makes them related. Name that card whenever you find out who ' +
-          'it was.'));
-      }
       panel.appendChild(sibWrap);
 
       /* ---- spouses ---------------------------------------------------- */
@@ -847,12 +828,6 @@
         createChild(ensureUnion(id), name);
         changed(); openForm(id, panel, '.eadd-child input');
       }, 'eadd-child'));
-      if (!myUnions.length) {
-        kidWrap.appendChild(el('small', 'ehint',
-          'No marriage is recorded for ' + p.name + ' yet. Adding a child here ' +
-          'will start one with them as the only parent; add the other parent ' +
-          'above whenever you know who it was.'));
-      }
       panel.appendChild(kidWrap);
     }
 
