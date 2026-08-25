@@ -31,41 +31,32 @@ window.FAMILY = {
     emani: { name: "Emani", color: "#be123c" },
     sunkara: { name: "Sunkara", color: "#7c3aed" },
     pulagam: { name: "Pulagam", color: "#0369a1" },
-    kandha: { name: "Kandha", color: "#65a30d" },
-    maddala: { name: "Maddala", color: "#c026d3" },
-    janthati: { name: "Janthati", color: "#ea580c" }
+    kandha: { name: "Kandha", color: "#65a30d" }
   },
 
   people: [
     /* ---- generation 0 ---- */
-    { id: "makani-parent", name: "(parent not yet named)", family: "makani",
-      gen: 0, sex: "u", placeholder: true,
-      todo: "who the parents of Venkata Swamy Makani were" },
+    { id: "makani-g0-parent", name: "(parent not yet named)",
+      family: "makani", gen: 0, sex: "u", placeholder: true,
+      todo: "the parents of Venkata Swamy and Raghavamma" },
 
     /* ---- generation 1 ---- */
     { id: "macha-g1-f", name: "Ramaswamy Macha", family: "macha", gen: 1,
       sex: "m", order: 1, todo: "name unknown" },
     { id: "makani-g1-f", name: "Venkata Swamy Makani", family: "makani",
-      gen: 1, sex: "m", order: 1 },
-    { id: "macha-g1-m", name: "Raghavamma Macha", family: "makani",
-      marriedInto: "macha", gen: 1, sex: "f", order: 2,
-      todo: "name and birth family unknown" },
-    { id: "makani-narayanamma", name: "Narayanamma", family: "makani", gen: 1,
-      sex: "u", order: 3 },
+      gen: 1, sex: "m" },
     { id: "makani-g1-m", name: "Anasuyamma Makani", family: "sunkara",
       marriedInto: "makani", gen: 1, sex: "f",
       todo: "name and birth family unknown" },
+    { id: "macha-g1-m", name: "Raghavamma Macha", family: "makani",
+      marriedInto: "macha", gen: 1, sex: "f" },
 
     /* ---- generation 2 ---- */
     { id: "makani-nageshwara", name: "Nageshwara Rao Makani",
       family: "makani", gen: 2, sex: "m", order: 1, death: "~2017" },
-    { id: "makani-seetharathnamma", name: "Seetharathnamma Janthati",
-      family: "makani", marriedInto: "janthati", gen: 2, sex: "u", order: 1 },
     { id: "makani-ramachandra-rao", name: "Ramachandra Rao Makani",
       family: "makani", gen: 2, sex: "m", order: 2, death: "2019",
       title: "Thathayya", notes: "Father of the six Makani brothers." },
-    { id: "makani-jayalakshmi", name: "Jayalakshmi Maddala", family: "makani",
-      marriedInto: "maddala", gen: 2, sex: "u", order: 2 },
     { id: "makani-sanjeeva", name: "Sanjeeva Rao Makani", family: "makani",
       gen: 2, sex: "m", order: 3 },
     { id: "tbd-padmavathi", name: "Padmavathi Makani", family: "kandha",
@@ -201,9 +192,11 @@ window.FAMILY = {
 
   unions: [
     { id: "u-makani-g1", partners: ["makani-g1-f", "makani-g1-m"],
-      children: ["makani-ramachandra-rao", "makani-nageshwara", "makani-sanjeeva"] },
+      children: ["makani-ramachandra-rao", "makani-sanjeeva", "makani-nageshwara"] },
     { id: "u-macha-g1", partners: ["macha-g1-f", "macha-g1-m"],
       children: ["macha-thatha"] },
+    { id: "u-makani-g0", partners: ["makani-g0-parent"],
+      children: ["makani-g1-f"] },
     { id: "u-makani-g2",
       partners: ["makani-ramachandra-rao", "tbd-padmavathi"],
       children: ["makani-venkateshwara-rao", "makani-chandrashekhar", "makani-satyanarayana", "makani-nagarjuna-sagar", "makani-harikrishna", "makani-ramakrishna-sr"],
@@ -260,10 +253,6 @@ window.FAMILY = {
     { id: "u-rakesh-swetha", partners: ["makani-rakesh", "tbd-swetha"],
       children: [] },
     { id: "u-sanjeeva-sathyavathi",
-      partners: ["makani-sanjeeva", "tbd-sathyavathi"], children: [] },
-    { id: "u-parent-x", partners: ["makani-parent"],
-      children: ["makani-g1-f", "macha-g1-m", "makani-narayanamma"] },
-    { id: "u-narayanamma-x", partners: ["makani-narayanamma"],
-      children: ["makani-seetharathnamma", "makani-jayalakshmi"] }
+      partners: ["makani-sanjeeva", "tbd-sathyavathi"], children: [] }
   ]
 };
