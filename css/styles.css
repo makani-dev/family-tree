@@ -241,11 +241,13 @@ body.has-panel #stage { right: 360px; }
 .callout.warn { background: var(--warn-bg); border-left-color: var(--warn); color: var(--warn); }
 
 /* ---------------------------------------------------------------- editor */
+/* No slab here. It used to be a full-width tinted strip, but it is pinned to
+   the viewport while the tree beneath it scrolls sideways, so the block stayed
+   put while the family labels slid under it. Sitting in the flow with the rest
+   of the toolbar, there is nothing to fall out of alignment. */
 #editbar {
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  flex-wrap: wrap; padding: 9px 16px; margin: 0 0 10px;
-  background: var(--warn-bg); border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap; padding: 2px 16px 14px;
 }
 #editbar span { font-size: 12px; color: var(--warn); }
 .eform, .efields { display: grid; gap: 11px; margin-top: 14px; }
