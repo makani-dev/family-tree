@@ -36,22 +36,20 @@ window.FAMILY = {
 
   people: [
     /* ---- generation 1 ---- */
+    { id: "macha-g1-f", name: "Ramaswamy Macha", family: "macha", gen: 1,
+      sex: "m", order: 1, todo: "name unknown" },
     { id: "makani-g1-f", name: "Venkata Swamy Makani", family: "makani",
       gen: 1, sex: "m" },
     { id: "makani-g1-m", name: "Anasuyamma Makani", family: "sunkara",
       marriedInto: "makani", gen: 1, sex: "f",
       todo: "name and birth family unknown" },
-    { id: "macha-g1-f", name: "Macha (great-grandfather)", family: "macha",
-      gen: 1, sex: "m", placeholder: true, todo: "name unknown" },
-    { id: "macha-g1-m", name: "(his wife)", family: "tbd",
-      marriedInto: "macha", gen: 1, sex: "f", placeholder: true,
+    { id: "macha-g1-m", name: "Raghavamma Macha", family: "tbd",
+      marriedInto: "macha", gen: 1, sex: "f",
       todo: "name and birth family unknown" },
 
     /* ---- generation 2 ---- */
     { id: "makani-nageshwara", name: "Nageshwara Rao Makani",
       family: "makani", gen: 2, sex: "m", order: 1, death: "~2017" },
-    { id: "macha-maddala", name: "Maddala", family: "macha", gen: 2, sex: "u",
-      order: 1 },
     { id: "makani-ramachandra-rao", name: "Ramachandra Rao Makani",
       family: "makani", gen: 2, sex: "m", order: 2, death: "2019",
       title: "Thathayya", notes: "Father of the six Makani brothers." },
@@ -192,7 +190,7 @@ window.FAMILY = {
     { id: "u-makani-g1", partners: ["makani-g1-f", "makani-g1-m"],
       children: ["makani-ramachandra-rao", "makani-nageshwara", "makani-sanjeeva"] },
     { id: "u-macha-g1", partners: ["macha-g1-f", "macha-g1-m"],
-      children: ["macha-thatha", "macha-maddala"] },
+      children: ["macha-thatha"] },
     { id: "u-makani-g2",
       partners: ["makani-ramachandra-rao", "tbd-padmavathi"],
       children: ["makani-venkateshwara-rao", "makani-chandrashekhar", "makani-satyanarayana", "makani-nagarjuna-sagar", "makani-harikrishna", "makani-ramakrishna-sr"],
@@ -249,6 +247,7 @@ window.FAMILY = {
     { id: "u-rakesh-swetha", partners: ["makani-rakesh", "tbd-swetha"],
       children: [] },
     { id: "u-sanjeeva-sathyavathi",
-      partners: ["makani-sanjeeva", "tbd-sathyavathi"], children: [] }
+      partners: ["makani-sanjeeva", "tbd-sathyavathi"], children: [] },
+    { id: "u-unknown-x", partners: [], children: ["macha-g1-f"] }
   ]
 };
