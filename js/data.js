@@ -1,7 +1,7 @@
 /* =============================================================================
  *  js/data.js  -  the whole family.
  *
- *  Written out by the in-page editor on 2026-08-24.
+ *  Written out by the in-page editor on 2026-08-25.
  *  Safe to keep editing by hand: the format is exactly the same either way.
  *
  *  families : one entry per surname, with its colour
@@ -50,8 +50,8 @@ window.FAMILY = {
     { id: "tbd-padmavathi", name: "Padmavathi Makani", family: "tbd",
       marriedInto: "makani", gen: 2, sex: "f", title: "Nanamma",
       todo: "birth family (intiperu before marriage) and years" },
-    { id: "macha-thatha", name: "Thathagaru Macha", family: "macha", gen: 2,
-      sex: "m", title: "Thathagaru", placeholder: true,
+    { id: "macha-thatha", name: "Krishna Rao Macha", family: "macha", gen: 2,
+      sex: "m", title: "Thathagaru",
       notes: "Ramakrishna maternal grandfather. Known in the family as Thathagaru; given name to be filled in.",
       todo: "given name" },
     { id: "tbd-jayalakshmi", name: "Jayalakshmi Macha", family: "tbd",
