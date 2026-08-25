@@ -73,6 +73,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .btn:hover, .ebtn:hover { color: var(--ink); border-color: var(--ink-3); }
 .btn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
 .find { position: relative; }
+#only {
+  height: 34px; padding: 0 8px; font-size: 13px; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 9px;
+}
 .find input {
   height: 34px; width: 210px; padding: 0 12px;
   background: var(--surface); border: 1px solid var(--line);
@@ -97,40 +101,66 @@ button, input, select, textarea { font: inherit; color: inherit; }
   overflow: auto; padding: 0 0 60px;
 }
 #tree {
+  position: relative;
   display: flex; align-items: flex-start; gap: 70px;
-  padding: 10px 40px 40px; width: max-content; min-width: 100%;
+  padding: 34px 40px 60px; width: max-content; min-width: 100%;
   zoom: var(--z, 1);
 }
+
+/* one dotted rule per generation, spanning the whole width of the chart */
+.guides { position: absolute; inset: 34px 0 0 0; pointer-events: none; }
+.gline {
+  position: absolute; left: 0; right: 0; height: 0;
+  border-top: 1px dashed var(--line);
+}
+.glabel {
+  position: sticky; left: 8px; top: 0; display: inline-block;
+  transform: translateY(-50%);
+  font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-3); background: var(--bg); padding: 1px 8px; border-radius: 5px;
+}
+.root { position: relative; }
 .root-name {
-  display: flex; align-items: center; gap: 8px; margin: 0 0 18px;
+  position: absolute; left: 0; white-space: nowrap;
+  display: flex; align-items: center; gap: 8px; margin: 0;
   font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
   color: var(--ink-3);
 }
 .root-name i { width: 9px; height: 9px; border-radius: 50%; }
 
 /* ---------------------------------------------------- the nesting itself */
-.branch { display: flex; flex-direction: column; align-items: center; }
+.branch { position: relative; display: flex; flex-direction: column; align-items: center; }
 .couple { display: flex; align-items: center; }
 .bond { width: 20px; height: 2px; background: var(--line); flex: none; }
 .bond.is-consang { background: var(--danger); height: 3px; }
-.again { font-size: 10.5px; color: var(--ink-3); margin: 4px 0; }
+/* also out of the flow, for the same reason as the toggle */
+.again {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  top: calc(var(--leafH, 142px) + 2px);
+  font-size: 10px; color: var(--ink-3); white-space: nowrap;
+}
 
+/* Out of the flow on purpose. If the button took up space, a couple with
+   children would be taller than one without and the generations would stop
+   lining up across the chart. */
 .toggle {
-  margin-top: 8px; min-width: 26px; height: 22px; padding: 0 7px;
-  font-size: 12px; line-height: 1; cursor: pointer; color: var(--ink-3);
+  position: absolute; left: 50%; transform: translateX(-50%);
+  top: calc(var(--leafH, 142px) + 2px); z-index: 4;
+  min-width: 26px; height: 20px; padding: 0 7px;
+  font-size: 11.5px; line-height: 1; cursor: pointer; color: var(--ink-3);
   background: var(--surface); border: 1px solid var(--line); border-radius: 11px;
 }
 .toggle:hover { color: var(--ink); border-color: var(--ink-3); }
 
-.kids { display: flex; justify-content: center; position: relative; padding-top: 22px; }
+.kids { display: flex; justify-content: center; position: relative; padding-top: var(--gap, 24px); }
 .kids::before {
   content: ""; position: absolute; top: 0; left: 50%;
-  width: 2px; height: 22px; margin-left: -1px; background: var(--line);
+  width: 2px; height: var(--gap, 24px); margin-left: -1px; background: var(--line);
 }
-.kid { position: relative; padding: 22px 9px 0; display: flex; justify-content: center; }
+.kid { position: relative; padding: var(--gap, 24px) 9px 0; display: flex; justify-content: center; }
 .kid::before {
   content: ""; position: absolute; top: 0; left: 50%;
-  width: 2px; height: 22px; margin-left: -1px; background: var(--line);
+  width: 2px; height: var(--gap, 24px); margin-left: -1px; background: var(--line);
 }
 .kid::after {
   content: ""; position: absolute; top: 0; left: 0; right: 0;
@@ -145,8 +175,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* ------------------------------------------------------------------ leaf */
 .leaf {
   position: relative; width: 152px; flex: none;
+  height: var(--leafH, 142px);
   display: flex; flex-direction: column; align-items: center; text-align: center;
-  padding: 12px 9px 10px; cursor: pointer;
+  padding: 11px 9px 9px; overflow: hidden; cursor: pointer;
   --fill: color-mix(in srgb, var(--fam) 15%, var(--surface));
   background: var(--fill);
   border: 1px solid color-mix(in srgb, var(--fam) 32%, var(--line));
@@ -177,7 +208,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
   font-size: 17px; font-weight: 600;
   color: color-mix(in srgb, var(--fam) 75%, var(--ink));
 }
-.nm { font-size: 12.5px; font-weight: 600; line-height: 1.25; }
+.nm {
+  font-size: 12.5px; font-weight: 600; line-height: 1.22;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .te { font-family: var(--font-te); font-size: 11.5px; color: var(--ink-2); margin-top: 1px; }
 .meta { font-size: 10.5px; color: var(--ink-3); margin-top: 2px; font-variant-numeric: tabular-nums; }
 .sur {

@@ -14,6 +14,7 @@
      default: the chart belongs to the whole family, not to one person. Set
      by pressing "Relationships from here", and never written to the data. */
   var viewpoint = null;
+  var only = null;          /* show just this family, or null for all of them */
   var zoom = 1;
   var $ = function (s) { return document.querySelector(s); };
 
@@ -222,7 +223,7 @@
       return;
     }
     window.familyModel = model;
-    FamilyTree.render(model, treeEl);
+    FamilyTree.render(model, treeEl, { only: only });
     if (keep && model.person(keep)) FamilyTree.select(keep, treeEl);
     else current = null;
     measure();
@@ -249,6 +250,12 @@
         b.appendChild(el('small', null, model.familyOf(p.id).name + '  ·  generation ' + (p.row + 1)));
         b.addEventListener('click', function () {
           box.value = ''; shut();
+          /* a filter that hides the person you just searched for is a trap */
+          if (only && p.family !== only) {
+            only = null;
+            FamilyTree.render(model, treeEl, { only: only });
+            buildFilter();
+          }
           select(p.id);
           FamilyTree.reveal(p.id, treeEl, rebuild);
         });
@@ -269,10 +276,37 @@
     closePanel();
     $('#q').value = '';
     $('#hits').hidden = true;
+    only = null;
     FamilyTree.collapsed.clear();
     rebuild();
+    buildFilter();
     setZoom(1);
     stage.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }
+
+  /* One family at a time, for when the whole chart is too much at once. */
+  function buildFilter() {
+    var sel = $('#only');
+    if (!sel) return;
+    sel.innerHTML = '';
+    var all = document.createElement('option');
+    all.value = '';
+    all.textContent = 'All families';
+    sel.appendChild(all);
+    model.analysis.surnameCounts.forEach(function (f) {
+      if (f.key === 'tbd') return;
+      var o = document.createElement('option');
+      o.value = f.key;
+      o.textContent = f.name + '  (' + f.count + ')';
+      sel.appendChild(o);
+    });
+    sel.value = only || '';
+    sel.onchange = function () {
+      only = sel.value || null;
+      select(null);
+      FamilyTree.render(model, treeEl, { only: only });
+      stage.scrollTo({ top: 0, left: 0 });
+    };
   }
 
   /* the stage begins below whatever height the header happens to be */
@@ -317,7 +351,8 @@
     $('#title').textContent = model.data.meta.title || 'Family tree';
     $('#subtitle').textContent = (model.data.meta.subtitle || '').split('·')[0].trim();
 
-    FamilyTree.render(model, treeEl);
+    FamilyTree.render(model, treeEl, { only: only });
+    buildFilter();
 
     treeEl.addEventListener('click', function (e) {
       if (e.target.closest('.toggle')) return;
@@ -381,6 +416,17 @@
 
     var m = /#p=([\w-]+)/.exec(location.hash);
     if (m && model.person(m[1])) { select(m[1]); FamilyTree.reveal(m[1], treeEl, rebuild); }
+
+    /* The browser's own "leave site?" prompt is the only thing that can stop
+       a stray refresh or a closed tab. Work is already written to this browser
+       after every change, so nothing is actually lost, but unpublished means
+       nobody else can see it and that is worth one confirmation. */
+    window.addEventListener('beforeunload', function (e) {
+      if (window.FamilyEditor && FamilyEditor.isDirty()) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
 
     document.addEventListener('keydown', function (e) {
       if (/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)) return;

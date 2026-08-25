@@ -256,19 +256,86 @@
       claimed.add(p.id);
       out.push(p.id);
     });
+
+    /* The main line comes first, then whoever reaches furthest back, then the
+       larger families. Without this the order is whatever order the marriages
+       happen to sit in the file, which is meaningless to a reader. */
+    var primary = M.config.primaryFamily;
+    out.sort(function (a, b) {
+      var pa = M.person(a), pb = M.person(b);
+      var ra = pa.family === primary ? 0 : 1;
+      var rb = pb.family === primary ? 0 : 1;
+      if (ra !== rb) return ra - rb;
+      if (pa.row !== pb.row) return pa.row - pb.row;
+      return countBelow(b) - countBelow(a);
+    });
     return out;
   }
 
+  /* how many people hang off this person, used only for ordering */
+  function countBelow(id, seen) {
+    seen = seen || new Set();
+    if (seen.has(id)) return 0;
+    seen.add(id);
+    var n = 1;
+    M.childrenOf(id).forEach(function (c) { n += countBelow(c, seen); });
+    return n;
+  }
+
   /* ---------------------------------------------------------------- mount */
-  function render(model, container) {
+  /* ------------------------------------------------- the generation grid */
+  /* Every card is the same height and every step down costs the same, so a
+     generation is always the same distance from the top. Two rules keep that
+     true: a leaf has a fixed height, and the +/- button is positioned out of
+     the flow so a branch with children is no taller than one without.
+
+     A family that only joins at generation 3, like Emani, is then pushed down
+     three rows instead of starting at the top of the page level with somebody
+     five generations older. */
+  var LEAF_H = 142;   /* must match .leaf height in the stylesheet */
+  var GAP    = 24;    /* .kids padding-top and .kid padding-top, both */
+  var ROW    = LEAF_H + GAP * 2;
+
+  function guides(maxRow) {
+    var g = el('div', 'guides');
+    for (var r = 0; r <= maxRow; r++) {
+      var line = el('div', 'gline');
+      line.style.top = (r * ROW - GAP / 2) + 'px';
+      line.appendChild(el('span', 'glabel', 'Generation ' + (r + 1)));
+      g.appendChild(line);
+    }
+    return g;
+  }
+
+  function render(model, container, opts) {
     M = model;
+    opts = opts || {};
     index = new Map();
     container.innerHTML = '';
 
-    roots().forEach(function (id) {
+    container.style.setProperty('--leafH', LEAF_H + 'px');
+    container.style.setProperty('--gap', GAP + 'px');
+    container.style.setProperty('--row', ROW + 'px');
+
+    var list = roots();
+    if (opts.only) {
+      list = list.filter(function (id) { return M.person(id).family === opts.only; });
+    }
+
+    var maxRow = 0;
+    M.people.forEach(function (p) { if (p.row > maxRow) maxRow = p.row; });
+    container.appendChild(guides(maxRow));
+
+    list.forEach(function (id) {
       var sec = el('section', 'root');
+      var offset = M.person(id).row * ROW;
+      sec.style.paddingTop = offset + 'px';
+
       var fam = M.familyOf(id);
       var head = el('h2', 'root-name');
+      /* out of the flow, so naming the family costs no vertical space and
+         cannot push the cards off the generation grid */
+      head.style.top = (offset - 26) + 'px';
       var dot = el('i');
       dot.style.background = fam.color || '#64748b';
       head.appendChild(dot);

@@ -24,14 +24,47 @@
   'use strict';
 
   var DRAFT_KEY = 'familytree-draft-v1';
+  /* what was last committed, so "unsaved changes" can be answered honestly
+     even after a reload */
+  var SAVED_KEY = 'familytree-published-v1';
+  var HISTORY = [];           /* states from before each change, newest last */
+  var HISTORY_MAX = 50;
+  var lastSnapshot = null;
   var F = null;               /* the live window.FAMILY object */
   var on = false;
   var editing = null;         /* id being edited, or null for a new person */
 
   /* ------------------------------------------------------------- storage */
+  var AT_KEY = 'familytree-draft-at';
+
+  /* Called after every single change. Nothing waits for a button. */
   function saveDraft() {
-    try { localStorage.setItem(DRAFT_KEY, JSON.stringify(F)); }
-    catch (e) { console.warn('[editor] could not save draft:', e.message); }
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(F));
+      localStorage.setItem(AT_KEY, String(Date.now()));
+    } catch (e) {
+      /* The one way this genuinely fails is a full or blocked store, and
+         silently losing an edit is the worst outcome here, so say so. */
+      console.warn('[editor] could not save draft:', e.message);
+      var bar = document.getElementById('editbar');
+      if (bar) {
+        var warn = bar.querySelector('.ebar-msg');
+        if (warn) warn.textContent =
+          'This browser refused to store the change. Download data.js now, ' +
+          'before you lose it: ' + e.message;
+      }
+    }
+  }
+
+  function draftAge() {
+    try {
+      var t = parseInt(localStorage.getItem(AT_KEY), 10);
+      if (!t) return '';
+      var d = new Date(t);
+      var hh = ('0' + d.getHours()).slice(-2), mm = ('0' + d.getMinutes()).slice(-2);
+      var sameDay = new Date().toDateString() === d.toDateString();
+      return sameDay ? hh + ':' + mm : d.toDateString() + ' ' + hh + ':' + mm;
+    } catch (e) { return ''; }
   }
   function loadDraft() {
     try {
@@ -46,7 +79,49 @@
     try { return !!localStorage.getItem(DRAFT_KEY); } catch (e) { return false; }
   }
 
+  function snapshot() {
+    try { return JSON.stringify(F); } catch (e) { return null; }
+  }
+
+  /* Has anything changed since the last commit? Comparing against what was
+     actually published beats a flag, because it survives a reload and cannot
+     drift out of step with reality. */
+  function isDirty() {
+    try {
+      var draft = localStorage.getItem(DRAFT_KEY);
+      if (!draft) return false;
+      return draft !== localStorage.getItem(SAVED_KEY);
+    } catch (e) { return true; }
+  }
+
+  function markPublished() {
+    try { localStorage.setItem(SAVED_KEY, snapshot()); } catch (e) { /* ignore */ }
+  }
+
+  function undo() {
+    if (!HISTORY.length) return false;
+    var prev = HISTORY.pop();
+    try {
+      var restored = JSON.parse(prev);
+      Object.keys(F).forEach(function (k) { delete F[k]; });
+      Object.keys(restored).forEach(function (k) { F[k] = restored[k]; });
+    } catch (e) { return false; }
+    lastSnapshot = snapshot();
+    saveDraft();
+    document.dispatchEvent(new CustomEvent('family:changed'));
+    paintBanner();
+    return true;
+  }
+
+  /* Every change stacks the state from before it, so any step can be taken
+     back. Recording a family is a long run of small guesses and corrections,
+     and without this the only way back is to reload and lose the lot. */
   function changed() {
+    if (lastSnapshot) {
+      HISTORY.push(lastSnapshot);
+      if (HISTORY.length > HISTORY_MAX) HISTORY.shift();
+    }
+    lastSnapshot = snapshot();
     saveDraft();
     document.dispatchEvent(new CustomEvent('family:changed'));
     paintBanner();
@@ -887,8 +962,13 @@
     FamilyGitHub.save(serialize(), 'Update the family tree (' + when + ')')
       .then(function (url) {
         btn.textContent = 'Saved';
-        /* the draft is now the published file, so stop shadowing it */
-        clearDraft();
+        /* The draft is deliberately kept. It now matches what was committed,
+           and clearing it used to throw away the editing session: the page
+           fell back to whatever js/data.js the browser had cached, which is
+           up to ten minutes stale on Pages. Keeping it means you can save and
+           carry straight on. */
+        markPublished();
+        HISTORY.length = 0;
         paintBanner();
         alert('Saved to GitHub.\n\nThe live site rebuilds in about a minute. ' +
               'This browser is already showing the saved version.' +
@@ -1007,12 +1087,24 @@
     bar.innerHTML = '';
     var msg = el('span', 'ebar-msg');
     var canPush = global.FamilyGitHub && FamilyGitHub.isConfigured();
-    msg.textContent = hasDraft()
-      ? (canPush ? 'Unsaved changes in this browser. Save to GitHub to publish them.'
-                 : 'Unsaved changes in this browser only. Nobody else can see them yet.')
-      : (canPush ? 'Editing. Save to GitHub when you are happy with it.'
-                 : 'Editing. Changes stay in this browser until you publish them.');
+    var pending = HISTORY.length;
+    var count = pending
+      ? pending + (pending === 1 ? ' change' : ' changes')
+      : 'Changes';
+    var at = draftAge();
+    msg.textContent = isDirty()
+      ? count + ' kept in this browser' + (at ? ', last edit ' + at : '') + '. ' +
+        (canPush ? 'Press Save to GitHub to publish.'
+                 : 'Download data.js to publish.')
+      : 'Editing. Everything so far is published.';
     bar.appendChild(msg);
+
+    if (HISTORY.length) {
+      var un = el('button', 'ebtn', '↶ Undo');
+      un.title = 'Take back the last change (' + HISTORY.length + ' available)';
+      un.addEventListener('click', function () { undo(); });
+      bar.appendChild(un);
+    }
 
     var add = el('button', 'ebtn', '＋ Add person');
     add.addEventListener('click', function () {
@@ -1037,12 +1129,16 @@
     dl.addEventListener('click', download);
     bar.appendChild(dl);
 
-    if (hasDraft()) {
-      var rev = el('button', 'ebtn', 'Discard draft');
+    if (isDirty()) {
+      var rev = el('button', 'ebtn', 'Discard changes');
       rev.addEventListener('click', function () {
-        if (!confirm('Throw away every change made in this browser and go back to ' +
-                     'the published chart?')) return;
+        var n = HISTORY.length;
+        if (!confirm('Throw away ' + (n ? n + ' unpublished change' + (n === 1 ? '' : 's') : 'your unpublished changes') +
+                     ' and go back to the last published chart?\n\n' +
+                     'This cannot be undone. If you are not certain, press ' +
+                     'Cancel and use Download data.js first.')) return;
         clearDraft();
+        try { localStorage.removeItem(AT_KEY); } catch (e) { /* ignore */ }
         location.reload();
       });
       bar.appendChild(rev);
@@ -1053,6 +1149,7 @@
   /* ================================================================ init */
   function init(family) {
     F = family;
+    lastSnapshot = snapshot();
     paintBanner();
   }
 
@@ -1063,6 +1160,8 @@
     hasDraft: hasDraft,
     clearDraft: clearDraft,
     isOn: function () { return on; },
+    isDirty: isDirty,
+    undo: undo,
     setOn: function (v) { on = v; paintBanner(); },
     openForm: openForm,
     serialize: serialize,

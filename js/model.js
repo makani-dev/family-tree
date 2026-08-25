@@ -65,7 +65,7 @@
       warnings: warnings,
       families: data.families || {},
       config: Object.assign({
-        ego: null, photoDir: 'photos', autoPhotos: true,
+        ego: null, primaryFamily: null, photoDir: 'photos', autoPhotos: true,
         anchorPreference: 'm', showPlaceholders: true
       }, data.config || {})
     };
