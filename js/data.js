@@ -37,11 +37,6 @@ window.FAMILY = {
   },
 
   people: [
-    /* ---- generation 0 ---- */
-    { id: "makani-parent", name: "(parent not yet named)", family: "makani",
-      gen: 0, sex: "u", placeholder: true,
-      todo: "who the parents of Raghavamma Macha were" },
-
     /* ---- generation 1 ---- */
     { id: "macha-g1-f", name: "Ramaswamy Macha", family: "macha", gen: 1,
       sex: "m", order: 1, todo: "name unknown" },
@@ -302,8 +297,6 @@ window.FAMILY = {
       children: [] },
     { id: "u-sanjeeva-sathyavathi",
       partners: ["makani-sanjeeva", "tbd-sathyavathi"], children: [] },
-    { id: "u-parent-x", partners: ["makani-parent"],
-      children: ["macha-g1-m", "makani-g1-f", "makani-narayanamma"] },
     { id: "u-narayanamma-x", partners: ["makani-narayanamma"],
       children: ["maddala-jayalakshmi", "janthati-seetharathnamma"] },
     { id: "u-seetharathnamma-apparao",
