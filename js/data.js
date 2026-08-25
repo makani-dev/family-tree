@@ -38,7 +38,7 @@ window.FAMILY = {
     /* ---- generation 1 ---- */
     { id: "makani-g1-f", name: "Venkata Swamy Makani", family: "makani",
       gen: 1, sex: "m" },
-    { id: "makani-g1-m", name: "Anasuyamma", family: "sunkara",
+    { id: "makani-g1-m", name: "Anasuyamma Makani", family: "sunkara",
       marriedInto: "makani", gen: 1, sex: "f",
       todo: "name and birth family unknown" },
     { id: "macha-g1-f", name: "Macha (great-grandfather)", family: "macha",
