@@ -43,9 +43,17 @@ window.FAMILY = {
     { id: "makani-g1-m", name: "Anasuyamma Makani", family: "sunkara",
       marriedInto: "makani", gen: 1, sex: "f",
       todo: "name and birth family unknown" },
-    { id: "macha-g1-m", name: "Raghavamma Macha", family: "tbd",
-      marriedInto: "macha", gen: 1, sex: "f",
-      todo: "name and birth family unknown" },
+    /* Sister of Venkata Swamy Makani, so she was born Makani and married into
+       Macha. That makes a third Makani-Macha marriage, a generation earlier
+       than the two in generation 3. Her id still starts with "macha" because
+       ids are permanent handles and other records point at it; it is a label,
+       not a statement about her family. */
+    { id: "macha-g1-m", name: "Raghavamma Macha", family: "makani",
+      marriedInto: "macha", gen: 1, sex: "f" },
+
+    { id: "makani-g0-parent", name: "(parent not yet named)", family: "makani",
+      gen: 0, sex: "u", placeholder: true,
+      todo: "the parents of Venkata Swamy and Raghavamma" },
 
     /* ---- generation 2 ---- */
     { id: "makani-nageshwara", name: "Nageshwara Rao Makani",
@@ -191,6 +199,12 @@ window.FAMILY = {
       children: ["makani-ramachandra-rao", "makani-nageshwara", "makani-sanjeeva"] },
     { id: "u-macha-g1", partners: ["macha-g1-f", "macha-g1-m"],
       children: ["macha-thatha"] },
+
+    /* Venkata Swamy and Raghavamma are brother and sister. Two people can only
+       be shown as siblings by sharing a set of parents, so an unnamed one sits
+       above them until somebody remembers who it was. */
+    { id: "u-makani-g0", partners: ["makani-g0-parent"],
+      children: ["makani-g1-f", "macha-g1-m"] },
     { id: "u-makani-g2",
       partners: ["makani-ramachandra-rao", "tbd-padmavathi"],
       children: ["makani-venkateshwara-rao", "makani-chandrashekhar", "makani-satyanarayana", "makani-nagarjuna-sagar", "makani-harikrishna", "makani-ramakrishna-sr"],

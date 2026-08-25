@@ -62,8 +62,24 @@
   /* which partner does this marriage hang from? */
   function anchorOf(u) {
     if (u.anchor && M.person(u.anchor)) return u.anchor;
+    var want = M.config.anchorPreference;
+
+    /* Somebody of the lineage sex who has children heads their own line, so
+       they anchor the marriage even when their own parents are unknown.
+       Without this, marrying in a wife whose parents ARE recorded pulls the
+       husband's whole lineage in under her family: recording that Raghavamma
+       was born Makani moved the entire Macha side into the Makani tree and
+       took the Macha root off the chart. */
+    if (u.children.length) {
+      var head = u.partners.filter(function (id) {
+        var p = M.person(id);
+        return p && p.sex === want;
+      })[0];
+      if (head) return head;
+    }
+
     var withParents = u.partners.filter(function (id) { return M.person(id).parentUnion; });
-    var pref = withParents.filter(function (id) { return M.person(id).sex === M.config.anchorPreference; });
+    var pref = withParents.filter(function (id) { return M.person(id).sex === want; });
     return pref[0] || withParents[0] || u.partners[0] || null;
   }
 

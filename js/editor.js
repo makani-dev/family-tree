@@ -86,6 +86,12 @@
     var p = person(id);
     return p ? p.name : id;
   }
+  function model_siblings(id) {
+    var pu = parentUnionOf(id);
+    if (!pu) return [];
+    return pu.children.filter(function (c) { return c !== id; });
+  }
+
   function unionLabel(u) {
     return u.partners.map(label).join('  &  ') || '(empty)';
   }
@@ -188,6 +194,57 @@
     var u = { id: makeUnionId(id, 'x'), partners: [id], children: [] };
     F.unions.push(u);
     return u.id;
+  }
+
+  /* Siblings are people who share a set of parents, so saying "these two are
+     brother and sister" needs something above them to share. When no parents
+     are recorded we invent one unnamed placeholder rather than an empty
+     marriage: a marriage with nobody in it is what once made a whole branch
+     disappear. The placeholder is drawn as a dashed card and can be named
+     whenever you find out who it was. */
+  function ensureParentUnion(id) {
+    var pu = parentUnionOf(id);
+    if (pu) return pu.id;
+    var me = person(id) || {};
+    var pid = addPerson({
+      name: '(parent not yet named)',
+      family: me.family && me.family !== 'tbd' ? me.family : 'tbd',
+      gen: (typeof me.gen === 'number' ? me.gen : 1) - 1,
+      sex: 'u',
+      placeholder: true,
+      todo: 'who the parents of ' + (me.name || 'this person') + ' were'
+    });
+    var u = { id: makeUnionId(pid, 'x'), partners: [pid], children: [id] };
+    F.unions.push(u);
+    return u.id;
+  }
+
+  /* Brothers and sisters share a birth family, so linking them can fill in an
+     inti peru that was not known. */
+  function shareFamily(aId, bId) {
+    var a = person(aId), b = person(bId);
+    if (!a || !b) return;
+    if (a.family && a.family !== 'tbd') adoptFamily(bId, a.family);
+    else if (b.family && b.family !== 'tbd') adoptFamily(aId, b.family);
+  }
+
+  function addSibling(aId, bId) {
+    /* keep whichever of them already has parents, rather than pulling that
+       person out of their own family */
+    var ua = parentUnionOf(aId), ub = parentUnionOf(bId);
+    var uid;
+    if (ua) { addChild(ua.id, bId); uid = ua.id; }
+    else if (ub) { addChild(ub.id, aId); uid = ub.id; }
+    else { uid = ensureParentUnion(aId); addChild(uid, bId); }
+    shareFamily(aId, bId);
+    return uid;
+  }
+
+  function createSibling(aId, name) {
+    var uid = ensureParentUnion(aId);
+    var newId = createChild(uid, name);
+    if (newId) shareFamily(aId, newId);
+    return newId;
   }
 
   function createChild(uid, name) {
@@ -694,6 +751,43 @@
         changed(); openForm(id, panel, '.eadd-mother input');
       }, 'eadd-mother'));
       panel.appendChild(parentWrap);
+
+      /* ---- brothers and sisters --------------------------------------- */
+      var sibs = model_siblings(id);
+      var sibWrap = el('div', 'egroup');
+      sibWrap.appendChild(el('span', 'elabel', 'Brothers and sisters'));
+      if (sibs.length) {
+        sibWrap.appendChild(chipRow(sibs.map(function (sid) {
+          return {
+            text: label(sid),
+            onOpen: function () { openForm(sid, panel); },
+            removeTitle: 'No longer a brother or sister',
+            onRemove: function () {
+              var pu2 = parentUnionOf(sid);
+              if (pu2) removeChild(pu2.id, sid);
+              changed(); openForm(id, panel);
+            }
+          };
+        })));
+      }
+      var addSib = select(peopleOptions(id, 'link someone already on the chart'));
+      addSib.addEventListener('change', function () {
+        if (!addSib.value) return;
+        addSibling(id, addSib.value); changed(); openForm(id, panel);
+      });
+      sibWrap.appendChild(addSib);
+      sibWrap.appendChild(addRow("New brother or sister's name", function (name) {
+        createSibling(id, name);
+        changed(); openForm(id, panel, '.eadd-sib input');
+      }, 'eadd-sib'));
+      if (!parentUnionOf(id)) {
+        sibWrap.appendChild(el('small', 'ehint',
+          'No parents are recorded for ' + p.name + ' yet. Adding a brother or ' +
+          'sister will put an unnamed parent above them both, because that is ' +
+          'what makes them related. Name that card whenever you find out who ' +
+          'it was.'));
+      }
+      panel.appendChild(sibWrap);
 
       /* ---- spouses ---------------------------------------------------- */
       var spouseChips = [];
