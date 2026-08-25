@@ -123,7 +123,6 @@
     F.unions = F.unions.filter(function (u) {
       return u.partners.length > 0 || u.children.length > 0;
     });
-    if (F.config.ego === id) F.config.ego = (F.people[0] || {}).id || null;
   }
 
   function addSpouse(aId, bId) {
@@ -200,7 +199,7 @@
                partners[0];
     var kid = {
       name: name,
-      family: (pick && pick.family) || 'tbd',
+      family: familyKeyFor(surnameOf(name)) || (pick && pick.family) || 'tbd',
       gen: (pick ? (pick.gen || 0) : 0) + 1,
       sex: 'u',
       order: nextOrder(u)
@@ -213,12 +212,22 @@
   function createSpouse(id, name) {
     var me = person(id) || {};
     var sex = me.sex === 'm' ? 'f' : (me.sex === 'f' ? 'm' : 'u');
-    var sp = { name: name, family: 'tbd', gen: me.gen, sex: sex,
-               todo: 'birth family (intiperu)' };
-    /* a wife takes her husband's surname, so record it as married-into rather
-       than as her birth family - that distinction is what the whole alliance
-       map is built on */
-    if (sex === 'f' && me.family && me.family !== 'tbd') sp.marriedInto = me.family;
+    var theirs = me.family && me.family !== 'tbd' ? me.family : (me.marriedInto || null);
+    var key = familyKeyFor(surnameOf(name));
+
+    var sp = { name: name, gen: me.gen, sex: sex };
+    if (key && key !== theirs) {
+      /* the name carries their own inti peru, so that is their birth family */
+      sp.family = key;
+    } else {
+      /* the name carries the surname they took at marriage, which says
+         nothing about where they were born. That distinction is what the
+         whole alliance map is built on, so leave it open. */
+      sp.family = 'tbd';
+      sp.todo = 'birth family (intiperu)';
+    }
+    if (sex === 'f' && theirs) sp.marriedInto = theirs;
+
     var newId = addPerson(sp);
     addSpouse(id, newId);
     return newId;
@@ -226,14 +235,38 @@
 
   function createParent(id, name, sex) {
     var me = person(id) || {};
+    var key = familyKeyFor(surnameOf(name));
     var p = { name: name, gen: (typeof me.gen === 'number' ? me.gen : 1) - 1, sex: sex };
+
+    /* whichever family this child already belongs to, if any */
+    var line = me.family && me.family !== 'tbd' ? me.family : null;
+
     if (sex === 'm') {
-      p.family = (me.family && me.family !== 'tbd') ? me.family : 'tbd';
+      /* A father brings his own surname, and it is the line the child was
+         born into. This is what turns "Subramanium Emani" into a new Emani
+         branch rather than another grey card. */
+      p.family = key || line || 'tbd';
+      if (!key && !line) p.todo = 'birth family (intiperu)';
     } else {
-      p.family = 'tbd';
-      p.todo = 'birth family (intiperu)';
-      if (me.family && me.family !== 'tbd') p.marriedInto = me.family;
+      /* A mother is usually written under her married name, which tells us
+         nothing about her own line. Only treat it as her birth family when it
+         genuinely differs from the family she married into. */
+      var father = null, pu0 = parentUnionOf(id);
+      if (pu0) {
+        father = pu0.partners.map(person).filter(function (q) {
+          return q && q.sex === 'm' && q.family && q.family !== 'tbd';
+        })[0];
+      }
+      var into = father ? father.family : line;
+      if (key && key !== into) {
+        p.family = key;
+      } else {
+        p.family = 'tbd';
+        p.todo = 'birth family (intiperu)';
+      }
+      if (into) p.marriedInto = into;
     }
+
     var pid = addPerson(p);
     var pu = parentUnionOf(id);
     if (pu) {
@@ -241,12 +274,46 @@
     } else {
       F.unions.push({ id: makeUnionId(pid, 'x'), partners: [pid], children: [id] });
     }
+
+    /* now that a father has a surname, the child belongs to that line too */
+    if (sex === 'm') adoptFamily(id, p.family);
     return pid;
   }
 
   /* colours handed out to surnames invented from the page */
   var PALETTE = ['#4f46e5', '#0d9488', '#d97706', '#be123c', '#7c3aed', '#0369a1',
                  '#65a30d', '#c026d3', '#ea580c', '#0f766e', '#9333ea', '#047857'];
+
+  /* The inti peru is the last word of a written name: "Subramanium Emani"
+     is an Emani. One word on its own tells us nothing. */
+  function surnameOf(name) {
+    var parts = String(name || '').trim().split(/\s+/);
+    return parts.length > 1 ? parts[parts.length - 1] : '';
+  }
+
+  /* Find the family for a surname, inventing it if this is the first time we
+     have seen it. Matching is on the visible name so "Emani" and "emani" and
+     an existing entry called Emani are all the same family. */
+  function familyKeyFor(surname) {
+    if (!surname) return null;
+    var want = String(surname).trim().toLowerCase();
+    if (!want) return null;
+    var hit = Object.keys(F.families).filter(function (k) {
+      return k !== 'tbd' &&
+             (k === slug(surname) || String(F.families[k].name || '').toLowerCase() === want);
+    })[0];
+    return hit || addFamily(surname);
+  }
+
+  /* A child belongs to the family they were born into, which is their
+     father's. Only fills a gap; never overwrites a known birth family. */
+  function adoptFamily(childId, key) {
+    var c = person(childId);
+    if (!c || !key || key === 'tbd') return;
+    if (c.family && c.family !== 'tbd') return;
+    c.family = key;
+    if (c.todo && /birth family/i.test(c.todo)) delete c.todo;
+  }
 
   function addFamily(name) {
     var key = slug(name) || ('family' + (Object.keys(F.families).length + 1));
@@ -473,28 +540,32 @@
     return row;
   }
 
-  /* a surname picker that can also invent a surname on the spot */
-  var NEW_FAMILY = '__new_family__';
-  function familySelect(value, includeNone) {
-    var opts = includeNone ? [{ value: '', text: '(none)' }] : [];
-    opts = opts.concat(familyOptions());
-    opts.push({ value: NEW_FAMILY, text: '＋ new surname...' });
-    var s = select(opts, value);
-    s.addEventListener('change', function () {
-      if (s.value !== NEW_FAMILY) return;
-      var name = window.prompt('New surname (intiperu):', '');
-      if (!name || !name.trim()) { s.value = value || ''; return; }
-      var key = addFamily(name.trim());
-      var opt = document.createElement('option');
-      opt.value = key;
-      opt.textContent = F.families[key].name;
-      s.insertBefore(opt, s.options[s.options.length - 1]);
-      s.value = key;
-      /* save but do not repaint: repainting would throw away whatever else is
-         half-typed in this form */
-      saveDraft();
+  /* Type any surname. Existing ones autocomplete, anything new is created on
+     save. A plain box beats a dropdown with a hidden "new..." option, which
+     nobody finds. */
+  function familyBox(value, placeholder) {
+    var wrap = el('div', 'fambox');
+    /* 'tbd' is the absence of a surname, not a surname, so show the
+       placeholder rather than the words "Not yet recorded". */
+    var shown = (value && value !== 'tbd' && F.families[value]) ? F.families[value].name : '';
+    var i = input(shown, placeholder);
+    var listId = 'fam-' + Math.random().toString(36).slice(2, 9);
+    i.setAttribute('list', listId);
+    var dl = document.createElement('datalist');
+    dl.id = listId;
+    Object.keys(F.families).forEach(function (k) {
+      if (k === 'tbd') return;
+      var o = document.createElement('option');
+      o.value = F.families[k].name;
+      dl.appendChild(o);
     });
-    return s;
+    wrap.appendChild(i);
+    wrap.appendChild(dl);
+    wrap.resolve = function () {
+      var v = i.value.trim();
+      return v ? familyKeyFor(v) : '';
+    };
+    return wrap;
   }
 
   /* ============================================================== the form */
@@ -526,8 +597,8 @@
 
     var fName    = input(p.name, 'Full name');
     var fTelugu  = input(p.telugu, 'తెలుగు');
-    var fFamily  = familySelect(p.family, false);
-    var fMarried = familySelect(p.marriedInto || '', true);
+    var fFamily  = familyBox(p.family, 'Makani, Emani, Reddy...');
+    var fMarried = familyBox(p.marriedInto || '', 'leave empty if unchanged');
     var fGen     = input(p.gen, '4');
     fGen.type = 'number';
     var fSex     = select([{ value: 'm', text: 'Male' }, { value: 'f', text: 'Female' },
@@ -545,9 +616,11 @@
 
     form.appendChild(field('Name', fName));
     form.appendChild(field('Telugu name', fTelugu));
-    form.appendChild(field('Born into which family', fFamily,
-      'The family they were BORN into - never the surname taken at marriage.'));
-    form.appendChild(field('Married into', fMarried));
+    form.appendChild(field('Born into which family (inti peru)', fFamily,
+      'The family they were BORN into, never the surname taken at marriage. ' +
+      'Type any surname: one that is already here will autocomplete, anything ' +
+      'new is created for you with its own colour.'));
+    form.appendChild(field('Surname taken at marriage', fMarried));
     form.appendChild(field('Generation', fGen, '1 is the oldest row on the chart.'));
     form.appendChild(field('Sex', fSex));
     form.appendChild(field('Birth order', fOrder,
@@ -564,8 +637,8 @@
       return {
         name: fName.value.trim(),
         telugu: fTelugu.value.trim(),
-        family: fFamily.value,
-        marriedInto: fMarried.value,
+        family: fFamily.resolve() || 'tbd',
+        marriedInto: fMarried.resolve(),
         gen: parseInt(fGen.value, 10),
         sex: fSex.value,
         order: fOrder.value === '' ? '' : parseInt(fOrder.value, 10),

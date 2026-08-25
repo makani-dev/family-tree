@@ -10,6 +10,10 @@
 
   var model, stage, treeEl, panel;
   var current = null;
+  /* Whose point of view the Telugu terms are worked out from. Nobody by
+     default: the chart belongs to the whole family, not to one person. Set
+     by pressing "Relationships from here", and never written to the data. */
+  var viewpoint = null;
   var zoom = 1;
   var $ = function (s) { return document.querySelector(s); };
 
@@ -77,11 +81,11 @@
     var span = FamilyTree.lifespan(p);
     if (span) panel.appendChild(el('p', 'sub', span));
 
-    var ego = model.config.ego;
+    var ego = viewpoint;
     if (ego && ego !== id && model.person(ego)) {
       var r = Kinship.relationship(model, ego, id);
       if (r) {
-        panel.appendChild(el('h3', null, 'To ' + model.person(ego).name.split(' ')[0]));
+        panel.appendChild(el('h3', null, 'To ' + model.person(ego).name));
         var line = el('p', 'rel');
         if (r.telugu) {
           line.appendChild(el('b', null, r.translit));
@@ -105,6 +109,22 @@
     if (p.todo) {
       panel.appendChild(el('h3', null, 'Still to find out'));
       panel.appendChild(el('p', 'note warn', p.todo));
+    }
+
+    /* Anyone can look at the tree from where they stand. This is a setting of
+       the moment, not of the family, so it is never saved. */
+    panel.appendChild(el('h3', null, 'Point of view'));
+    if (viewpoint === id) {
+      panel.appendChild(el('p', 'note', 'Relationships are being named from here.'));
+      var off = el('button', 'btn', 'Stop naming from here');
+      off.addEventListener('click', function () { viewpoint = null; showPerson(id); });
+      panel.appendChild(off);
+    } else {
+      panel.appendChild(el('p', 'note',
+        'See what everybody else would be called from this person, in Telugu.'));
+      var on2 = el('button', 'btn', 'Relationships from here');
+      on2.addEventListener('click', function () { viewpoint = id; showPerson(id); });
+      panel.appendChild(on2);
     }
   }
 
@@ -352,15 +372,6 @@
         FamilyEditor.openForm(null, panel);
       });
       document.addEventListener('family:closeform', function () { select(null); });
-    }
-
-    if (model.person(model.config.ego)) {
-      var me = $('#btnMe');
-      me.hidden = false;
-      me.addEventListener('click', function () {
-        select(model.config.ego);
-        FamilyTree.reveal(model.config.ego, treeEl, rebuild);
-      });
     }
 
     wireSearch();

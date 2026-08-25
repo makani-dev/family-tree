@@ -1,7 +1,9 @@
 # Telugu kinship terms - బంధుత్వాలు
 
 Click any card in the chart and the detail panel tells you what the person at
-`config.ego` would call them. This page explains where those words come from,
+they would be called from a chosen position in the tree. Click a card and press
+**Relationships from here** to set that position; nobody holds it by default.
+This page explains where those words come from,
 and how to change them if your family says it differently.
 
 > **Regional variation is real.** These terms shift between Telangana, coastal

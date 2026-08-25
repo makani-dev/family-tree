@@ -16,7 +16,7 @@ window.FAMILY = {
   meta: { title: "Makani Family Tree",
     subtitle: "మాకని వంశ వృక్షం · five generations", updated: "2026-08-22" },
 
-  config: { ego: "makani-ramakrishna", photoDir: "photos", autoPhotos: true,
+  config: { ego: null, photoDir: "photos", autoPhotos: true,
     anchorPreference: "m", showPlaceholders: true },
 
   families: {
@@ -52,11 +52,11 @@ window.FAMILY = {
       todo: "birth family (intiperu before marriage) and years" },
     { id: "macha-thatha", name: "Krishna Rao Macha", family: "macha", gen: 2,
       sex: "m", title: "Thathagaru",
-      notes: "Ramakrishna maternal grandfather. Known in the family as Thathagaru; given name to be filled in.",
+      notes: "Known in the family as Thathagaru; given name to be filled in.",
       todo: "given name" },
     { id: "tbd-jayalakshmi", name: "Jayalakshmi Macha", family: "tbd",
       marriedInto: "macha", gen: 2, sex: "f", title: "Ammamma",
-      notes: "Ramakrishna's maternal grandmother.",
+      notes: "Known in the family as Ammamma.",
       todo: "birth family (intiperu) and years" },
 
     /* ---- generation 3 ---- */
@@ -69,7 +69,7 @@ window.FAMILY = {
       family: "makani", gen: 3, sex: "m", order: 2 },
     { id: "macha-suneetha", name: "Suneetha Makani", family: "macha",
       marriedInto: "makani", gen: 3, sex: "f", order: 2,
-      notes: "Ramakrishna's mother. Married Nagarjuna Sagar Makani." },
+      notes: "Married Nagarjuna Sagar Makani." },
     { id: "makani-satyanarayana", name: "Satyanarayana Makani",
       family: "makani", gen: 3, sex: "m", order: 3 },
     { id: "macha-ramesh", name: "Ramesh Macha", family: "macha", gen: 3,
@@ -79,7 +79,7 @@ window.FAMILY = {
       todo: "birth and death years" },
     { id: "makani-nagarjuna-sagar", name: "Nagarjuna Sagar Makani",
       family: "makani", gen: 3, sex: "m", order: 5,
-      notes: "Ramakrishna's father." },
+      notes: "" },
     { id: "makani-harikrishna", name: "Harikrishna Makani", family: "makani",
       gen: 3, sex: "m", order: 6 },
     { id: "tbd-latha", name: "Latha Makani", family: "tbd",
@@ -106,7 +106,7 @@ window.FAMILY = {
       notes: "Born Sai Priyanka Makani; took the Mutyala name on marriage." },
     { id: "makani-ramakrishna", name: "Ramakrishna Makani", family: "makani",
       gen: 4, sex: "m", order: 2,
-      notes: "Keeper of this chart. Named after his father's youngest brother." },
+      notes: "Named after his father's youngest brother." },
     { id: "makani-pony", name: "Krishna Keerthan Makani", family: "makani",
       gen: 4, sex: "m", order: 2, nickname: "Pony" },
     { id: "makani-sri-vatsava", name: "Sri Vatsava Makani", family: "makani",

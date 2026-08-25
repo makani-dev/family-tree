@@ -5,8 +5,9 @@
  *
  *      Peddananna (పెద్దనాన్న) - father's elder brother
  *
- *  calculated from `config.ego` in js/data.js (change `ego` to see the whole
- *  chart from somebody else's point of view).
+ *  Given any two people it works out what the first would call the second.
+ *  The chart uses it for "Relationships from here", where a reader points the
+ *  viewpoint at whoever they like. Nobody is the centre by default.
  *
  *  IMPORTANT: Telugu kinship terms vary by region (Telangana / coastal Andhra
  *  / Rayalaseema) and by community. The table below is the widely used set.

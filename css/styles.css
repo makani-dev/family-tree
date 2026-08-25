@@ -160,7 +160,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
   border-color: color-mix(in srgb, var(--fam) 40%, transparent); }
 .leaf.is-placeholder { border-style: dashed; }
 .leaf.is-placeholder .nm { font-style: italic; color: var(--ink-3); font-weight: 500; }
-.leaf.is-ego { box-shadow: 0 0 0 2px var(--accent), var(--shadow); }
+/* the typed surname box sits inside its label like any other field */
+.fambox { display: contents; }
 /* the second appearance of someone who belongs to two families */
 .leaf.is-echo { opacity: .82; border-style: dashed; }
 

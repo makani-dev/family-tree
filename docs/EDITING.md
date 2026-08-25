@@ -203,13 +203,11 @@ Nothing needs to be recalculated when you change these; the browser re-flows.
 Colours are CSS variables at the top of `css/styles.css`; family colours are in
 the `families` block of `js/data.js`.
 
-To see the chart from somebody else's point of view, change one line:
-
-```js
-config: { ego: "makani-sai-priyanka", … }
-```
-
-Every "Relationship to …" line recalculates.
+The chart has no centre. Nobody is "me", and no card is drawn as the one the
+tree belongs to. To see the Telugu terms from anyone's position, click their
+card and press **Relationships from here**. That is a setting of the moment,
+kept in the browser tab and never written into the data, so two people can read
+the same chart from their own positions at once.
 
 ---
 

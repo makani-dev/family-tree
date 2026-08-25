@@ -38,7 +38,7 @@ Open index.html  ->  it reads js/data.js  ->  it draws the tree
 | **Generation rows** | Everyone sits on the rung of the ladder they belong to, so cousins line up with cousins. |
 | **Face pictures** | Drop a `.jpg` into `photos/` named after the person. No photo yet? A coloured initials avatar is drawn instead. |
 | **Colour = birth family** | A card is coloured by the family a person was *born* into, not the surname they use now. This is what makes the marriage alliances visible at a glance. |
-| **Telugu kinship terms** | Click anyone and see what you would actually call them - *Peddananna*, *Mamayya*, *Vadina* - not just "first cousin once removed". |
+| **Telugu kinship terms** | Pick anyone as the viewpoint and every other card is named the way that person would name them: *Peddananna*, *Mamayya*, *Vadina*, not "first cousin once removed". The chart has no fixed centre. |
 | **Alliance detection** | The chart works out for itself which two surnames have intermarried more than once, and draws an arc when two brothers married two sisters. |
 | **Double cousins** | Detected automatically when two people share *both* sets of grandparents. |
 | **Gaps are visible** | Anything you have not filled in yet shows an amber dot, and the **Family info** panel lists every open question as a to-do list. |
@@ -75,6 +75,24 @@ toolbar and you can:
   of every marriage and every list of children
 - **Link people up** - set parents, add a spouse, add children, all from the
   same form
+
+### Surnames look after themselves
+
+Type a full name and the inti peru is taken from the last word. Adding a father
+called **Subramanium Emani** creates the Emani family, gives it a colour, and
+starts a new branch. The child whose father he is joins that line too, because
+that is the family they were born into.
+
+It knows the difference between the two kinds of surname a name can carry. A
+wife added as **Padma Makani** to a Makani husband keeps an open birth family,
+because that name is the one she took at marriage and says nothing about where
+she came from. **Anitha Kolli** married to the same man is recorded as born
+Kolli, married into Makani. That distinction is what the alliance map is built
+on, so it is worth getting right.
+
+Any surname can also be typed straight into the **inti peru** box on a person's
+form. Names already in the chart autocomplete; anything new is created with its
+own colour.
 
 ### How your edits become permanent
 

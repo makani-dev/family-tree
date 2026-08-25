@@ -85,7 +85,6 @@
     a.style.setProperty('--fam', fam.color || '#64748b');
     if (isUnfilled(p)) a.classList.add('is-unfilled');
     if (p.placeholder) a.classList.add('is-placeholder');
-    if (id === M.config.ego) a.classList.add('is-ego');
     /* Someone who belongs to two families is drawn in both. The first place
        is the real one (their children hang there); any later appearance is
        marked as a repeat so nobody thinks there are two of them. */
