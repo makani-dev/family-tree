@@ -35,6 +35,20 @@
         if (!people.has(id)) { warnings.push('marriage ' + v.id + ' names an unknown child "' + id + '"'); return false; }
         return true;
       });
+      /* A marriage with nobody in it is not a marriage. If one is left behind,
+         say by deleting both partners, it must not go on claiming children:
+         they would each get a parentUnion nothing can be drawn from, and their
+         whole branch would vanish from the chart while still sitting in the
+         data. Drop it and let the children stand on their own. */
+      if (!v.partners.length) {
+        warnings.push('A marriage with nobody in it (' + v.id + ') was ignored' +
+          (v.children.length
+            ? ', so no parents are recorded for ' +
+              v.children.map(function (c) { return people.get(c).name; }).join(', ')
+            : ''));
+        return;
+      }
+
       unions.set(v.id, v);
       v.partners.forEach(function (id) { people.get(id).unionIds.push(v.id); });
       v.children.forEach(function (id) {

@@ -247,7 +247,6 @@ window.FAMILY = {
     { id: "u-rakesh-swetha", partners: ["makani-rakesh", "tbd-swetha"],
       children: [] },
     { id: "u-sanjeeva-sathyavathi",
-      partners: ["makani-sanjeeva", "tbd-sathyavathi"], children: [] },
-    { id: "u-unknown-x", partners: [], children: ["macha-g1-f"] }
+      partners: ["makani-sanjeeva", "tbd-sathyavathi"], children: [] }
   ]
 };

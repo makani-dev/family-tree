@@ -119,10 +119,12 @@
       u.partners = u.partners.filter(function (x) { return x !== id; });
       u.children = u.children.filter(function (x) { return x !== id; });
     });
-    /* a marriage with nobody left in it is not a marriage */
-    F.unions = F.unions.filter(function (u) {
-      return u.partners.length > 0 || u.children.length > 0;
-    });
+    /* A marriage with nobody left in it is not a marriage, even if children
+       were listed under it. Keeping it would leave those children pointing at
+       a couple that cannot be drawn, and their entire branch would disappear
+       from the chart while still sitting in the file. Let them go parentless
+       instead, which is the truth once both parents have been deleted. */
+    F.unions = F.unions.filter(function (u) { return u.partners.length > 0; });
   }
 
   function addSpouse(aId, bId) {
