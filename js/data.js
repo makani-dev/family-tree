@@ -8,6 +8,10 @@
  *  people   : one entry per person   (family = the family they were BORN into)
  *  unions   : one entry per marriage (children only connect through these)
  *
+ *  alive: false marks somebody who has died, and is the only time the field
+ *  appears. No field means living, which is true of nearly everybody. Birth
+ *  and death years are optional detail either way.
+ *
  *  Full guide: docs/EDITING.md
  * ========================================================================== */
 
@@ -55,11 +59,11 @@ window.FAMILY = {
 
     /* ---- generation 2 ---- */
     { id: "makani-nageshwara", name: "Nageshwara Rao Makani",
-      family: "makani", gen: 2, sex: "m", order: 1, death: "~2017" },
+      family: "makani", gen: 2, sex: "m", order: 1, alive: false, death: "~2017" },
     { id: "maddala-jayalakshmi", name: "Jayalakshmi Maddala", family: "tbd",
       marriedInto: "maddala", gen: 2, sex: "f", order: 1, todo: "birth family" },
     { id: "makani-ramachandra-rao", name: "Ramachandra Rao Makani",
-      family: "makani", gen: 2, sex: "m", order: 2, death: "2019",
+      family: "makani", gen: 2, sex: "m", order: 2, alive: false, death: "2019",
       title: "Thathayya", notes: "Father of the six Makani brothers." },
     { id: "Chanthati-seetharathnamma", name: "Seetharathnamma Chanthati",
       family: "tbd", marriedInto: "Chanthati", gen: 2, sex: "f", order: 2 },
@@ -70,14 +74,14 @@ window.FAMILY = {
     { id: "makani-sarojini", name: "Sarojini", family: "makani", gen: 2,
       sex: "f", order: 5 },
     { id: "tbd-padmavathi", name: "Padmavathi Makani", family: "kandha",
-      marriedInto: "makani", gen: 2, sex: "f", death: "2021", title: "Nanamma" },
+      marriedInto: "makani", gen: 2, sex: "f", alive: false, death: "2021", title: "Nanamma" },
     { id: "macha-thatha", name: "Krishna Rao Macha", family: "macha", gen: 2,
-      sex: "m", death: "2024", title: "Thathagaru" },
+      sex: "m", alive: false, death: "2024", title: "Thathagaru" },
     { id: "tbd-jayalakshmi", name: "Jayalakshmi Macha", family: "tbd",
-      marriedInto: "macha", gen: 2, sex: "f", death: "2019", title: "Ammamma",
+      marriedInto: "macha", gen: 2, sex: "f", alive: false, death: "2019", title: "Ammamma",
       notes: "Known in the family as Ammamma.", todo: "family name" },
     { id: "tbd-vijayamma", name: "Vijayamma Makani", family: "pulagam",
-      marriedInto: "makani", gen: 2, sex: "f", death: "1998" },
+      marriedInto: "makani", gen: 2, sex: "f", alive: false, death: "1998" },
     { id: "tbd-sathyavathi", name: "Sathyavathi Makani", family: "sunkara",
       marriedInto: "makani", gen: 2, sex: "f" },
     { id: "tbd-apparao", name: "Apparao Chanthati", family: "Chanthati", gen: 2,
@@ -127,7 +131,7 @@ window.FAMILY = {
     { id: "makani-satyanarayana", name: "Satyanarayana Makani",
       family: "makani", gen: 3, sex: "m", order: 3 },
     { id: "macha-ramesh", name: "Ramesh Macha", family: "macha", gen: 3,
-      sex: "m", order: 3, death: "2025" },
+      sex: "m", order: 3, alive: false, death: "2025" },
     { id: "makani-vijayanand", name: "Vijayanand Makani", family: "makani",
       gen: 3, sex: "m", order: 3 },
     { id: "Chanthati-usha", name: "Usha", family: "Chanthati", gen: 3, sex: "f",
@@ -137,7 +141,7 @@ window.FAMILY = {
     { id: "makani-bujji", name: "Bujji", family: "makani", gen: 3, sex: "f",
       order: 3 },
     { id: "makani-ramakrishna-sr", name: "Ramakrishna Makani",
-      family: "makani", gen: 3, sex: "m", order: 4, death: "~1970" },
+      family: "makani", gen: 3, sex: "m", order: 4, alive: false, death: "~1970" },
     { id: "Chanthati-chanti-amma", name: "Chantiamma", family: "Chanthati",
       gen: 3, sex: "f", order: 4 },
     { id: "makani-baby-2", name: "Baby", family: "makani", gen: 3, sex: "f",

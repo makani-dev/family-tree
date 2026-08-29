@@ -188,7 +188,7 @@
        nickname and title are deliberately absent from this list: they are no
        longer on the form, so wiping them would silently delete what is
        already recorded against people like Kittu and Thathagaru. */
-    ['telugu', 'marriedInto', 'order', 'birth', 'death',
+    ['telugu', 'marriedInto', 'order', 'birth', 'death', 'alive',
      'photo', 'notes', 'todo', 'placeholder', 'deceased'].forEach(function (k) {
       delete p[k];
     });
@@ -497,7 +497,7 @@
   }
 
   var PERSON_KEYS = ['id', 'name', 'telugu', 'family', 'marriedInto', 'gen', 'sex',
-                     'order', 'birth', 'death', 'deceased', 'nickname', 'title',
+                     'order', 'birth', 'death', 'alive', 'nickname', 'title',
                      'photo', 'placeholder', 'notes', 'todo'];
   var UNION_KEYS  = ['id', 'partners', 'children', 'year', 'consanguinity',
                      'anchor', 'notes', 'todo'];
@@ -527,6 +527,10 @@
     L.push(' *  families : one entry per surname, with its colour');
     L.push(' *  people   : one entry per person   (family = the family they were BORN into)');
     L.push(' *  unions   : one entry per marriage (children only connect through these)');
+    L.push(' *');
+    L.push(' *  alive: false marks somebody who has died, and is the only time the');
+    L.push(' *  field appears. No field means living, which is true of nearly');
+    L.push(' *  everybody. Birth and death years are optional detail either way.');
     L.push(' *');
     L.push(' *  Full guide: docs/EDITING.md');
     L.push(' * ========================================================================== */');
@@ -589,6 +593,14 @@
     if (cls) n.className = cls;
     if (text != null) n.textContent = text;
     return n;
+  }
+
+  /* a tick box reads better beside its label than stacked under it */
+  function aliveField(box) {
+    var w = el('label', 'efield echeck');
+    w.appendChild(box);
+    w.appendChild(el('span', null, 'Alive'));
+    return w;
   }
 
   function field(labelText, control, hint) {
@@ -742,8 +754,13 @@
                            { value: 'u', text: 'Not recorded' }], p.sex || 'u');
     var fOrder   = input(p.order, '1 = eldest');
     fOrder.type = 'number';
+    var fAlive = document.createElement('input');
+    fAlive.type = 'checkbox';
+    /* ticked unless this person is explicitly recorded as no longer living */
+    fAlive.checked = (typeof p.alive === 'boolean') ? p.alive : !(p.death || p.deceased);
+
     var fBirth   = input(p.birth, '1959');
-    var fDeath   = input(p.death, 'leave empty if living');
+    var fDeath   = input(p.death, 'only if known');
     var fPhoto   = input(p.photo, 'defaults to <id>.jpg');
     var fNotes   = document.createElement('textarea');
     fNotes.rows = 3; fNotes.value = p.notes || '';
@@ -757,8 +774,9 @@
     form.appendChild(field('Sex', fSex));
     form.appendChild(field('Birth order', fOrder,
       'Needed for the Telugu terms - Annayya vs Thammudu.'));
+    form.appendChild(aliveField(fAlive));
     form.appendChild(field('Born', fBirth));
-    form.appendChild(field('Died', fDeath, 'Filling this in leaves their box unfilled on the chart.'));
+    form.appendChild(field('Died', fDeath));
     form.appendChild(field('Photo file', fPhoto));
     form.appendChild(field('Notes', fNotes));
     form.appendChild(field('Still to find out', fTodo));
@@ -774,6 +792,9 @@
         order: fOrder.value === '' ? '' : parseInt(fOrder.value, 10),
         birth: fBirth.value.trim(),
         death: fDeath.value.trim(),
+        /* '' is skipped when writing, so a living person carries no field at
+           all and the file stays quiet about the ordinary case */
+        alive: fAlive.checked ? '' : false,
         photo: fPhoto.value.trim(),
         notes: fNotes.value.trim(),
         todo: fTodo.value.trim()

@@ -302,6 +302,19 @@ body.has-panel #stage { right: 360px; }
   font-size: 10.5px; letter-spacing: .09em; text-transform: uppercase;
   color: var(--ink-3); font-weight: 600;
 }
+/* the one tick box on the form: label beside it, not above it */
+.efield.echeck {
+  display: flex; align-items: center; gap: 9px; cursor: pointer;
+  padding: 9px 11px; background: var(--surface-2);
+  border: 1px solid var(--line); border-radius: 8px;
+}
+.efield.echeck input { width: 16px; height: 16px; margin: 0; flex: none;
+  accent-color: var(--accent); cursor: pointer; }
+.efield.echeck span {
+  font-size: 13px; font-weight: 500; letter-spacing: 0;
+  text-transform: none; color: var(--ink);
+}
+
 .eadd { display: flex; gap: 6px; margin-top: 5px; }
 .eadd input { flex: 1 1 auto; min-width: 0; }
 .echips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 3px; }

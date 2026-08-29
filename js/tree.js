@@ -56,8 +56,20 @@
     return '';
   }
 
+  /* Alive is a plain yes or no, and the default is yes: most people on a
+     family tree are living, and the ones who are not are the exception worth
+     recording. `alive` is only written to the file when it is false, so an
+     absent field means living.
+
+     A death year still implies it for anything recorded before the field
+     existed, but once `alive` is set it is what counts. */
+  function isAlive(p) {
+    if (typeof p.alive === 'boolean') return p.alive;
+    return !(p.death || p.deceased);
+  }
+
   /* an empty card means this person has died; nothing else marks it */
-  function isUnfilled(p) { return !!(p.death || p.deceased); }
+  function isUnfilled(p) { return !isAlive(p); }
 
   /* which partner does this marriage hang from? */
   function anchorOf(u) {
@@ -425,6 +437,7 @@
     initials: initials,
     lifespan: lifespan,
     isUnfilled: isUnfilled,
+    isAlive: isAlive,
     collapsed: collapsed
   };
 

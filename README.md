@@ -233,8 +233,8 @@ The same applies to wives whose birth family you do not know yet: give them
 | `gen` | `3` | generation row |
 | `sex` | `"m"` / `"f"` / `"u"` | `"u"` when not confirmed |
 | `order` | `4` | birth order among siblings, 1 = eldest |
-| `birth` / `death` | `"1959"` | free text - `"c.1930"` and `"12 Mar 1959"` both fine |
-| `deceased` | `true` | when you have no date |
+| `birth` / `death` | `"1959"` | optional, free text. `"c.1930"` and `"12 Mar 1959"` are both fine. Leaving them out changes nothing about whether somebody is shown as living |
+| `alive` | `false` | only written when somebody has died. No field at all means living, which is the default for everyone |
 | `nickname` | `"Kittu"` | ముద్దు పేరు |
 | `title` | `"Thathagaru"` | honorific, shown as a small badge |
 | `photo` | `"suneetha-1985.jpg"` | only if the filename is not `<id>.jpg` |
