@@ -76,16 +76,23 @@
     if (u.anchor && M.person(u.anchor)) return u.anchor;
     var want = M.config.anchorPreference;
 
-    /* Somebody of the lineage sex who has children heads their own line, so
-       they anchor the marriage even when their own parents are unknown.
-       Without this, marrying in a wife whose parents ARE recorded pulls the
-       husband's whole lineage in under her family: recording that Raghavamma
-       was born Makani moved the entire Macha side into the Makani tree and
-       took the Macha root off the chart. */
+    /* A marriage where somebody married OUT hangs from the partner they
+       married into, even when that partner has no parents on the chart.
+       Raghavamma was born Makani and married into Macha, so her marriage
+       belongs to Macha and Ramaswamy heads it; without this the whole Macha
+       side slid under Makani and the Macha root vanished.
+       The marriedInto flag is what makes this safe to apply. A daughter who
+       has NOT married out is still one of her own family, so her husband and
+       children stay under her parents instead of being torn off into a root
+       of their own. */
     if (u.children.length) {
       var head = u.partners.filter(function (id) {
         var p = M.person(id);
-        return p && p.sex === want;
+        if (!p || p.sex !== want) return false;
+        return u.partners.some(function (o) {
+          var q = o !== id && M.person(o);
+          return q && q.marriedInto;
+        });
       })[0];
       if (head) return head;
     }

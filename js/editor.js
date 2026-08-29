@@ -539,8 +539,11 @@
     L.push('');
     L.push('  meta: ' + record(F.meta, ['title', 'subtitle', 'updated'], 2).trim() + ',');
     L.push('');
+    /* primaryFamily belongs in this list. Leaving it out silently dropped it
+       on every publish, which is what quietly stopped Makani being drawn first. */
     L.push('  config: ' + record(F.config, ['ego', 'photoDir', 'autoPhotos',
-                                            'anchorPreference', 'showPlaceholders'], 2).trim() + ',');
+                                            'anchorPreference', 'showPlaceholders',
+                                            'primaryFamily'], 2).trim() + ',');
     L.push('');
     L.push('  families: {');
     Object.keys(F.families).forEach(function (k, i, arr) {
