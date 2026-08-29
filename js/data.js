@@ -52,30 +52,39 @@ window.FAMILY = {
     kosanam: { name: "Kosanam", color: "#0f766e" },
     bhandar: { name: "Bhandar", color: "#9333ea" },
     gaurisetti: { name: "Gaurisetti", color: "#047857" },
-    attili: { name: "Attili", color: "#4f46e5" }
+    attili: { name: "Attili", color: "#4f46e5" },
+    malisetti: { name: "Malisetti", color: "#0d9488" }
   },
 
   people: [
+    /* ---- generation -1 ---- */
+    { id: "makani-parent-2", name: "Acchayagaru Makani", family: "makani",
+      gen: -1, sex: "m", alive: false },
+    { id: "tbd-ammanna", name: "Ammanna Makani", family: "tbd",
+      marriedInto: "makani", gen: -1, sex: "f", alive: false },
+
     /* ---- generation 0 ---- */
-    { id: "makani-godfather2", name: "Godfather2 Makani", family: "makani",
-      gen: 0, sex: "u", order: 1 },
-    { id: "makani-parent", name: "Godfather Makani", family: "makani", gen: 0,
-      sex: "m", alive: false, todo: "who the parents of Raghavamma Macha were" },
-    { id: "tbd-godmother", name: "Godmother Makani", family: "tbd", gen: 0,
-      sex: "f", todo: "birth family (intiperu)" },
+    { id: "makani-appalaswamy", name: "Appalaswamy Narasappa Makani",
+      family: "makani", gen: 0, sex: "u", order: 1 },
+    { id: "makani-parent", name: "Ramaswamy Makani", family: "makani", gen: 0,
+      sex: "m", alive: false },
+    { id: "tbd-godmother", name: "Annamma Makani", family: "tbd",
+      marriedInto: "makani", gen: 0, sex: "f", todo: "birth family (intiperu)" },
+    { id: "tbd-narasamma", name: "Narasamma Makani", family: "tbd", gen: 0,
+      sex: "u", todo: "birth family (intiperu)" },
 
     /* ---- generation 1 ---- */
     { id: "macha-g1-f", name: "Ramaswamy Macha", family: "macha", gen: 1,
       sex: "m", order: 1, alive: false, todo: "name unknown" },
+    { id: "makani-g1-f", name: "Venkata Swamy Makani", family: "makani",
+      gen: 1, sex: "m", order: 1, alive: false },
+    { id: "macha-g1-m", name: "Raghavamma Macha", family: "makani",
+      marriedInto: "macha", gen: 1, sex: "f", order: 2, alive: false },
     { id: "makani-narayanamma", name: "Narayanamma Devisetti",
       family: "makani", marriedInto: "devisetti", gen: 1, sex: "f", order: 3,
       alive: false },
-    { id: "makani-g1-f", name: "Venkata Swamy Makani", family: "makani",
-      gen: 1, sex: "m", alive: false },
     { id: "makani-g1-m", name: "Anasuyamma Makani", family: "sunkara",
       marriedInto: "makani", gen: 1, sex: "f", alive: false },
-    { id: "macha-g1-m", name: "Raghavamma Macha", family: "makani",
-      marriedInto: "macha", gen: 1, sex: "f", alive: false },
 
     /* ---- generation 2 ---- */
     { id: "makani-nageshwara", name: "Nageshwara Rao Makani",
@@ -161,8 +170,7 @@ window.FAMILY = {
     { id: "makani-bujji", name: "Suguna Kumari (Suneetha)", family: "makani",
       gen: 3, sex: "f", order: 3 },
     { id: "makani-ramakrishna-sr", name: "Ramakrishna Makani",
-      family: "makani", gen: 3, sex: "m", order: 4, death: "~1970",
-      alive: false },
+      family: "makani", gen: 3, sex: "m", order: 4, alive: false },
     { id: "Chanthati-chanti-amma", name: "Chantiamma", family: "Chanthati",
       gen: 3, sex: "f", order: 4 },
     { id: "makani-baby-2", name: "Hemakumari Kosanam (Baby)",
@@ -179,7 +187,7 @@ window.FAMILY = {
       family: "Chanthati", gen: 3, sex: "m", order: 7, alive: false },
     { id: "tbd-latha", name: "Latha Makani", family: "varre",
       marriedInto: "makani", gen: 3, sex: "f", todo: "birth family (intiperu)" },
-    { id: "tbd-sarada", name: "Sarada Makani", family: "thota",
+    { id: "tbd-sarada", name: "Sarada Makani", family: "malisetti",
       marriedInto: "makani", gen: 3, sex: "f", todo: "birth family (intiperu)" },
     { id: "tbd-nalini", name: "Nalini Macha", family: "tbd",
       marriedInto: "macha", gen: 3, sex: "f", notes: "Married Ramesh Macha." },
@@ -317,14 +325,16 @@ window.FAMILY = {
       marriedInto: "makani", gen: 4, sex: "f" },
     { id: "tbd-navya", name: "Navya Nagashree Makani", family: "tbd",
       marriedInto: "makani", gen: 4, sex: "f", todo: "birth family (intiperu)" },
-    { id: "tbd-vinodh", name: "Vinodh", family: "reddy", gen: 4, sex: "m" },
+    { id: "tbd-vinodh", name: "Vinodh", family: "tbd", gen: 4, sex: "m" },
     { id: "tbd-sugumar", name: "Sugumar", family: "tbd", gen: 4, sex: "m" },
     { id: "tbd-nidhi", name: "Nidhi Makani", family: "thota",
       marriedInto: "makani", gen: 4, sex: "f", todo: "birth family (intiperu)" },
     { id: "tbd-santhosh", name: "Santhosh", family: "tbd", gen: 4, sex: "m",
       todo: "birth family (intiperu)" },
-    { id: "tbd-swetha", name: "Swetha Makani", family: "tbd",
-      marriedInto: "makani", gen: 4, sex: "f", todo: "birth family (intiperu)" },
+    { id: "tbd-swetha", name: "Swetha Makani", family: "sunkara",
+      marriedInto: "makani", gen: 4, sex: "f" },
+    { id: "tbd-rajesh", name: "Rajesh", family: "tbd", gen: 4, sex: "m",
+      todo: "birth family (intiperu)" },
 
     /* ---- generation 5 ---- */
     { id: "makani-hanvika", name: "Hanvika Makani", family: "makani", gen: 5,
@@ -338,6 +348,8 @@ window.FAMILY = {
       sex: "f", order: 1 },
     { id: "makani-srihan", name: "Srihan Makani", family: "makani", gen: 5,
       sex: "m", order: 1 },
+    { id: "tbd-daughter-2", name: "Daughter?", family: "tbd", gen: 5,
+      sex: "u", order: 1 },
     { id: "makani-ruhika", name: "Ruhika Makani", family: "makani", gen: 5,
       sex: "f", order: 2 },
     { id: "tbd-sia", name: "Sia", family: "tbd", gen: 5, sex: "u", order: 2 },
@@ -451,6 +463,12 @@ window.FAMILY = {
     { id: "u-baby-2-uma", partners: ["kosanam-uma", "makani-baby-2"],
       children: [] },
     { id: "u-parent-x", partners: ["makani-parent", "tbd-godmother"],
-      children: ["macha-g1-m", "makani-g1-f", "makani-narayanamma"] }
+      children: ["macha-g1-m", "makani-g1-f", "makani-narayanamma"] },
+    { id: "u-parent-2-x", partners: ["makani-parent-2", "tbd-ammanna"],
+      children: ["makani-parent", "makani-appalaswamy"] },
+    { id: "u-appalaswamy-narasamma",
+      partners: ["makani-appalaswamy", "tbd-narasamma"], children: [] },
+    { id: "u-leena-rajesh", partners: ["tbd-rajesh", "makani-leena"],
+      children: ["tbd-daughter-2"] }
   ]
 };
