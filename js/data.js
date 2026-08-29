@@ -56,11 +56,6 @@ window.FAMILY = {
   },
 
   people: [
-    /* ---- generation -1 ---- */
-    { id: "makani-parent-2", name: "(parent not yet named)", family: "makani",
-      gen: -1, sex: "u", placeholder: true,
-      todo: "who the parents of Godfather Makani were" },
-
     /* ---- generation 0 ---- */
     { id: "makani-godfather2", name: "Godfather2 Makani", family: "makani",
       gen: 0, sex: "u", order: 1 },
@@ -456,8 +451,6 @@ window.FAMILY = {
     { id: "u-baby-2-uma", partners: ["kosanam-uma", "makani-baby-2"],
       children: [] },
     { id: "u-parent-x", partners: ["makani-parent", "tbd-godmother"],
-      children: ["macha-g1-m", "makani-g1-f", "makani-narayanamma"] },
-    { id: "u-parent-2-x", partners: ["makani-parent-2"],
-      children: ["makani-godfather2"] }
+      children: ["macha-g1-m", "makani-g1-f", "makani-narayanamma"] }
   ]
 };
