@@ -50,7 +50,8 @@ window.FAMILY = {
     bhandhar: { name: "Bhandhar", color: "#c026d3" },
     veerisetti: { name: "Veerisetti", color: "#ea580c" },
     kosanam: { name: "Kosanam", color: "#0f766e" },
-    bhandar: { name: "Bhandar", color: "#9333ea" }
+    bhandar: { name: "Bhandar", color: "#9333ea" },
+    gaurisetti: { name: "Gaurisetti", color: "#047857" }
   },
 
   people: [
@@ -80,9 +81,9 @@ window.FAMILY = {
     { id: "makani-sanjeeva", name: "Sanjeeva Rao Makani", family: "makani",
       gen: 2, sex: "m", order: 3 },
     { id: "sunkara-chitamma", name: "Chitamma Sunkara", family: "makani",
-      marriedInto: "sunkara", gen: 2, sex: "f", order: 4 },
-    { id: "makani-sarojini", name: "Sarojini", family: "makani", gen: 2,
-      sex: "f", order: 5 },
+      marriedInto: "sunkara", gen: 2, sex: "f", order: 4, alive: false },
+    { id: "makani-sarojini", name: "Sarojini Gaurisetti", family: "makani",
+      marriedInto: "gaurisetti", gen: 2, sex: "f", order: 5 },
     { id: "tbd-padmavathi", name: "Padmavathi Makani", family: "kandha",
       marriedInto: "makani", gen: 2, sex: "f", alive: false, title: "Nanamma" },
     { id: "macha-thatha", name: "Krishna Rao Macha", family: "macha", gen: 2,
@@ -101,8 +102,8 @@ window.FAMILY = {
       family: "maddala", gen: 2, sex: "m" },
     { id: "tbd-bhushan", name: "Bhushan Rao Sunkara", family: "sunkara",
       gen: 2, sex: "m" },
-    { id: "rao-nagabhushan", name: "Nagabhushan Rao", family: "tbd", gen: 2,
-      sex: "u" },
+    { id: "rao-nagabhushan", name: "Nagabhushan Rao Gaurisetti",
+      family: "gaurisetti", gen: 2, sex: "u" },
 
     /* ---- generation 3 ---- */
     { id: "makani-venkateshwara-rao", name: "Venkateshwara Rao Makani",
@@ -120,7 +121,7 @@ window.FAMILY = {
       order: 1 },
     { id: "makani-anu", name: "Anu Bhandhar", family: "makani",
       marriedInto: "bhandhar", gen: 3, sex: "f", order: 1 },
-    { id: "makani-neelima-2", name: "Neelima", family: "makani", gen: 3,
+    { id: "makani-neelima-2", name: "Neelima", family: "gaurisetti", gen: 3,
       sex: "f", order: 1 },
     { id: "makani-chandrashekhar", name: "Chandrashekhar Makani",
       family: "makani", gen: 3, sex: "m", order: 2 },
@@ -137,8 +138,8 @@ window.FAMILY = {
       sex: "m", order: 2 },
     { id: "makani-meena", name: "Meena", family: "makani", gen: 3, sex: "f",
       order: 2 },
-    { id: "makani-praveen", name: "Praveen", family: "makani", gen: 3,
-      sex: "m", order: 2 },
+    { id: "makani-praveen", name: "Praveen Gaurisetti", family: "gaurisetti",
+      gen: 3, sex: "m", order: 2 },
     { id: "makani-satyanarayana", name: "Satyanarayana Makani",
       family: "makani", gen: 3, sex: "m", order: 3 },
     { id: "macha-ramesh", name: "Ramesh Macha", family: "macha", gen: 3,
