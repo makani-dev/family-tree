@@ -66,8 +66,8 @@ window.FAMILY = {
     /* ---- generation 0 ---- */
     { id: "makani-parent", name: "Ramaswamy Makani", family: "makani", gen: 0,
       sex: "m", order: 1, alive: false },
-    { id: "makani-appalaswamy", name: "Appalaswamy Narasappa Makani",
-      family: "makani", gen: 0, sex: "u", order: 2, alive: false },
+    { id: "makani-appalaswamy", name: "Appalaswamy Makani", family: "makani",
+      gen: 0, sex: "u", order: 2, alive: false },
     { id: "tbd-godmother", name: "Annamma Makani", family: "tbd",
       marriedInto: "makani", gen: 0, sex: "f", todo: "birth family (intiperu)" },
     { id: "tbd-narasamma", name: "Narasamma Makani", family: "tbd",
