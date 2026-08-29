@@ -51,7 +51,8 @@ window.FAMILY = {
     veerisetti: { name: "Veerisetti", color: "#ea580c" },
     kosanam: { name: "Kosanam", color: "#0f766e" },
     bhandar: { name: "Bhandar", color: "#9333ea" },
-    gaurisetti: { name: "Gaurisetti", color: "#047857" }
+    gaurisetti: { name: "Gaurisetti", color: "#047857" },
+    attili: { name: "Attili", color: "#4f46e5" }
   },
 
   people: [
@@ -87,11 +88,10 @@ window.FAMILY = {
     { id: "tbd-padmavathi", name: "Padmavathi Makani", family: "kandha",
       marriedInto: "makani", gen: 2, sex: "f", alive: false, title: "Nanamma" },
     { id: "macha-thatha", name: "Krishna Rao Macha", family: "macha", gen: 2,
-      sex: "m", death: "2024", alive: false, title: "Thathagaru" },
-    { id: "tbd-jayalakshmi", name: "Jayalakshmi Macha", family: "tbd",
-      marriedInto: "macha", gen: 2, sex: "f", death: "2019", alive: false,
-      title: "Ammamma", notes: "Known in the family as Ammamma.",
-      todo: "family name" },
+      sex: "m", alive: false, title: "Thathagaru" },
+    { id: "tbd-jayalakshmi", name: "Jayalakshmi Macha", family: "attili",
+      marriedInto: "macha", gen: 2, sex: "f", alive: false, title: "Ammamma",
+      notes: "Known in the family as Ammamma.", todo: "family name" },
     { id: "tbd-vijayamma", name: "Vijayamma Makani", family: "pulagam",
       marriedInto: "makani", gen: 2, sex: "f", alive: false },
     { id: "tbd-sathyavathi", name: "Sathyavathi Makani", family: "sunkara",
