@@ -56,18 +56,31 @@ window.FAMILY = {
   },
 
   people: [
+    /* ---- generation -1 ---- */
+    { id: "makani-parent-2", name: "(parent not yet named)", family: "makani",
+      gen: -1, sex: "u", placeholder: true,
+      todo: "who the parents of Godfather Makani were" },
+
+    /* ---- generation 0 ---- */
+    { id: "makani-godfather2", name: "Godfather2 Makani", family: "makani",
+      gen: 0, sex: "u", order: 1 },
+    { id: "makani-parent", name: "Godfather Makani", family: "makani", gen: 0,
+      sex: "m", alive: false, todo: "who the parents of Raghavamma Macha were" },
+    { id: "tbd-godmother", name: "Godmother Makani", family: "tbd", gen: 0,
+      sex: "f", todo: "birth family (intiperu)" },
+
     /* ---- generation 1 ---- */
     { id: "macha-g1-f", name: "Ramaswamy Macha", family: "macha", gen: 1,
-      sex: "m", order: 1, todo: "name unknown" },
+      sex: "m", order: 1, alive: false, todo: "name unknown" },
     { id: "makani-narayanamma", name: "Narayanamma Devisetti",
       family: "makani", marriedInto: "devisetti", gen: 1, sex: "f", order: 3,
       alive: false },
     { id: "makani-g1-f", name: "Venkata Swamy Makani", family: "makani",
-      gen: 1, sex: "m" },
+      gen: 1, sex: "m", alive: false },
     { id: "makani-g1-m", name: "Anasuyamma Makani", family: "sunkara",
-      marriedInto: "makani", gen: 1, sex: "f" },
+      marriedInto: "makani", gen: 1, sex: "f", alive: false },
     { id: "macha-g1-m", name: "Raghavamma Macha", family: "makani",
-      marriedInto: "macha", gen: 1, sex: "f" },
+      marriedInto: "macha", gen: 1, sex: "f", alive: false },
 
     /* ---- generation 2 ---- */
     { id: "makani-nageshwara", name: "Nageshwara Rao Makani",
@@ -80,9 +93,9 @@ window.FAMILY = {
     { id: "Chanthati-seetharathnamma", name: "Seetharathnamma Chanthati",
       family: "tbd", marriedInto: "Chanthati", gen: 2, sex: "f", order: 2 },
     { id: "makani-sanjeeva", name: "Sanjeeva Rao Makani", family: "makani",
-      gen: 2, sex: "m", order: 3 },
+      gen: 2, sex: "m", order: 3, alive: false },
     { id: "sunkara-chitamma", name: "Chitamma Sunkara", family: "makani",
-      marriedInto: "sunkara", gen: 2, sex: "f", order: 4, alive: false },
+      marriedInto: "sunkara", gen: 2, sex: "f", order: 4 },
     { id: "makani-sarojini", name: "Sarojini Gaurisetti", family: "makani",
       marriedInto: "gaurisetti", gen: 2, sex: "f", order: 5 },
     { id: "tbd-padmavathi", name: "Padmavathi Makani", family: "kandha",
@@ -95,7 +108,7 @@ window.FAMILY = {
     { id: "tbd-vijayamma", name: "Vijayamma Makani", family: "pulagam",
       marriedInto: "makani", gen: 2, sex: "f", alive: false },
     { id: "tbd-sathyavathi", name: "Sathyavathi Makani", family: "sunkara",
-      marriedInto: "makani", gen: 2, sex: "f" },
+      marriedInto: "makani", gen: 2, sex: "f", alive: false },
     { id: "tbd-apparao", name: "Apparao Chanthati", family: "Chanthati",
       gen: 2, sex: "u", alive: false, todo: "birth family (intiperu)" },
     { id: "tbd-veera", name: "Veera Rajeshwara Rao Maddala",
@@ -441,6 +454,10 @@ window.FAMILY = {
     { id: "u-meena-satyanarayana",
       partners: ["veerisetti-satyanarayana", "makani-meena"], children: [] },
     { id: "u-baby-2-uma", partners: ["kosanam-uma", "makani-baby-2"],
-      children: [] }
+      children: [] },
+    { id: "u-parent-x", partners: ["makani-parent", "tbd-godmother"],
+      children: ["macha-g1-m", "makani-g1-f", "makani-narayanamma"] },
+    { id: "u-parent-2-x", partners: ["makani-parent-2"],
+      children: ["makani-godfather2"] }
   ]
 };
