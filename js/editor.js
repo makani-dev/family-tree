@@ -178,7 +178,26 @@
       if (fields[k] !== '' && fields[k] != null) p[k] = fields[k];
     });
     F.people.push(p);
+    renumber();
     return p.id;
+  }
+
+  /* Generation 1 is the oldest row, by definition, and the edit form says so.
+     Adding a parent above the current top row produced generation 0, then -1,
+     and from then on every number the chart showed was off by however many
+     times that had happened. Sliding the whole file back down is free: only
+     the gaps between generations ever carry meaning, never the number itself. */
+  function renumber() {
+    var lo = null;
+    F.people.forEach(function (q) {
+      if (typeof q.gen === 'number' && (lo === null || q.gen < lo)) lo = q.gen;
+    });
+    if (lo === null || lo >= 1) return 0;
+    var shift = 1 - lo;
+    F.people.forEach(function (q) {
+      if (typeof q.gen === 'number') q.gen += shift;
+    });
+    return shift;
   }
 
   function updatePerson(id, fields) {
@@ -195,6 +214,7 @@
     Object.keys(fields).forEach(function (k) {
       if (fields[k] !== '' && fields[k] != null) p[k] = fields[k];
     });
+    renumber();
   }
 
   function deletePerson(id) {
@@ -1173,6 +1193,10 @@
   /* ================================================================ init */
   function init(family) {
     F = family;
+    /* A draft saved before the generations were straightened out still carries
+       the old numbers, and a draft always wins over the file, so fixing
+       js/data.js by hand can never reach it. Straighten it here instead. */
+    renumber();
     lastSnapshot = snapshot();
     paintBanner();
   }

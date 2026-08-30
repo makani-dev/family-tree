@@ -70,6 +70,20 @@
       }, data.config || {})
     };
 
+    /* Which family leads the chart. An explicit primaryFamily in data.js wins,
+       but if it is missing the biggest family takes the job rather than nobody
+       taking it: an unset value used to leave the root sections in file order,
+       which looked exactly like the main line had been demoted. */
+    if (!m.config.primaryFamily) {
+      var tally = {};
+      people.forEach(function (p) {
+        if (p.family) tally[p.family] = (tally[p.family] || 0) + 1;
+      });
+      m.config.primaryFamily = Object.keys(tally).sort(function (a, b) {
+        return tally[b] - tally[a] || a.localeCompare(b);
+      })[0] || null;
+    }
+
     /* ------------------------------------------------------- accessors */
     m.person = function (id) { return people.get(id) || null; };
     m.union = function (id) { return unions.get(id) || null; };
